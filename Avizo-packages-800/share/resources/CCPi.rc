@@ -1,0 +1,45 @@
+################################################################################
+#
+# Resource file of custom package CCPi
+#
+################################################################################
+
+
+module -name     "Particle Tracking (CCPi)" \
+       -primary  "HxUniformScalarField3" \
+       -class    "CCPiParticleTracking" \
+       -category "Local" \
+       -package  "CCPi" \
+       -icon     "TVDefCompute"
+
+
+module -name     "Accessible Volume (CCPi)" \
+       -primary  "HxUniformScalarField3" \
+       -class    "CCPiAccessibleVolume" \
+       -category "Local" \
+       -package  "CCPi" \
+       -icon     "TVDefCompute"
+
+
+module -name     "K-means Filter (ITK)" \
+       -primary  "HxUniformScalarField3" \
+       -class    "CCPiKMeansFilterITK" \
+       -category "Local" \
+       -package  "CCPi" \
+       -icon     "TVDefCompute"
+
+
+module -name     "3D Quantification (CCPi)" \
+       -primary  "HxUniformScalarField3" \
+       -class    "CCPiLabelQuantification" \
+       -category "Local" \
+       -package  "CCPi" \
+       -icon     "TVDefCompute"
+
+
+module -name     "Simple Histogram Thresholding (CCPi)" \
+       -primary  "HxUniformScalarField3" \
+       -class    "CCPiSimpleHistogramThresholding" \
+       -category "Local" \
+       -package  "CCPi" \
+       -icon     "TVDefCompute"

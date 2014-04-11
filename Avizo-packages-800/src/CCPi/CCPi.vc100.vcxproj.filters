@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <ItemGroup>
+        <Filter Include="Copy" />
+        <Filter Include="Custom" />
+        <Filter Include="Intermediate" />
+        <Filter Include="Share/Data" />
+        <Filter Include="Sources" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+    <ClCompile Include="CCPiAccessibleVolume.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="CCPiKMeansFilterITK.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="CCPiLabelQuantification.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="CCPiParticle.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="CCPiParticleTracker.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="CCPiParticleTracking.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="CCPiSimpleHistogramThresholding.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="CCPiTrack.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="Quan3D.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="QuanWorker.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="init.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ClCompile Include="version.cpp" >
+         <Filter>Sources</Filter>
+     </ClCompile>
+     <ResourceCompile Include="winversion.rc" >
+         <Filter>Sources</Filter>
+     </ResourceCompile>
+     <ClInclude Include="winversion.h" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="api.h" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="CCPiAccessibleVolume.h" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="CCPiKMeansFilterITK.h" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="CCPiLabelQuantification.h" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="CCPiParticle.h" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="CCPiParticleTracker.h" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="CCPiParticleTracking.h" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="CCPiSimpleHistogramThresholding.h" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="CCPiTrack.h" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Quan3D.hpp" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="QuanWorker.hpp" >
+        <Filter>Sources</Filter>
+    </ClInclude>
+
+    </ItemGroup>
+
+    <ItemGroup>
+
+    </ItemGroup>
+
+    <ItemGroup>
+    <CustomBuild Include="share/resources/CCPi.rc">
+        <Filter>Share/Data</Filter>
+    </CustomBuild>
+
+    </ItemGroup>
+
+    <ItemGroup>
+
+    </ItemGroup>
+
+    <ItemGroup>
+
+    </ItemGroup>
+
+</Project>
+

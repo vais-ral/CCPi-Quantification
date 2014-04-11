@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="docAvizopackages"
+	ProjectGUID="{51B03E68-8442-1407-2137-03E293735373}"
+	RootNamespace="docAvizopackages"
+	TargetFrameworkVersion="0"
+	>
+	<Platforms>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Release|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="./obj/arch-Win64VC9-Optimize/docAvizopackages"
+			ConfigurationType="10"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Creating complete documentation."
+				CommandLine="mkdir &quot;C:\Users\djw45\Documents\CCPI\Avizo-packages\.\share\doc\avizo&quot;&#x0D;&#x0A;&quot;C:\Program Files\Avizo-7.1.1\bin\arch-Win64VC9-Optimize\doc2html.exe&quot; -A -skin AvizoSkin -d &quot;./share/doc/avizo&quot; -local . -p &quot;C:/Users/djw45/Documents/CCPI/Avizo-packages/setupcache/packagedirs&quot;&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="./obj/arch-Win64VC9-Debug/docAvizopackages"
+			ConfigurationType="10"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Creating complete documentation."
+				CommandLine="mkdir &quot;C:\Users\djw45\Documents\CCPI\Avizo-packages\.\share\doc\avizo&quot;&#x0D;&#x0A;&quot;C:\Program Files\Avizo-7.1.1\bin\arch-Win64VC9-Optimize\doc2html.exe&quot; -A -skin AvizoSkin -d &quot;./share/doc/avizo&quot; -local . -p &quot;C:/Users/djw45/Documents/CCPI/Avizo-packages/setupcache/packagedirs&quot;&#x0D;&#x0A;"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
