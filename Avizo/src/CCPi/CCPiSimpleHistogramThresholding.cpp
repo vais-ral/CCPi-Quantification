@@ -217,7 +217,7 @@ std::vector<float> CCPiSimpleHistogramThresholding::runThresholding(
 		// Check if this value is bigger than the 2 current highest
 		if (histogram->GetFrequency(bin, 0) > highCount[0]) {
 			if (histogram->GetFrequency(bin, 0) > highCount[1]) {
-				highs[0] = highs(1);
+				highs[0] = highs[1];
 				highs[1] = bin;
 				highCount[1] = histogram->GetFrequency(bin, 0);
 			}
