@@ -1,0 +1,25 @@
+\begin{hxmodule2}{Simple Histogram Thresholding -CCPi}{Threshold based on mean on first and last histogram peak}
+
+\hxlabel{CCPiSimpleHistogramThresholding}
+\hxpackname{amira}
+
+\begin{hxdescription}
+This plugin performs a simple thresholding of an image. It is designed for
+images which have histogram with two distinct peaks and sets the threshold
+value to be the average of the two peak intensity values.
+\textbf{It will not work well for other images!}
+\end{hxdescription}
+
+\begin{hxconnections}
+\hxlabel{CCPiSimpleHistogramThresholding_data}
+\hxport{Data}{\tt [required]}\\
+Image to be thresholded.
+
+\end{hxconnections}
+
+\begin{hxports}
+
+
+\end{hxports}
+
+\end{hxmodule2}

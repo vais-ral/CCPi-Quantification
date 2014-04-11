@@ -1,0 +1,56 @@
+\begin{hxmodule2}{Particle Tracking}{Calculate particle tracks for a set of 3D frames.}
+
+\hxlabel{CCPiParticleTracking}
+\hxpackname{amira}
+
+\begin{hxdescription}
+This module calculates tracks of particles in 3D images. It requires labelled images 
+to work correctly but it doesn't require that the labels be consistent across all images.
+
+The location of each particle is calculated as the mean position of voxels with a given
+label. This will be improved later so the algorithm can locate particles for itself 
+(also removing the requirement for labelled images).
+
+To use this module load each image and set the number of frames appropriately. Then connect
+the images in the frame order using the connection ports. Set the displacement as an 
+estimate of the maximum distance that a particle may move from one frame to the next and 
+click the \textit{Apply} button to start the calculation.
+
+If particles are missing from tracks then it is most likely that the displacement value is
+too low. Increase it an try the calculation again.
+\end{hxdescription}
+
+\begin{hxconnections}
+\hxlabel{CCPiParticleTracking_data}
+\hxport{Data}{\tt [required]}\\
+The image of the initial particle positions
+
+\hxlabel{CCPiParticleTracking_frame0}
+\hxport{Frame 2}{\tt [required]}\\
+The image of the next particle positions
+
+\hxlabel{CCPiParticleTracking_frame1}
+\hxport{Frame 3}{\tt [optional]}\\
+Image with further particle positions
+
+\hxlabel{CCPiParticleTracking_frame2}
+\hxport{Frame 4}{\tt [optional]}\\
+Image with further particle positions
+
+\end{hxconnections}
+
+\begin{hxports}
+\hxlabel{CCPiParticleTracking_displacement}
+\hxport{Displacement}\\
+\hximage{CCPiParticleTracking_displacement}\\
+An estimation of the distance that particles move from one frame to the next.
+
+\hxlabel{CCPiParticleTracking_numFrames}
+\hxport{Number of frames}\\
+\hximage{CCPiParticleTracking_numFrames}\\
+Number of frames in the calculation. Changing this value adds or removes 
+connections to set the frame data.
+
+\end{hxports}
+
+\end{hxmodule2}

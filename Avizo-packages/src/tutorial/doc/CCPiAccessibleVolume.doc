@@ -1,0 +1,69 @@
+\begin{hxmodule2}{Accessible volume calculation}{This module computes the accessible 
+volume of a 3D binary image for a range of spheres and produces a 3D labelled image
+of voxels accessible to each sphere.}
+
+\hxlabel{CCPiAccessibleVolume}
+\hxpackname{amira}
+
+\begin{hxdescription}
+This module computes the accessible volume of a 3D binary image for a range 
+of spheres and produces a 3D labelled image of voxels accessible to each sphere.
+It requires a mask image to define the boundaries of the volume from where 
+the accessibility is measured.
+
+To use this module you must 
+\begin{itemize}
+\item Load the mask image and select it in the \textbf{Mask data} drop down selector. 
+\item Set the minimum and maximim sphere diameters. Spheres are chosen on a log scale
+between these limits.
+\item Set the number of spheres to use.
+\item Set the image resolution (\mu m) per voxel, to convert from physical units to 
+voxels.
+\end{itemize}
+
+Click the \textit{Apply} button to start the calculation. \textbf{Beware} this can
+take a long time.
+
+This module is part of the work carried out to implement algorithms and make them available
+supported by the UK Collaborative Computational Project in Tomographic Imaging (CCPi) 
+<a href="http://www.ccpi.ac.uk"</a>.
+
+The details of this algorithm are given in ......
+\end{hxdescription}
+
+\begin{hxconnections}
+\hxlabel{CCPiAccessibleVolume_data}
+\hxport{Data}{\tt [required]}\\
+This is the 3D binary data of the structure to be analysed. 
+It must be an Avizo \textit{HxUniformScalarField3} object.
+
+\hxlabel{CCPiAccessibleVolume_mask}
+\hxport{Mask data}{\tt [required]}\\
+This is a 3D mask image that defines the region of interest for the algorithm.
+It must be an Avizo \textit{HxUniformScalarField3} object.
+
+\end{hxconnections}
+
+\begin{hxports}
+
+\hxlabel{CCPiAccessibleVolume_diameter}
+\hxport{Min/Max Sphere Diameter (um)}\\
+\hximage{CCPiAccessibleVolume_diameter}\\
+Two values for giving the minimum and maximum sphere diameters (\mu m) that will be
+used to test the accessibility of the volume. The diameters are chosen on a log
+scale in this range and include the minimum and maximum values.
+
+\hxlabel{CCPiAccessibleVolume_numSpheres}
+\hxport{Number of Spheres}\\
+\hximage{CCPiAccessibleVolume_numSpheres}\\
+The number of spheres to use for testing.
+
+\hxlabel{CCPiAccessibleVolume_resolution}
+\hxport{Image Resolution}\\
+\hximage{CCPiAccessibleVolume_resolution}\\
+The image resolution (\mu m) per voxel, to convert from physical units to 
+voxels.
+
+\end{hxports}
+
+\end{hxmodule2}

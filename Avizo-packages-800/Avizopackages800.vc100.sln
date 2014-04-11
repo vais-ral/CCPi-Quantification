@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CCPi", "src\CCPi\CCPi.vc100.vcxproj", "{522DC7EA-FBD0-276E-2836-03E243837353}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "docAvizopackages800", "docAvizopackages800.vc100.vcxproj", "{528201E5-416C-1E05-2031-03E283334373}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCPi", "CCPi", "{522DC84F-15C3-7417-2435-03E243939343}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{522DC7EA-FBD0-276E-2836-03E243837353}.Debug|x64.ActiveCfg = Debug|x64
+		{522DC7EA-FBD0-276E-2836-03E243837353}.Debug|x64.Build.0 = Debug|x64
+		{522DC7EA-FBD0-276E-2836-03E243837353}.Release|x64.ActiveCfg = Release|x64
+		{522DC7EA-FBD0-276E-2836-03E243837353}.Release|x64.Build.0 = Release|x64
+		{528201E5-416C-1E05-2031-03E283334373}.Debug|x64.ActiveCfg = Debug|x64
+		{528201E5-416C-1E05-2031-03E283334373}.Debug|x64.Build.0 = Debug|x64
+		{528201E5-416C-1E05-2031-03E283334373}.Release|x64.ActiveCfg = Release|x64
+		{528201E5-416C-1E05-2031-03E283334373}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{522DC7EA-FBD0-276E-2836-03E243837353} = {522DC84F-15C3-7417-2435-03E243939343}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,76 @@
+\begin{hxmodule2}{Quantification for labelled image}{Perform quantification
+calculations on a labelled 3D volume.}
+
+\hxlabel{CCPiLabelQuantification}
+\hxpackname{amira}
+
+\begin{hxdescription}
+A module to calculate several characteristics from a labelled image. 
+
+The following characteristics are calculated for each label:
+\begin{itemize}
+\item Volume by voxel counts
+\item Equivalent sphere diameter by voxel counts
+\item Bounding box diagonal
+\item Principal Component Analysis
+\item Ellipsoid fitting by PCA
+\item Equivalent circle diameter by PCA
+\item Isosurface by marching cube
+\item Surface area
+\item Surface volume
+\item Equivalent sphere diameter from surface volume
+\item Sphercity
+\item Normalised surface area to volume ratio (Radius*Sa/Vol)
+\end{itemize}
+
+It is written to work on labels in parallel with OpenMP using al the cores available on your machine.
+
+Click the \textit{Apply} button to start the calculation. \textbf{Beware} this can
+take a long time.
+
+This module is part of the work carried out to implement algorithms and make them available
+supported by the UK Collaborative Computational Project in Tomographic Imaging (CCPi) 
+\begin{hxhtml}<a href="http://www.ccpi.ac.uk" target=_blank>http://www.ccpi.ac.uk</a>\end{hxhtml}.
+
+The details of this algorithm are given in
+
+S Yue, PD Lee, G Poologasundarampillai, JR Jones, Evaluation of 3-D bioactive glass scaffolds 
+dissolution in a perfusion flow system with X-ray microtomography, \textit{Acta biomaterialia} 
+\textbf{7} (2011), 2637-2643.
+
+Please cite this paper if you use this module.
+
+\end{hxdescription}
+
+
+\begin{hxconnections}
+\hxlabel{CCPiLabelQuantification_data}
+\hxport{Data}{\tt [required]}\\
+This is the 3D labelled image whose labels will be quantified.
+It must be an Avizo \textit{HxUniformScalarField3} object.
+
+\end{hxconnections}
+
+\begin{hxports}
+
+\hxlabel{CCPiLabelQuantification_minSize}
+\hxport{Minimum feature size}\\
+\hximage{CCPiLabelQuantification_minSize}\\
+The minimum number of voxels a label must include to be included in the calculation.
+
+\hxlabel{CCPiLabelQuantification_voxelSize}
+\hxport{Voxel size}\\
+\hximage{CCPiLabelQuantification_voxelSize}\\
+The physical dimension of a voxel (assumed isometric) to enable areas and volumes to
+be given in physical units.
+
+\hxlabel{CCPiLabelQuantification_outputFile}
+\hxport{Results file}\\
+\hximage{CCPiLabelQuantification_outputFile}\\
+Results will be written to this file in comma separated format suitable for
+spreadsheet software. If the file does not exist it will be created but an 
+existing file will be overwritten.
+
+\end{hxports}
+
+\end{hxmodule2}
