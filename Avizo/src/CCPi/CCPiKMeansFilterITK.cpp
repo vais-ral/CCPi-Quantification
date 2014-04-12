@@ -6,14 +6,15 @@
 
 #include <QApplication>
 
-#include <hxcore/HxMessage.h>               // For output in Avizo console
-#include <hxcore/HxWorkArea.h>              // Busy-cursor and progress bar
-#include <hxfield/HxUniformScalarField3.h>  // Class representing 3D images
-
 // Classes from ITK
 #include "itkImage.h"
 #include "itkImportImageFilter.h"
 #include "itkScalarImageKmeansImageFilter.h"
+
+
+#include <hxcore/HxMessage.h>               // For output in Avizo console
+#include <hxcore/HxWorkArea.h>              // Busy-cursor and progress bar
+#include <hxfield/HxUniformScalarField3.h>  // Class representing 3D images
 
 #include "CCPiKMeansFilterITK.h"
 

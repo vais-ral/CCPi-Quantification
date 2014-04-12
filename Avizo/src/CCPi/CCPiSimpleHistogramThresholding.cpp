@@ -4,15 +4,15 @@
 
 #include <QApplication>
 
-#include <hxcore/HxMessage.h>
-#include <hxcore/HxWorkArea.h>              // Busy-cursor and progress bar
-#include <hxfield/HxUniformScalarField3.h>
-
 // Classes from ITK
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkImage.h"
 #include "itkImportImageFilter.h"
 #include "itkScalarImageToHistogramGenerator.h"
+
+#include <hxcore/HxMessage.h>
+#include <hxcore/HxWorkArea.h>              // Busy-cursor and progress bar
+#include <hxfield/HxUniformScalarField3.h>
 
 #include "CCPiSimpleHistogramThresholding.h"
 
