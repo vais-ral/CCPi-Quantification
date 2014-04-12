@@ -7,14 +7,14 @@
 
 #include <QApplication>
 
-#include <hxcore/HxMessage.h>
-#include <hxcore/HxWorkArea.h>
-#include <hxfield/HxUniformScalarField3.h>
-
 #include "omp.h"
 
 #include "Quan3D.hpp"       // Class that control quantification calculation
 #include "QuanWorker.hpp"   // Worker class to does calculation for one label
+
+#include <hxcore/HxMessage.h>
+#include <hxcore/HxWorkArea.h>
+#include <hxfield/HxUniformScalarField3.h>
 
 #include "CCPiLabelQuantification.h"
 

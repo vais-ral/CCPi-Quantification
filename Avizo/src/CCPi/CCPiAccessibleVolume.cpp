@@ -9,11 +9,6 @@
 
 #include <QApplication>
 
-#include <hxcore/HxMessage.h>
-#include <hxcore/HxWorkArea.h>
-#include <hxfield/HxUniformScalarField3.h>
-#include <hxrawio/readRawData.h>
-
 // Classes from ITK
 #include "itkBinaryBallStructuringElement.h"
 #include "itkBinaryThresholdImageFilter.h"
@@ -26,6 +21,10 @@
 #include "itkMaskImageFilter.h"
 #include "itkRelabelComponentImageFilter.h"
 
+#include <hxcore/HxMessage.h>
+#include <hxcore/HxWorkArea.h>
+#include <hxfield/HxUniformScalarField3.h>
+#include <hxrawio/readRawData.h>
 
 #include "CCPiAccessibleVolume.h"
 
