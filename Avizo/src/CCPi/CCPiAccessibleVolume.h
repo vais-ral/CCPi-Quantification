@@ -12,6 +12,7 @@
 #include <hxcore/HxPortDoIt.h>
 #include <hxcore/HxPortFloatTextN.h> 
 #include <hxcore/HxPortIntTextN.h> 
+#include <hxcore/HxPortFilename.h>
 
 #include "api.h"
 
@@ -43,6 +44,9 @@ class CCPI_API CCPiAccessibleVolume : public HxCompModule
     /** Port providing float text input fields for image resolution */
     HxPortFloatTextN portResolution;
 
+	/** Port output file name for the Accessible Volume path fraction*/
+	HxPortFilename portOutputFilename;
+
     /** Perform the calculation in this module. Called by Avizo. */
     virtual void compute();
     
@@ -71,6 +75,14 @@ class CCPI_API CCPiAccessibleVolume : public HxCompModule
      * @return The output to use for showing data in application
      */
     HxUniformScalarField3* createOutput(HxUniformScalarField3 *field);
+
+	/**
+	 *  This function writes Volume path fraction to CSV file
+	 * @param result  Output Map with Sphere Diameter and Volume Path Fraction
+	 *
+	 *
+	 */
+	void writeAccessibleVolumePathFractionToFile(std::map<double,double> result,std::string fileName);
 };
 
 #endif // CCPIACCESSIBLEVOLUME_H
