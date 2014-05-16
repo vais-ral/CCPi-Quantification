@@ -7,6 +7,10 @@ set LIBS {
 	ITKStatistics
 }
 
+set COPY {
+    ../../../Core/ src/CCPi
+}
+
 set SHARE {
     share/resources/CCPi.rc
 }
