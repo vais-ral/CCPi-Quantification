@@ -15,6 +15,7 @@
 #include <hxfield/HxUniformScalarField3.h>
 
 #include "CCPiSimpleHistogramThresholding.h"
+#include "CCPiSimpleHistogramThresholdingITKImpl.h"
 
 HX_INIT_CLASS(CCPiSimpleHistogramThresholding,HxCompModule)
 
@@ -140,117 +141,12 @@ std::vector<float> CCPiSimpleHistogramThresholding::runThresholding(
 	const float min, const float max,
     unsigned char *output)
 {
-	// Typedefs for image types
-    typedef itk::Image< IT, 3 >     ImageType;
-    typedef itk::Image< unsigned char, 3 >     OutputImageType;
-    // Typedef for importing image data from VolView data
-    typedef itk::ImportImageFilter< IT, 3 > ImportFilterType;
 
-    // Typedef for histogram generator
-    typedef itk::Statistics::ScalarImageToHistogramGenerator< ImageType > HistogramGeneratorType;
-	// Typedef for thresholding filter
-    typedef itk::BinaryThresholdImageFilter< ImageType, OutputImageType > ThresholdFilterType;
+	CCPiSimpleHistogramThresholdingITKImpl<IT> shThresholding(data, dims, voxelSize, origin, min, max);
+	shThresholding.Compute();
+	CCPiSimpleHistogramThresholdingITKImpl<IT>::OutputImageType::Pointer image = shThresholding.GetOutputImage();
 
-    // Size of image
-    int imgSize = dims[0]*dims[1]*dims[2];
-
-	// Create import filter and histogram generator
-    typename ImportFilterType::Pointer importFilter = ImportFilterType::New();
-    typename HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
-
-    // Output of import filter is input to distance map filter
-    histogramGenerator->SetInput( importFilter->GetOutput() );
-  
-    typename ImportFilterType::IndexType start;
-    start.Fill(0);
-    typename ImportFilterType::SizeType size;
-    size[0] = dims[0];
-    size[1] = dims[1];
-    size[2] = dims[2];
-    typename ImportFilterType::RegionType region;
-    region.SetIndex(start);
-    region.SetSize(size);
-    importFilter->SetSpacing(voxelSize);
-    importFilter->SetOrigin(origin);
-    importFilter->SetRegion(region);
-
-    // Set data for full image import filter
-    importFilter->SetImportPointer(data, imgSize, false);
-    importFilter->Update();
-
-	// Number of bins = range of input image so 1 bin covers 1 intensity
-    const unsigned int numBins = max-min;
-    histogramGenerator->SetNumberOfBins(numBins);
-    histogramGenerator->SetMarginalScale( 10.0 );
-
-    histogramGenerator->SetHistogramMin(min-0.5);
-    histogramGenerator->SetHistogramMax(max+0.5);
-
-	// Generate the histogram
-    histogramGenerator->Compute();  
-  
-	// Retrieve the histogram for processing
-    typedef typename HistogramGeneratorType::HistogramType  HistogramType;
-    const HistogramType *histogram = histogramGenerator->GetOutput();
-
-    const unsigned int histogramSize = histogram->Size();
-
-    // Want to find first and last peak so have array size 2 to store bin numbers
-    bool goingUp = false;
-	std::vector<float> peaks(2); // A copy will be returned
-    int peakId = 0;
-	std::vector<int> highCount(2,0); // Two highest peaks of histogram in ascending order
-	std::vector<float> highs(2); // Associated grey levels of peaks in highCount
-  
-    for( unsigned int bin=0; bin < histogramSize-1; bin++ ) {
-		// Check for a peak
-		if ( histogram->GetFrequency( bin+1, 0 ) < histogram->GetFrequency( bin, 0 ) ) {
-			if (goingUp == true ) {
-				peaks[peakId] = bin;
-				peakId = 1;
-				goingUp = false;
-			}
-		}
-		else {
-			goingUp = true;
-		}
-		// Check if this value is bigger than the 2 current highest
-		if (histogram->GetFrequency(bin, 0) > highCount[0]) {
-			if (histogram->GetFrequency(bin, 0) > highCount[1]) {
-				highs[0] = highs[1];
-				highs[1] = bin;
-				highCount[1] = histogram->GetFrequency(bin, 0);
-			}
-			else {
-				highs[0] = bin;
-				highCount[0] = histogram->GetFrequency(bin, 0);
-			}
-		}
-	}
-
-	// Transform peaks from bin number to actual range
-	peaks[0] += min;
-	peaks[1] += min;
-	// Transform highs from bin number to actual range
-	highs[0] += min;
-	highs[1] += min;
-  
-	// Threshold value is mid-point between peaks
-    double thresholdVal = (peaks[0] + peaks[1])/2.0;
-               
-    typename ThresholdFilterType::Pointer thresholdFilter = ThresholdFilterType::New();
-    thresholdFilter->SetInput( importFilter->GetOutput() );
-    thresholdFilter->SetOutsideValue(1); // Value >= threshold
-    thresholdFilter->SetInsideValue(0);  // Value < threshold
-    thresholdFilter->SetLowerThreshold(0.0);
-    thresholdFilter->SetUpperThreshold(thresholdVal);
-   
-    thresholdFilter->GetOutput()->GetPixelContainer()->SetImportPointer(
-            output, imgSize, false);
-  
-    thresholdFilter->Update();
-
-	return peaks;
+	return shThresholding.GetPeaks();
 }
 
 /**
