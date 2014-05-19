@@ -8,7 +8,7 @@
 module -name     "Particle Tracking (CCPi)" \
        -primary  "HxUniformScalarField3" \
        -class    "CCPiParticleTracking" \
-       -category "Local" \
+       -category "CCPi" \
        -package  "CCPi" \
        -icon     "TVDefCompute"
 
@@ -16,7 +16,7 @@ module -name     "Particle Tracking (CCPi)" \
 module -name     "Accessible Volume (CCPi)" \
        -primary  "HxUniformScalarField3" \
        -class    "CCPiAccessibleVolume" \
-       -category "Local" \
+       -category "CCPi" \
        -package  "CCPi" \
        -icon     "TVDefCompute"
 
@@ -24,7 +24,7 @@ module -name     "Accessible Volume (CCPi)" \
 module -name     "K-means Filter (ITK)" \
        -primary  "HxUniformScalarField3" \
        -class    "CCPiKMeansFilterITK" \
-       -category "Local" \
+       -category "CCPi" \
        -package  "CCPi" \
        -icon     "TVDefCompute"
 
@@ -32,7 +32,7 @@ module -name     "K-means Filter (ITK)" \
 module -name     "3D Quantification (CCPi)" \
        -primary  "HxUniformScalarField3" \
        -class    "CCPiLabelQuantification" \
-       -category "Local" \
+       -category "CCPi" \
        -package  "CCPi" \
        -icon     "TVDefCompute"
 
@@ -40,6 +40,6 @@ module -name     "3D Quantification (CCPi)" \
 module -name     "CCPI Simple Histogram Thresholding" \
        -primary  "HxUniformScalarField3" \
        -class    "CCPiSimpleHistogramThresholding" \
-       -category "Local" \
+       -category "CCPi" \
        -package  "CCPi" \
        -icon     "TVDefCompute"
