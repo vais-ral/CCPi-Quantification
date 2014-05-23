@@ -1,0 +1,61 @@
+<ServerManagerConfiguration>
+  <!-- Begin TransformImage -->
+  <ProxyGroup name="filters">
+    <SourceProxy name="CCPiAccessibleVolume" class="CCPiAccessibleVolumeParaviewImpl" label="AccessibleVolume(CCPi)">
+      <Documentation
+         long_help="Calculates accessible volume of binarized image\nwith mask."
+         short_help="Calculate Accessible Volume">
+        Uses the algorithm described in Appendix A of PhD thesis
+        "Non-destructive quantification of tissue scaffolds and augmentation implants using X-ray microtomography"
+        by Sheng Yue, Department of Materials, Imperial College London.
+      </Documentation>
+
+      <InputProperty
+        name="InputVolume"
+        port_index="0"
+        command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources"/>
+          <Group name="filters"/>
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkImageData"/>
+        </DataTypeDomain>
+        <Documentation>
+          This is input 8bit Volume data
+        </Documentation>
+      </InputProperty>
+
+      <InputProperty
+        name="InputMaskVolume"
+        port_index="1"
+        command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources"/>
+          <Group name="filters"/>
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkImageData"/>
+        </DataTypeDomain>
+        <Documentation>
+          This is input 8bit mask volume data
+        </Documentation>
+      </InputProperty>
+
+      <DoubleVectorProperty name="Min Sphere Diameter(um)" command="SetMinSphereDiameter"
+                            number_of_elements="1" default_values="80">
+      </DoubleVectorProperty>
+      <DoubleVectorProperty name="Max Sphere Diameter(um)" command="SetMaxSphereDiameter"
+                            number_of_elements="1" default_values="600">
+      </DoubleVectorProperty>
+      <DoubleVectorProperty name="Image Resolution" command="SetImageResolution"
+                            number_of_elements="1" default_values="9">
+      </DoubleVectorProperty>
+      <IntVectorProperty name="Number of Spheres" command="SetNumberOfSpheres"
+                            number_of_elements="1" default_values="11">
+      </IntVectorProperty>
+      
+    </SourceProxy>
+  </ProxyGroup>
+  <!-- End TransformImage -->
+</ServerManagerConfiguration>
