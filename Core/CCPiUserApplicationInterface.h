@@ -13,9 +13,21 @@
 class CCPiUserApplicationInterface
 {
 public:
+	/* 
+	 * Message to logging unit such as console window or files
+	 * @message : string to be send to logger
+	 */
 	virtual void LogMessage(std::string message)=0;
+	/* Current status update in the user interface
+	 * @message : current status string to be set in the user interface
+	 */
 	virtual void SetStatusMessage(std::string message)=0;
+	/* Progress of the current running algorithm 
+	 * @value : set the progress between 0.0(started) - 1.0 (completed)
+	 */
 	virtual void SetProgressValue(float value)=0;
+	/* Whether the cancel/stop button is pressed in the user interface so that
+	   algorithm can exit immediately without completing*/
 	virtual bool isCancel()=0;
 };
 
