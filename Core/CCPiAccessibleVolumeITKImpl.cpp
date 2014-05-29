@@ -148,7 +148,7 @@ std::set<int> CCPiAccessibleVolumeITKImpl::GetNonMaskedSegmentLabelsInImage(Imag
 		itk::ImageRegionConstIterator< ImageType > inputImageIterator(inputImage,
           inputImage->GetRequestedRegion());
         for (inputImageIterator.GoToBegin(), maskImageIterator.GoToBegin(); !inputImageIterator.IsAtEnd(); ++inputImageIterator, ++maskImageIterator) {
-            if ( (inputImageIterator.Get() != 0) && (maskImageIterator.Get() != 0) ) selectedGroups.insert(inputImageIterator.Get());
+            if ( (inputImageIterator.Get() != 0) && (maskImageIterator.Get() == 0) ) selectedGroups.insert(inputImageIterator.Get());
         }
 
 		return selectedGroups;
