@@ -26,10 +26,13 @@ CCPiAccessibleVolumeITKImpl::CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInp
 	SphereDiameterRangeMax = logMax;
 	NumberOfSpheres        = numberOfSpheres;
 	ImageResolution		   = imageResolution;
+	if(outputImage!=NULL)	isOutputMemoryOwner = false;
 }
 
 CCPiAccessibleVolumeITKImpl::~CCPiAccessibleVolumeITKImpl()
 {
+	if(isOutputMemoryOwner && OutputImage!= NULL)
+		delete[] OutputImage;
 }
 
 std::map<double,double> CCPiAccessibleVolumeITKImpl::GetAccessibleVolume()
@@ -200,6 +203,7 @@ double CCPiAccessibleVolumeITKImpl::ComputeVolumePathForGivenRadius(DistanceMapI
 
 void  CCPiAccessibleVolumeITKImpl::Compute()
 {
+	AllocateMemoryForOutputImageIfNeeded();
 	//Calculate DistanceMap
 	DistanceMapImageType::Pointer distanceMapOfInputImage = GetDistanceMapOfImage(InputData->GetVolumeData());
 	//Mask the Distance map with the input mask image
@@ -257,4 +261,35 @@ void CCPiAccessibleVolumeITKImpl::CopyImage(DistanceMapImageType::Pointer inputI
         for (inputImageIterator.GoToBegin(); !inputImageIterator.IsAtEnd(); ++inputImageIterator, iOut++) {
 			outputImage[iOut] = inputImageIterator.Get();
         }	
+}
+
+void CCPiAccessibleVolumeITKImpl::SetOutputImage(unsigned char* outputImage)
+{
+	if(outputImage!=NULL)
+	{
+		//check if memory is owned by this class
+		if(isOutputMemoryOwner)
+			delete[] OutputImage;
+		OutputImage = outputImage;
+		isOutputMemoryOwner = false;
+	}
+}
+
+void CCPiAccessibleVolumeITKImpl::AllocateMemoryForOutputImageIfNeeded()
+{
+	if(isOutputMemoryOwner||OutputImage!=NULL) return;
+	long size = InputData->getDimensions()[0]*InputData->getDimensions()[1]*InputData->getDimensions()[2];
+	OutputImage = new unsigned char[size];
+	isOutputMemoryOwner = true;
+}
+
+
+unsigned char* CCPiAccessibleVolumeITKImpl::GetOutputImage()
+{
+	return OutputImage;
+}
+
+CCPiAccessibleVolumeInputImages* CCPiAccessibleVolumeITKImpl::GetInputImages()
+{
+	return InputData;
 }
