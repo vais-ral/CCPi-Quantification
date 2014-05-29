@@ -25,7 +25,9 @@ public:
 	~CCPiAccessibleVolumeITKImpl();
 	void                    Compute();
 	std::map<double,double> GetAccessibleVolume();
-
+	void	SetOutputImage(unsigned char* outputImage);
+	unsigned char*			GetOutputImage();
+	CCPiAccessibleVolumeInputImages* GetInputImages();
 
 private:
 	CCPiAccessibleVolumeInputImages *InputData;
@@ -36,6 +38,7 @@ private:
 	int							NumberOfSpheres;
 	float						ImageResolution;
 	std::map<double,double>     AccessibleVolume;
+	bool						isOutputMemoryOwner;
 
 	DistanceMapImageType::Pointer   GetDistanceMapOfImage(ImageType::Pointer inputImage);
 	DistanceMapImageType::Pointer	ApplyMaskToInputDistanceMapImage(DistanceMapImageType::Pointer inputImage, ImageType::Pointer maskImage);
@@ -51,6 +54,7 @@ private:
 
 	void							CopyImage(ImageType::Pointer inputImage, unsigned char* outputImage);
 	void							CopyImage(DistanceMapImageType::Pointer inputImage, unsigned char* outputImage);
+	void							AllocateMemoryForOutputImageIfNeeded();
 	
 };
 
