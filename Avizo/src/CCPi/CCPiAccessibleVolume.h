@@ -61,10 +61,11 @@ class CCPI_API CCPiAccessibleVolume : public HxCompModule
      * @param maskData  Raw data from the masking image
      * @param output    Raw data for the output image. Set to NULL if no image
      *                  output required.
+	 * @param outputVolumeFraction Output map of sphere diameter and volume fraction
      */
     void run(unsigned char *data, const int *dims,
              const float *voxelSize, const float *origin,
-             unsigned char *maskData, unsigned char *output);
+             unsigned char *maskData, unsigned char *output,std::map<double,double> *outputVolumeFraction);
              
     /**
      * Create an output with same size as input. The output image is essentially
@@ -75,6 +76,14 @@ class CCPI_API CCPiAccessibleVolume : public HxCompModule
      * @return The output to use for showing data in application
      */
     HxUniformScalarField3* createOutput(HxUniformScalarField3 *field);
+
+	/**
+	 * Creates the volume path as a spreadsheet and puts in the work area
+	 * @param name prefix for the module
+	 * @param volpathMap is map of sphere diameter and its volume path
+	 * @return the output in a spreadsheet.
+	 */
+	HxSpreadSheet* createSpreadsheetOutput( std::string prefix, std::map<double,double> volpathMap);
 
 	/**
 	 *  This function writes Volume path fraction to CSV file
