@@ -25,6 +25,7 @@
 #include <hxcore/HxMessage.h>
 #include <hxcore/HxWorkArea.h>
 #include <hxfield/HxUniformScalarField3.h>
+#include <hxspreadsheet/HxSpreadSheet.h>
 #include <hxrawio/readRawData.h>
 
 #include "CCPiAccessibleVolume.h"
@@ -120,15 +121,21 @@ void CCPiAccessibleVolume::compute()
     theWorkArea->startWorking(
         QApplication::translate("CCPiAccessibleVolume", "Computing accessible volume"));   
         
+	//map for volume fraction
+	std::map<double,double> outputVolumeFraction;
+
     // Run the main calculation
     run((unsigned char*)field->lattice.dataPtr(),
         field->lattice.dims(), field->getVoxelSize().getValue(), origin,
         (unsigned char*)maskField->lattice.dataPtr(), 
-        (unsigned char*)output->lattice.dataPtr());
+        (unsigned char*)output->lattice.dataPtr(),&outputVolumeFraction);
   
     // Register result - adds data object to project view if not already present.
     // Also connects object's master port to compute module
     setResult(output);
+
+	//Register spreadsheet volume fraction
+	setResult(createSpreadsheetOutput(field->getName(),outputVolumeFraction));
 
     // Stop progress bar
     theWorkArea->stopWorking();
@@ -144,10 +151,11 @@ void CCPiAccessibleVolume::compute()
  * @param maskData  Raw data from the masking image
  * @param output    Raw data for the output image. Set to NULL if no image
  *                  output required.
+ * @param outputVolumeFraction map of sphere diameter aand volume fraction
  */
 void CCPiAccessibleVolume::run(unsigned char *data, const int *dims,
     const float *voxelSize, const float *origin, unsigned char *maskData,
-    unsigned char *output)
+    unsigned char *output,std::map<double,double> *outputVolumeFraction)
 {
 	CCPiAccessibleVolumeInputImages *imgInput = new CCPiAccessibleVolumeInputImages(dims,voxelSize,origin,data,maskData);
 	CCPiAvizoUserInterface          *userInterface = new CCPiAvizoUserInterface();
@@ -164,7 +172,15 @@ void CCPiAccessibleVolume::run(unsigned char *data, const int *dims,
 	CCPiAccessibleVolumeITKImpl algImpl(imgInput, userInterface, output,  logMin, logMax, numSpheres, imageResolution);
 	algImpl.Compute();
 
+	 //createSpreadsheetOutput(algImpl.GetAccessibleVolume());
+
 	writeAccessibleVolumePathFractionToFile(algImpl.GetAccessibleVolume(), portOutputFilename.getFilename());
+	//Copy ouput volume fraction 
+	std::map<double,double> resultVF = algImpl.GetAccessibleVolume();
+	for (std::map<double,double>::iterator resultIterator=resultVF.begin(); resultIterator!=resultVF.end(); ++resultIterator)
+	{
+		outputVolumeFraction->insert(std::pair<double,double>(resultIterator->first,resultIterator->second));
+	}
 	delete imgInput;
 	delete userInterface;
 }
@@ -202,6 +218,36 @@ HxUniformScalarField3* CCPiAccessibleVolume::createOutput(HxUniformScalarField3 
         output->composeLabel(field->getName(), "result");
     }
     
+    return output;
+}
+
+/**
+ * Creates the volume path as a spreadsheet and puts in the work area
+ * @param name prefix for the module
+ * @param volpathMap is map of sphere diameter and its volume path
+ * @return the output in a spreadsheet.
+ */
+HxSpreadSheet* CCPiAccessibleVolume::createSpreadsheetOutput(std::string prefix, std::map<double,double> volpathMap)
+{
+
+	HxSpreadSheet *output = new HxSpreadSheet();
+//	output->addTable(("Accessible Volume("+prefix+")").c_str());
+	output->setLabel(("Accessible Volume("+prefix+")").c_str());
+	int tableId = 0;//output->findTable(("Accessible Volume("+prefix+")").c_str());
+	output->addColumn("Sphere diameter (um)",HxSpreadSheet::Column::FLOAT,tableId);
+	output->addColumn("Accessible volume fraction",HxSpreadSheet::Column::FLOAT,tableId);
+	int diameterColumnId = output->findColumn("Sphere diameter (um)", HxSpreadSheet::Column::FLOAT,tableId);
+	int volumeFractionColumnId = output->findColumn("Accessible volume fraction", HxSpreadSheet::Column::FLOAT,tableId);
+	HxSpreadSheet::Column *diameterColumn = output->column(diameterColumnId,tableId);
+	HxSpreadSheet::Column *volumeFractionColumn = output->column(volumeFractionColumnId,tableId);
+	output->setNumRows(volpathMap.size(),tableId);
+	output->setCurrentTableIndex(tableId);
+	int rowIndex=0;
+	for (std::map<double,double>::iterator resultIterator=volpathMap.begin(); resultIterator!=volpathMap.end(); ++resultIterator, rowIndex++)
+	{
+		diameterColumn->setValue( rowIndex, resultIterator->first);
+		volumeFractionColumn->setValue(rowIndex, resultIterator->second);
+	}    
     return output;
 }
 
