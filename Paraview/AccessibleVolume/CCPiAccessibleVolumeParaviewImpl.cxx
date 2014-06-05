@@ -51,8 +51,7 @@ int CCPiAccessibleVolumeParaviewImpl::RequestData(vtkInformation *request,
   bool isTemporaryMaskData = false;
 
   output->CopyStructure(input);
-  output->GetPointData()->PassData(input->GetPointData());
-  output->GetCellData()->PassData(input->GetCellData());
+  output->AllocateScalars(inputVector[0]->GetInformationObject(0));
 
   int volumeDims[3];
   float voxelSize[3];
