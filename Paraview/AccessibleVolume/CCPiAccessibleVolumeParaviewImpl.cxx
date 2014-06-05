@@ -9,6 +9,9 @@
 #include "vtkCellData.h"
 #include "vtkSmartPointer.h"
 #include "vtkDataArray.h"
+#include "vtkDoubleArray.h"
+#include "vtkTable.h"
+#include "vtkVariantArray.h"
 
 #include "CCPiAccessibleVolumeInputImages.h"
 #include "CCPiAccessibleVolumeITKImpl.h"
@@ -21,7 +24,7 @@ vtkStandardNewMacro(CCPiAccessibleVolumeParaviewImpl);
 CCPiAccessibleVolumeParaviewImpl::CCPiAccessibleVolumeParaviewImpl()
 {
   this->SetNumberOfInputPorts(2);
-  this->SetNumberOfOutputPorts(1);
+  this->SetNumberOfOutputPorts(2);
 }
 
 //----------------------------------------------------------------------------
@@ -41,8 +44,10 @@ int CCPiAccessibleVolumeParaviewImpl::RequestData(vtkInformation *request,
                                    vtkInformationVector *outputVector)
 {
   vtkImageData *input = vtkImageData::GetData(inputVector[0]);
-  vtkImageData *output = vtkImageData::GetData(outputVector);  
+  vtkImageData *output = vtkImageData::GetData(outputVector->GetInformationObject(0));  
   vtkImageData *maskData = vtkImageData::GetData(inputVector[1]);
+  vtkTable *outputTable = vtkTable::GetData(outputVector->GetInformationObject(1));
+
   bool isTemporaryMaskData = false;
 
   output->CopyStructure(input);
@@ -61,9 +66,6 @@ int CCPiAccessibleVolumeParaviewImpl::RequestData(vtkInformation *request,
   volumeDims[0] = output->GetExtent()[1]+1;
   volumeDims[1] = output->GetExtent()[3]+1;
   volumeDims[2] = output->GetExtent()[5]+1;
-  vtkWarningMacro(<<origin[0]<<origin[1]<<origin[2]);
-  vtkWarningMacro(<<volumeDims[0]<<volumeDims[1]<<volumeDims[2]);
-  vtkWarningMacro(<<voxelSize[0]<<voxelSize[1]<<voxelSize[2]);
 
   if(maskData==NULL) 
   {
@@ -84,12 +86,25 @@ int CCPiAccessibleVolumeParaviewImpl::RequestData(vtkInformation *request,
   CCPiAccessibleVolumeITKImpl* algoImpl = new CCPiAccessibleVolumeITKImpl(imagesInput, &userInterface, (unsigned char*)output->GetScalarPointer(), sphereDiameterRangeMin, sphereDiameterRangeMax, NumberOfSpheres, imageResolution); 
   algoImpl->Compute();
   std::map<double,double> avResultMap = algoImpl->GetAccessibleVolume();
-  for(std::map<double,double>::iterator itr=avResultMap.begin(); itr!=avResultMap.end(); ++itr)
+  vtkSmartPointer<vtkDoubleArray> sphereDiaColumn = vtkSmartPointer<vtkDoubleArray>::New();
+  sphereDiaColumn->SetName("Sphere Diameter(um)");
+  vtkSmartPointer<vtkDoubleArray> volumeFractionColumn = vtkSmartPointer<vtkDoubleArray>::New();
+  volumeFractionColumn->SetName("Accessible Volume Fraction");
+  outputTable->AddColumn(sphereDiaColumn);
+  outputTable->AddColumn(volumeFractionColumn);
+  outputTable->SetNumberOfRows(avResultMap.size());
+  int rowId=0;
+  for(std::map<double,double>::iterator itr=avResultMap.begin(); itr!=avResultMap.end(); ++itr,rowId++)
   {
-	  	std::ostringstream message;
-		message << itr->first <<"    "<< itr->second<< " Spheres";
-		userInterface.LogMessage(message.str());
+//	  	std::ostringstream message;
+//		message << itr->first <<"    "<< itr->second<< " Spheres";
+//		userInterface.LogMessage(message.str());
+	  outputTable->SetValue(rowId,0, vtkVariant(itr->first));
+	  outputTable->SetValue(rowId,1, vtkVariant(itr->second));
   }
+  outputTable->Modified();
+  outputTable->GetColumn(0)->Modified();
+  outputTable->GetColumn(1)->Modified();
   output->Modified();
   output->GetPointData()->GetScalars()->Modified();
   if(isTemporaryMaskData)
@@ -115,5 +130,20 @@ int CCPiAccessibleVolumeParaviewImpl::FillInputPortInformation(
     {
     info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkImageData");
     }
+  return 1;
+}
+
+int CCPiAccessibleVolumeParaviewImpl::FillOutputPortInformation(int port, vtkInformation* info)
+{
+  // now add our info
+  if(port == 0)
+    {
+    info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkImageData");
+    }
+  else if(port == 1)
+    {
+    info->Set(vtkDataObject::DATA_TYPE_NAME(), "vtkTable");
+    }
+ 
   return 1;
 }
