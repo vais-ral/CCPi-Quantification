@@ -38,12 +38,14 @@ protected:
 
   int RequestData(vtkInformation *, vtkInformationVector **,
                   vtkInformationVector *);
+
   double MinSphereDiameter;
   double MaxSphereDiameter;
   double ImageResolution;
   int    NumberOfSpheres;
 
   int FillInputPortInformation(int port, vtkInformation* info);
+  int FillOutputPortInformation(int port, vtkInformation* info);
 
 private:
   CCPiAccessibleVolumeParaviewImpl(const CCPiAccessibleVolumeParaviewImpl&);  // Not implemented.
