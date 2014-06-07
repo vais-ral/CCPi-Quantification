@@ -56,6 +56,30 @@
       </IntVectorProperty>
       
     </SourceProxy>
+    <SourceProxy name="CCPiSimpleHistogramThresholding" class="CCPiSimpleHistogramThresholdingParaviewImpl" label="SimpleHistogramThresholding(CCPi)">
+      <Documentation
+         long_help="This does a simple histogram thresholding on a image that has two distinct peaks in their histogram and generates a thresholded image at the middle of the two peaks "
+         short_help="Simple Historgram Thresholding">
+		This does a simple histogram thresholding on a image that has two distinct peaks in their histogram and generates a thresholded image at the middle of the two peaks
+      </Documentation>
+
+      <InputProperty
+        name="InputVolume"
+        port_index="0"
+        command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources"/>
+          <Group name="filters"/>
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkImageData"/>
+        </DataTypeDomain>
+        <Documentation>
+          This takes a image volume.
+        </Documentation>
+      </InputProperty>
+      
+    </SourceProxy>	
   </ProxyGroup>
   <!-- End TransformImage -->
 </ServerManagerConfiguration>
