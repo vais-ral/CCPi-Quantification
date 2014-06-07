@@ -18,4 +18,6 @@ include(ParaViewPlugins)
 ADD_PARAVIEW_PLUGIN(AccessibleVolume(CCPi) "1.0"
   SERVER_MANAGER_XML CCPiAccessibleVolume.xml 
   SERVER_MANAGER_SOURCES CCPiAccessibleVolumeParaviewImpl.cxx)
-
+ADD_PARAVIEW_PLUGIN(CCPiSimpleHistogramThresholding(CCPi) "1.0"
+  SERVER_MANAGER_XML CCPiAccessibleVolume.xml 
+  SERVER_MANAGER_SOURCES CCPiSimpleHistogramThresholdingParaviewImpl.cxx)
