@@ -183,7 +183,7 @@ double CCPiAccessibleVolumeITKImpl::ComputeVolumePathAndLabelOutputImage(ImageTy
             if (inputImageIterator.Get()*maskImageIterator.Get() != 0) {
                 volPath++;
                 outputImage[iOut] = labelId;
-            }		
+            }	
         }	
 		return volPath;
 }
@@ -277,10 +277,13 @@ void CCPiAccessibleVolumeITKImpl::SetOutputImage(unsigned char* outputImage)
 
 void CCPiAccessibleVolumeITKImpl::AllocateMemoryForOutputImageIfNeeded()
 {
-	if(isOutputMemoryOwner||OutputImage!=NULL) return;
 	long size = InputData->getDimensions()[0]*InputData->getDimensions()[1]*InputData->getDimensions()[2];
-	OutputImage = new unsigned char[size];
-	isOutputMemoryOwner = true;
+	if(isOutputMemoryOwner||OutputImage!=NULL) {
+	}else{
+		OutputImage = new unsigned char[size];
+		isOutputMemoryOwner = true;
+	}
+	for(long idx = 0; idx < size;idx++) OutputImage[idx] = 0;
 }
 
 
