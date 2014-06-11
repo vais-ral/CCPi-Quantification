@@ -1,6 +1,7 @@
 #include "CCPiAccessibleVolumeITKImpl.h"
 
 #include "itkDanielssonDistanceMapImageFilter.h"
+#include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkMaskImageFilter.h"
 #include "itkImageDuplicator.h"
 #include "itkBinaryThresholdImageFilter.h"
@@ -9,7 +10,7 @@
 #include "itkBinaryBallStructuringElement.h"
 #include "itkGrayscaleDilateImageFilter.h"
 #include "itkImageRegionConstIterator.h"
-
+#include "itkImageFileWriter.h"
 
 #ifdef _WINDOWS 
 #define TYPENAME
@@ -41,12 +42,29 @@ std::map<double,double> CCPiAccessibleVolumeITKImpl::GetAccessibleVolume()
 }
 
 
-DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::GetDistanceMapOfImage(ImageType::Pointer inputImage)
+DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::GetDistanceMapOfImageWithDanielsson(ImageType::Pointer inputImage)
 {
 	typedef itk::DanielssonDistanceMapImageFilter< ImageType, DistanceMapImageType >   DistanceMapFilterType;
 	TYPENAME DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
-	//distanceMapFilter->ReleaseDataFlagOn();
-	distanceMapFilter->InputIsBinaryOn();
+	//distanceMapFilter->InputIsBinaryOn();
+	distanceMapFilter->SetSquaredDistance(false);
+	distanceMapFilter->SetUseImageSpacing(false);
+//	distanceMapFilter->SetInsideIsPositive(false);
+
+	// Output of import filter is input to distance map filter
+	distanceMapFilter->SetInput(inputImage);
+	distanceMapFilter->Update();
+	return distanceMapFilter->GetOutput();
+}
+
+DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::GetDistanceMapOfImageWithMaurer(ImageType::Pointer inputImage)
+{
+	typedef itk::SignedMaurerDistanceMapImageFilter< ImageType, DistanceMapImageType >   DistanceMapFilterType;
+	TYPENAME DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
+	//distanceMapFilter->InputIsBinaryOn();
+	distanceMapFilter->SetSquaredDistance(false);
+	distanceMapFilter->SetUseImageSpacing(false);
+//	distanceMapFilter->SetInsideIsPositive(false);
 
 	// Output of import filter is input to distance map filter
 	distanceMapFilter->SetInput(inputImage);
@@ -148,7 +166,7 @@ std::set<int> CCPiAccessibleVolumeITKImpl::GetNonMaskedSegmentLabelsInImage(Imag
 		itk::ImageRegionConstIterator< ImageType > inputImageIterator(inputImage,
           inputImage->GetRequestedRegion());
         for (inputImageIterator.GoToBegin(), maskImageIterator.GoToBegin(); !inputImageIterator.IsAtEnd(); ++inputImageIterator, ++maskImageIterator) {
-            if ( (inputImageIterator.Get() != 0) && (maskImageIterator.Get() == 0) ) selectedGroups.insert(inputImageIterator.Get());
+            if ( (inputImageIterator.Get() > 0) && (maskImageIterator.Get() == 0) ) selectedGroups.insert(inputImageIterator.Get());
         }
 
 		return selectedGroups;
@@ -195,8 +213,8 @@ double CCPiAccessibleVolumeITKImpl::ComputeVolumePathForGivenRadius(DistanceMapI
 	ImageType::Pointer dilatedImage   = DilateImage(segmentedImage);	
 	std::set<int>	   nonMaskedLabels = GetNonMaskedSegmentLabelsInImage(dilatedImage);
 	BinarizeImageWithSelectedLabels(copyOfSegementedImage, nonMaskedLabels);
-	DistanceMapImageType::Pointer distanceMapOfProcessedImage = GetDistanceMapOfImage(copyOfSegementedImage);
-	ImageType::Pointer binaryThresholdedImage = BinaryThresholdImage(distanceMapOfProcessedImage,0,sphereRadius);
+	DistanceMapImageType::Pointer distanceMapOfProcessedImage = GetDistanceMapOfImageWithMaurer(copyOfSegementedImage);
+	ImageType::Pointer binaryThresholdedImage = BinaryThresholdImage(distanceMapOfProcessedImage,-1*itk::NumericTraits<DistanceMapImageType::PixelType>::max(),sphereRadius);
 	double pathVolume = ComputeVolumePathAndLabelOutputImage(binaryThresholdedImage, InputData->GetVolumeMaskData(), OutputImage, sphereIndex+1);
 	return pathVolume;
 }
@@ -205,7 +223,11 @@ void  CCPiAccessibleVolumeITKImpl::Compute()
 {
 	AllocateMemoryForOutputImageIfNeeded();
 	//Calculate DistanceMap
-	DistanceMapImageType::Pointer distanceMapOfInputImage = GetDistanceMapOfImage(InputData->GetVolumeData());
+	DistanceMapImageType::Pointer distanceMapOfInputImage = GetDistanceMapOfImageWithMaurer(InputData->GetVolumeData());
+	itk::ImageFileWriter<DistanceMapImageType>::Pointer writer = itk::ImageFileWriter<DistanceMapImageType>::New();
+	writer->SetFileName("distance.mha");
+	writer->SetInput(distanceMapOfInputImage);
+	writer->Update();
 	//Mask the Distance map with the input mask image
 	DistanceMapImageType::Pointer maskedDistanceMap = ApplyMaskToInputDistanceMapImage(distanceMapOfInputImage, InputData->GetVolumeMaskData());
 

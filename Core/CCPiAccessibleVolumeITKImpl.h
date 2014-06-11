@@ -40,7 +40,8 @@ private:
 	std::map<double,double>     AccessibleVolume;
 	bool						isOutputMemoryOwner;
 
-	DistanceMapImageType::Pointer   GetDistanceMapOfImage(ImageType::Pointer inputImage);
+	DistanceMapImageType::Pointer   GetDistanceMapOfImageWithDanielsson(ImageType::Pointer inputImage);
+	DistanceMapImageType::Pointer   GetDistanceMapOfImageWithMaurer(ImageType::Pointer inputImage);
 	DistanceMapImageType::Pointer	ApplyMaskToInputDistanceMapImage(DistanceMapImageType::Pointer inputImage, ImageType::Pointer maskImage);
 	ImageType::Pointer				BinaryThresholdImage(DistanceMapImageType::Pointer inputImage, float lowerThresholdValue, float upperThresholdValue);
 	ImageType::Pointer              SegmentInputImage(DistanceMapImageType::Pointer inputImage,float threshold);
