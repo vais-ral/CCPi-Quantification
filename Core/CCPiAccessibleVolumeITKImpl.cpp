@@ -10,7 +10,6 @@
 #include "itkBinaryBallStructuringElement.h"
 #include "itkGrayscaleDilateImageFilter.h"
 #include "itkImageRegionConstIterator.h"
-#include "itkImageFileWriter.h"
 
 #ifdef _WINDOWS 
 #define TYPENAME
@@ -224,10 +223,6 @@ void  CCPiAccessibleVolumeITKImpl::Compute()
 	AllocateMemoryForOutputImageIfNeeded();
 	//Calculate DistanceMap
 	DistanceMapImageType::Pointer distanceMapOfInputImage = GetDistanceMapOfImageWithMaurer(InputData->GetVolumeData());
-	itk::ImageFileWriter<DistanceMapImageType>::Pointer writer = itk::ImageFileWriter<DistanceMapImageType>::New();
-	writer->SetFileName("distance.mha");
-	writer->SetInput(distanceMapOfInputImage);
-	writer->Update();
 	//Mask the Distance map with the input mask image
 	DistanceMapImageType::Pointer maskedDistanceMap = ApplyMaskToInputDistanceMapImage(distanceMapOfInputImage, InputData->GetVolumeMaskData());
 
