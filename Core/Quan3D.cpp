@@ -437,6 +437,7 @@ int CCPiQuantification3D<IT>::NextValueQuantification()
     else m_WrappedImage[ii] = 0;
   }*/
   ii->SetImportVoidPointer(m_WrappedImage);
+  ii->Update();
   ig->SetInput((vtkDataObject*)(ii->GetOutput()));
 
   // get the output
