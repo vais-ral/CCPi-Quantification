@@ -66,7 +66,7 @@ int CCPiLabelQuantificationParaviewImpl::RequestData(vtkInformation *request,
   min = input->GetScalarRange()[0];
   max = input->GetScalarRange()[1];
   CCPiParaviewUserInterface userInterface(this);
-  vtkGenericWarningMacro(<<"Min "<<min<<" Max:"<<max);
+
   switch(input->GetScalarType())
   {
 	  case VTK_UNSIGNED_CHAR:
@@ -121,8 +121,9 @@ void CCPiLabelQuantificationParaviewImpl::runQuantification(IT *data, float orig
     // Create the controller class for calculations
     CCPiQuantification3D<IT> quan3D;
 
-////    theWorkArea->setProgressValue( 0.01 );
-////    theWorkArea->setProgressInfo("Initialising...");
+	this->SetProgressText("Initialising...");
+    this->UpdateProgress( 0.01 );
+	
 
 
     // Initialise the controller
@@ -137,12 +138,10 @@ void CCPiLabelQuantificationParaviewImpl::runQuantification(IT *data, float orig
 
     quan3D.PrintSummaryData();  
 
-////    quan3D.WriteCSVData(portOutputFile.getValue());
-
     int totalVoxels = quan3D.GetNumVoxelValues(), n = 0;
 
-////    theWorkArea->setProgressValue(0.05);
-////    theWorkArea->setProgressInfo("Processing...");
+	this->SetProgressText("Processing...");
+    this->UpdateProgress( 0.05 );
 
     #pragma omp parallel for schedule(dynamic)
     for(int i = 0; i < totalVoxels; i++) {
@@ -159,7 +158,6 @@ void CCPiLabelQuantificationParaviewImpl::runQuantification(IT *data, float orig
             if (0 == worker->Run()) {
                 #pragma omp critical(writefile)
                 {
-////                    worker->WriteCSVData(portOutputFile.getValue());
 					quan3D.SetQuantificationResultByWorker(worker->GetId(),worker->GetQuantificationResult());
                 }
             }
@@ -168,11 +166,13 @@ void CCPiLabelQuantificationParaviewImpl::runQuantification(IT *data, float orig
         #pragma omp atomic
         n++;
         if (omp_get_thread_num() == 0) {
-////            theWorkArea->setProgressValue((float)n/(float)totalVoxels);
-////            theWorkArea->setProgressInfo("Quantification underway");
+	this->SetProgressText("Quantification underway");
+    this->UpdateProgress( (float)n/(float)totalVoxels );
         }
     }
-////    theMsg->stream() << "Quantification complete" << std::endl;
+	this->SetProgressText("Quantification complete");
+
+
 	//Copy the result to output
 	CCPiLabelQuantificationResult* result = quan3D.GetQuantificationResult();
 	std::vector<std::string> columnNames = result->GetQuantityNames();
@@ -184,13 +184,6 @@ void CCPiLabelQuantificationParaviewImpl::runQuantification(IT *data, float orig
 	}
 	std::list<int> labelIndexes = result->GetLabelIndexes();
 	output->SetNumberOfRows(labelIndexes.size());
-  //outputTable->SetNumberOfRows(avResultMap.size());
-  //int rowId=0;
-  //for(std::map<double,double>::iterator itr=avResultMap.begin(); itr!=avResultMap.end(); ++itr,rowId++)
-  //{
-	 // outputTable->SetValue(rowId,0, vtkVariant(itr->first));
-	 // outputTable->SetValue(rowId,1, vtkVariant(itr->second));
-  //}
 	int columnId=0;
 	for(std::vector<std::string>::iterator column_itr = columnNames.begin();column_itr!=columnNames.end();column_itr++, columnId++)
 	{
@@ -205,8 +198,6 @@ void CCPiLabelQuantificationParaviewImpl::runQuantification(IT *data, float orig
 
   output->Modified();
 
-
-////    theWorkArea->setProgressValue(1.0);
-////    theWorkArea->setProgressInfo("Processing Complete");
-    
+	this->SetProgressText("Processing Complete");
+  	this->UpdateProgress(1.0);  
 }
