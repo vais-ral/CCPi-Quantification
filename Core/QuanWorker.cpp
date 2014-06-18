@@ -313,7 +313,7 @@ int CCPiQuantificationWorker<IT>::Run()
 #if VTK_MAJOR_VERSION > 5 
   ig->SetInputData((vtkDataObject*)ii->GetOutput());
 #else
-  ig->SetInput((vtkDataObject*)(ii->GetOutput()));
+  ig->SetInputConnection((ii->GetOutputPort()));
 #endif
 
   // get the output
