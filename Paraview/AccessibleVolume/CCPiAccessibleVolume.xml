@@ -79,7 +79,39 @@
         </Documentation>
       </InputProperty>
       
-    </SourceProxy>	
+    </SourceProxy>
+	
+    <SourceProxy name="CCPiLabelQuantification" class="CCPiLabelQuantificationParaviewImpl" label="LabelQuantification(CCPi)">
+      <Documentation
+         long_help="Quantifies the volume for each label ."
+         short_help="Quantifies the volume for each label ">
+        Uses the algorithm to quantify the labels in a volume. Code provided by Dr. Sheng Yue.
+      </Documentation>
+
+      <InputProperty
+        name="InputVolume"
+        port_index="0"
+        command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources"/>
+          <Group name="filters"/>
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkImageData"/>
+        </DataTypeDomain>
+        <Documentation>
+          This is input Volume data can be any type of data with labels.
+        </Documentation>
+      </InputProperty>
+
+      <DoubleVectorProperty name="Min Feature Size" command="SetMinFeatureSize"
+                            number_of_elements="1" default_values="100">
+      </DoubleVectorProperty>
+      <DoubleVectorProperty name="Voxel Size" command="SetVoxelSize"
+                            number_of_elements="1" default_values="1.0">
+      </DoubleVectorProperty>
+
+    </SourceProxy>  
   </ProxyGroup>
   <!-- End TransformImage -->
 </ServerManagerConfiguration>

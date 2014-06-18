@@ -18,7 +18,7 @@ void CCPiParaviewUserInterface::SetStatusMessage(std::string message)
 
 void CCPiParaviewUserInterface::SetProgressValue(float value)
 {
-	Filter->SetProgress(value);
+	Filter->UpdateProgress(value);
 }
 
 bool CCPiParaviewUserInterface::isCancel()

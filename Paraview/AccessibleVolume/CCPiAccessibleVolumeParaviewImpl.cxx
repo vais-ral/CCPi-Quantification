@@ -82,6 +82,7 @@ int CCPiAccessibleVolumeParaviewImpl::RequestData(vtkInformation *request,
   CCPiAccessibleVolumeInputImages *imagesInput = new CCPiAccessibleVolumeInputImages(volumeDims,voxelSize,origin, (unsigned char *)input->GetScalarPointer(), (unsigned char *)maskData->GetScalarPointer());
   float sphereDiameterRangeMin=log(MinSphereDiameter), sphereDiameterRangeMax=log(MaxSphereDiameter), imageResolution =ImageResolution;
   CCPiParaviewUserInterface userInterface(this);
+  this->SetProgress(0.5);
   CCPiAccessibleVolumeITKImpl* algoImpl = new CCPiAccessibleVolumeITKImpl(imagesInput, &userInterface, (unsigned char*)output->GetScalarPointer(), sphereDiameterRangeMin, sphereDiameterRangeMax, NumberOfSpheres, imageResolution); 
   algoImpl->Compute();
   std::map<double,double> avResultMap = algoImpl->GetAccessibleVolume();
@@ -95,9 +96,6 @@ int CCPiAccessibleVolumeParaviewImpl::RequestData(vtkInformation *request,
   int rowId=0;
   for(std::map<double,double>::iterator itr=avResultMap.begin(); itr!=avResultMap.end(); ++itr,rowId++)
   {
-//	  	std::ostringstream message;
-//		message << itr->first <<"    "<< itr->second<< " Spheres";
-//		userInterface.LogMessage(message.str());
 	  outputTable->SetValue(rowId,0, vtkVariant(itr->first));
 	  outputTable->SetValue(rowId,1, vtkVariant(itr->second));
   }

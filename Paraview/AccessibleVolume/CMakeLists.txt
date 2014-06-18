@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
+PROJECT (CCPiParaviewPlugin)
 
 if (NOT ParaView_BINARY_DIR)
   find_package(ParaView REQUIRED)
@@ -21,3 +22,6 @@ ADD_PARAVIEW_PLUGIN(AccessibleVolume(CCPi) "1.0"
 ADD_PARAVIEW_PLUGIN(CCPiSimpleHistogramThresholding(CCPi) "1.0"
   SERVER_MANAGER_XML CCPiAccessibleVolume.xml 
   SERVER_MANAGER_SOURCES CCPiSimpleHistogramThresholdingParaviewImpl.cxx)
+ADD_PARAVIEW_PLUGIN(CCPiLabelQuantification(CCPi) "1.0"
+  SERVER_MANAGER_XMLL CCPiAccessibleVolume.xml
+  SERVER_MANAGER_SOURCES CCPiLabelQuantificationParaviewImpl.cxx)
