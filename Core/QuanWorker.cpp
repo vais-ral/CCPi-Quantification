@@ -327,7 +327,7 @@ int CCPiQuantificationWorker<IT>::Run()
 #if VTK_MAJOR_VERSION > 5 
   massProperties->SetInputData(ig->GetOutput());
 #else
-  massProperties->SetInput(od);
+  massProperties->SetInputConnection(ig->GetOutputPort());
 #endif
 
   massProperties->Update();
