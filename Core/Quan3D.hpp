@@ -61,6 +61,8 @@ The following characteristics are calculated:
 #include <itkMatrix.h>
 #include <itkVector.h>
 
+#include "CCPiLabelQuantificationResult.h"
+
 template <class IT> class CCPiQuantificationWorker;
 
 template <class IT> class CCPiQuantification3D {
@@ -126,13 +128,6 @@ template <class IT> class CCPiQuantification3D {
     void PrepareForQuantification();
 
     /**
-     * Do quantification for the next voxel value (internal variable).
-     *
-     * \return 0 when there are no more values to do
-     */
-    int NextValueQuantification();
-
-    /**
      * Print summary data of the volume to cout
      */
     void PrintSummaryData(void);
@@ -165,6 +160,13 @@ template <class IT> class CCPiQuantification3D {
      * \param filename Name of file to print to.
      */
     void WriteCSVData(std::string filename);
+
+	/**
+	 *
+	 * \return Quantification result
+	 */
+	CCPiLabelQuantificationResult* GetQuantificationResult() { return &QuantificationResult; }
+	void SetQuantificationResultByWorker(int labelIndex, std::map<std::string, double> result); 
 
     /// Make the worker a friend so we don't have to transfer a load of data
     friend class CCPiQuantificationWorker<IT>;
@@ -235,6 +237,9 @@ template <class IT> class CCPiQuantification3D {
 
     /** Store formatted results to print or display */
     std::ostringstream m_FinalStatisticsLog;
+
+	/** Label Quantification Result */
+	CCPiLabelQuantificationResult QuantificationResult;
 
     /** 
     \brief Calculate sphere diameter from the sphere volume.

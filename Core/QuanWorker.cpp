@@ -90,6 +90,7 @@ int CCPiQuantificationWorker<IT>::Run()
 
   // Start writing CSV data
   m_FinalStatisticsLog << m_Id << ", ";
+  QuantificationResult["Label"] = m_Id;
 
   std::vector< itk::FixedArray<int,3> > voxelPositions = m_QuantificationData->m_VoxelArray[m_Id];
   m_QuantificationData->GetPositionStats(voxelPositions, minimum, maximum, mean);
@@ -124,6 +125,21 @@ int CCPiQuantificationWorker<IT>::Run()
   m_FinalStatisticsLog << maximum[1] << ", " << maximum[2] << ", " << mean[0] << ", ";
   m_FinalStatisticsLog << mean[1] << ", " << mean[2] << ", " << boundingBoxDiam << ", ";
   m_FinalStatisticsLog << voxelCountVolume << ", " << voxelCountDia << ", ";
+
+  QuantificationResult["Border"] = numBoundaryVoxels;
+  QuantificationResult["Number_of_Voxels"] = voxelCount;
+  QuantificationResult["minX"] = minimum[0];
+  QuantificationResult["minY"] = minimum[1];
+  QuantificationResult["minZ"] = minimum[2];
+  QuantificationResult["maxX"] = maximum[0];
+  QuantificationResult["maxY"] = maximum[1];
+  QuantificationResult["maxZ"] = maximum[2];
+  QuantificationResult["meanX"] = mean[0];
+  QuantificationResult["meanY"] = mean[1];
+  QuantificationResult["meanZ"] = mean[2];
+  QuantificationResult["Bbox_diag"] = boundingBoxDiam;
+  QuantificationResult["VoxelCountsVolume"] = voxelCountVolume;
+  QuantificationResult["VoxelCountDia"] = voxelCountDia;
 
 
   /* Find max and min of columns from positions matrix */
@@ -187,8 +203,17 @@ int CCPiQuantificationWorker<IT>::Run()
                                         ids, normal);
 
   // Write PCA hull area and diameter values in CSV data
+#if VTK_MAJOR_VERSION > 5 
+  m_FinalStatisticsLog << area*m_QuantificationData->m_AreaFactor << ", " << 
+    m_QuantificationData->m_VoxelSize*2.0*sqrt(area/vtkMath::Pi()) << ", ";
+  QuantificationResult["PCA_2D_area"] = area*m_QuantificationData->m_AreaFactor;
+  QuantificationResult["PCA_2D_dia"] =  m_QuantificationData->m_VoxelSize*2.0*sqrt(area/vtkMath::Pi());
+#else
   m_FinalStatisticsLog << area*m_QuantificationData->m_AreaFactor << ", " << 
     m_QuantificationData->m_VoxelSize*2.0*sqrt(area/vtkMath::DoublePi()) << ", ";
+  QuantificationResult["PCA_2D_area"] = area*m_QuantificationData->m_AreaFactor;
+  QuantificationResult["PCA_2D_dia"] =  m_QuantificationData->m_VoxelSize*2.0*sqrt(area/vtkMath::DoublePi());
+#endif
 
   delete[] pts;
   delete[] ids;
@@ -211,9 +236,17 @@ int CCPiQuantificationWorker<IT>::Run()
   double uvw[3], point[3], Duvw[9];
   uvw[2] = 0;
   for (int iu = 0; iu < numAzimuthal; iu++) {
+#if VTK_MAJOR_VERSION > 5
+    uvw[0] = iu*2.0*vtkMath::Pi()/double(numAzimuthal);
+#else
     uvw[0] = iu*2.0*vtkMath::DoublePi()/double(numAzimuthal);
+#endif
     for (int ip = 0; ip < numPolar+1; ip++) { // Need ip=numPolar to get lowest point
+#if VTK_MAJOR_VERSION > 5
+      uvw[1] = ip*vtkMath::Pi()/double(numPolar);
+#else
       uvw[1] = ip*vtkMath::DoublePi()/double(numPolar);
+#endif
       ellipsoid->Evaluate(uvw, point, Duvw);
       ellipsoidVertices[iu*(numPolar+1)+ip][0] = point[0];
       ellipsoidVertices[iu*(numPolar+1)+ip][1] = point[1];
@@ -276,7 +309,12 @@ int CCPiQuantificationWorker<IT>::Run()
     }
   }
   ii->SetImportVoidPointer(m_WrappedImage);
+  ii->Update();
+#if VTK_MAJOR_VERSION > 5 
+  ig->SetInputData((vtkDataObject*)ii->GetOutput());
+#else
   ig->SetInput((vtkDataObject*)(ii->GetOutput()));
+#endif
 
   // get the output
   vtkPolyData *od = ig->GetOutput();
@@ -285,7 +323,13 @@ int CCPiQuantificationWorker<IT>::Run()
 
   /* Calculate surface area of iso-surface */
   vtkMassProperties *massProperties = vtkMassProperties::New();
+
+#if VTK_MAJOR_VERSION > 5 
+  massProperties->SetInputData(ig->GetOutput());
+#else
   massProperties->SetInput(od);
+#endif
+
   massProperties->Update();
   double isoArea = massProperties->GetSurfaceArea();
   double isoVolume = massProperties->GetVolume();
@@ -294,12 +338,23 @@ int CCPiQuantificationWorker<IT>::Run()
   m_FinalStatisticsLog << /*m_QuantificationData->m_AreaFactor**/isoArea << 
     ", " << /*m_QuantificationData->m_VolumeFactor**/isoVolume << ", ";
   m_FinalStatisticsLog << /*m_QuantificationData->m_VoxelSize**/m_QuantificationData->Vol2Dia(isoVolume) << ", ";
+
+  QuantificationResult["Surface_Area"] = isoArea;
+  QuantificationResult["Surface_Volume"] = isoVolume;
+  QuantificationResult["Surface_Dia"] = m_QuantificationData->Vol2Dia(isoVolume);
+
+#if VTK_MAJOR_VERSION > 5 
+  double sphericity = (pow(vtkMath::Pi(),1.0/3.0)*
+                       pow(6.0*isoVolume,2.0/3.0))/isoArea;
+#else
   double sphericity = (pow(vtkMath::DoublePi(),1.0/3.0)*
                        pow(6.0*isoVolume,2.0/3.0))/isoArea;
+#endif
   double aToVRatio = 0.5*m_QuantificationData->Vol2Dia(isoVolume)*isoArea/isoVolume;
   // Write out last CSV data
   m_FinalStatisticsLog << sphericity << ", " << aToVRatio << endl;
-
+  QuantificationResult["Sphericity"] = sphericity;
+  QuantificationResult["RSaVol"] = aToVRatio;
 
   massProperties->Delete();
 
