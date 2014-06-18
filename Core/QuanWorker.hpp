@@ -53,6 +53,18 @@ template <class IT> class CCPiQuantificationWorker {
      */
     void WriteCSVData(std::string filename);
 
+	/**
+	 *
+	 *
+	 * \return map of quantified name and value
+	 */
+	std::map<std::string,double> GetQuantificationResult(){ return QuantificationResult; }
+
+	/**
+	 * return id of the worker
+	 * /return id of the worker
+	 */
+	int GetId(){return m_Id;}
 
   private:
 
@@ -67,6 +79,9 @@ template <class IT> class CCPiQuantificationWorker {
 
     /** Store formatted results to print or display */
     std::ostringstream m_FinalStatisticsLog;
+
+	/** map of values calculated in the algorithm */
+	std::map<std::string, double> QuantificationResult;
 
 };
 

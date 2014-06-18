@@ -12,6 +12,7 @@
 #define CCPISIMPLEHISTOGRAMTHRESHOLDINGITKIMPL_H
 
 #include "itkImage.h"
+#include "itkImportImageFilter.h"
 #include "itkScalarImageToHistogramGenerator.h"
 #include "itkBinaryThresholdImageFilter.h"
 
