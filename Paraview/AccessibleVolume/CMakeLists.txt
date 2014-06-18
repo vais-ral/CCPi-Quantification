@@ -24,7 +24,7 @@ ADD_PARAVIEW_PLUGIN(CCPiSimpleHistogramThresholding(CCPi) "1.0"
   SERVER_MANAGER_SOURCES CCPiSimpleHistogramThresholdingParaviewImpl.cxx
   SERVER_SOURCES CCPiParaviewUserInterface.cpp )
 ADD_PARAVIEW_PLUGIN(CCPiLabelQuantification(CCPi) "1.0"
-  SERVER_MANAGER_XMLL CCPiAccessibleVolume.xml
+  SERVER_MANAGER_XML CCPiAccessibleVolume.xml
   SERVER_MANAGER_SOURCES CCPiLabelQuantificationParaviewImpl.cxx 
   SERVER_SOURCES CCPiParaviewUserInterface.cpp ../../Core/Quan3D.cpp ../../Core/QuanWorker.cpp )
 
