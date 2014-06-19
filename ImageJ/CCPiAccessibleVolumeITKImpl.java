@@ -42,9 +42,13 @@ public class CCPiAccessibleVolumeITKImpl {
     CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeITKImpl_Compute(swigCPtr, this);
   }
 
-  public MapDoubleDouble GetAccessibleVolume() {
-    return new MapDoubleDouble(CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeITKImpl_GetAccessibleVolume(swigCPtr, this), true);
-  }
+  public java.util.Map<Double,Double> GetAccessibleVolume() {
+	java.util.Map<Double,Double> result = new java.util.HashMap<Double,Double>();
+	MapType map = new MapType(CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeITKImpl_GetAccessibleVolume(swigCPtr, this),true);
+	for(int idx=0;idx<map.size();idx++)
+		result.put(map.getKey(idx),map.getValue(idx));
+	return result;
+}
 
   public void SetOutputImage(short[] outputImage) {
     CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeITKImpl_SetOutputImage(swigCPtr, this, outputImage);

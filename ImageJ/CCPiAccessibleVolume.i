@@ -9,69 +9,17 @@
 %apply float[] {float *};
 %apply unsigned char[] {unsigned char *};
 
-%typemap(javainterfaces) MapIterator "java.util.Iterator<Double>"
-%typemap(javacode) MapIterator %{
-  public void remove() throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
-  }
-
-  public Double next() throws java.util.NoSuchElementException {
-    if (!hasNext()) {
-      throw new java.util.NoSuchElementException();
-    }
-
-    return nextImpl();
-  }
-%}
-	
-%javamethodmodifiers MapIterator::nextImpl "private";
-%inline %{
-  struct MapIterator {
-    typedef std::map<double,double> map_t;
-    MapIterator(const map_t& m) : it(m.begin()), map(m) {}
-    bool hasNext() const {
-      return it != map.end();
-    }
-
-    const double& nextImpl() {
-      const std::pair<double,double>& ret = *it++;
-      return ret.second;
-    }
-  private:
-    map_t::const_iterator it;
-    const map_t& map;    
-  };
-%}
-	
-%typemap(javainterfaces) std::map<double,double> "Iterable<Double>"
-
-%newobject std::map<double,double>::iterator() const;
-%extend std::map<double,double> {
-  MapIterator *iterator() const {
-    return new MapIterator(*$self);
-  }
+%typemap(jstype) std::map<double, double> "java.util.Map<Double,Double>"
+%typemap(javaout) std::map<double, double> {
+	java.util.Map<Double,Double> result = new java.util.HashMap<Double,Double>();
+	MapType map = new MapType($jnicall,true);
+	for(int idx=0;idx<map.size();idx++)
+		result.put(map.getKey(idx),map.getValue(idx));
+	return result;
 }
+%template(MapType) std::map<double, double>;
 
-%template (MapDoubleDouble) std::map<double,double>;
 
-/*
-%typemap(javain) CCPiAccessibleVolumeInputImages *input "getCPtrAndAddReferenceInputImages($javainput)"
-%typemap(javain) CCPiUserApplicationInterface *userAppInterface "getCPtrAndAddReferenceUI($javainput)"
-%typemap(javacode) CCPiAccessibleVolumeITKImpl %{
-  // Ensure that the GC doesn't collect any element set from Java
-  // as the underlying C++ class stores a shallow copy
-  private CCPiAccessibleVolumeInputImages inputDataReference;
-  private CCPiUserApplicationInterface uiReference;
-  private long getCPtrAndAddReferenceInputImages(CCPiAccessibleVolumeInputImages inputData) {
-    inputDataReference = inputData;
-    return CCPiAccessibleVolumeInputImages.getCPtr(inputData);
-  }
-  private long getCPtrAndAddReferenceUI(CCPiUserApplicationInterface ui) {
-    uiReference = ui;
-    return CCPiUserApplicationInterface.getCPtr(ui);
-  }
-%}
-*/
 
 %feature("director") CCPiUserApplicationInterface;
 
@@ -87,3 +35,5 @@
 %include "..\Core\CCPiAccessibleVolumeITKImpl.h"
 %include "..\Core\CCPiUserApplicationInterface.h"
 %include "..\Core\CCPiConsoleUserInterface.h"
+
+/*  long size = arg1->GetInputImages()->getDimensions()[0]*arg1->GetInputImages()->getDimensions()[1]*arg1->GetInputImages()->getDimensions()[2];*/

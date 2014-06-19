@@ -1233,23 +1233,6 @@ static jdoubleArray SWIG_JavaArrayOutDouble (JNIEnv *jenv, double *result, jsize
 
 #include <string>
 
-
-  struct MapIterator {
-    typedef std::map<double,double> map_t;
-    MapIterator(const map_t& m) : it(m.begin()), map(m) {}
-    bool hasNext() const {
-      return it != map.end();
-    }
-
-    const double& nextImpl() {
-      const std::pair<double,double>& ret = *it++;
-      return ret.second;
-    }
-  private:
-    map_t::const_iterator it;
-    const map_t& map;    
-  };
-
 SWIGINTERN double const &std_map_Sl_double_Sc_double_Sg__get(std::map< double,double > *self,double const &key){
                 std::map<double,double >::iterator i = self->find(key);
                 if (i != self->end())
@@ -1271,9 +1254,22 @@ SWIGINTERN bool std_map_Sl_double_Sc_double_Sg__has_key(std::map< double,double 
                 std::map<double,double >::iterator i = self->find(key);
                 return i != self->end();
             }
-SWIGINTERN MapIterator *std_map_Sl_double_Sc_double_Sg__iterator(std::map< double,double > const *self){
-    return new MapIterator(*self);
-  }
+SWIGINTERN double const &std_map_Sl_double_Sc_double_Sg__getKey(std::map< double,double > *self,unsigned int index){			    
+                std::map<double,double >::iterator i = self->begin();
+				if(index >= self->size()) 
+					throw std::out_of_range("index greater than size");
+				for(unsigned int idx=0;idx<index;idx++)
+					i++;
+				return i->first;
+			}
+SWIGINTERN double const &std_map_Sl_double_Sc_double_Sg__getValue(std::map< double,double > *self,unsigned int index){			    
+                std::map<double,double >::iterator i = self->begin();
+				if(index >= self->size()) 
+					throw std::out_of_range("index greater than size");
+				for(unsigned int idx=0;idx<index;idx++)
+					i++;
+				return i->second;
+			}
 
 #include <map>
 #include "..\Core\CCPiAccessibleVolumeInputImages.h"
@@ -1448,66 +1444,7 @@ void SwigDirector_CCPiUserApplicationInterface::swig_connect_director(JNIEnv *je
 extern "C" {
 #endif
 
-SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1MapIterator(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  MapIterator::map_t *arg1 = 0 ;
-  MapIterator *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(MapIterator::map_t **)&jarg1;
-  if (!arg1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "MapIterator::map_t const & reference is null");
-    return 0;
-  } 
-  result = (MapIterator *)new MapIterator((MapIterator::map_t const &)*arg1);
-  *(MapIterator **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_CCPiAccessibleVolumeJNI_MapIterator_1hasNext(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jboolean jresult = 0 ;
-  MapIterator *arg1 = (MapIterator *) 0 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(MapIterator **)&jarg1; 
-  result = (bool)((MapIterator const *)arg1)->hasNext();
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jdouble JNICALL Java_CCPiAccessibleVolumeJNI_MapIterator_1nextImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jdouble jresult = 0 ;
-  MapIterator *arg1 = (MapIterator *) 0 ;
-  double *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(MapIterator **)&jarg1; 
-  result = (double *) &(arg1)->nextImpl();
-  jresult = (jdouble)*result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1MapIterator(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  MapIterator *arg1 = (MapIterator *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(MapIterator **)&jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1MapDoubleDouble_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1MapType_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   std::map< double,double > *result = 0 ;
   
@@ -1519,7 +1456,7 @@ SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1MapDoubleDouble_1_1SW
 }
 
 
-SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1MapDoubleDouble_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1MapType_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   std::map< double,double > *arg1 = 0 ;
   std::map< double,double > *result = 0 ;
@@ -1538,7 +1475,7 @@ SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1MapDoubleDouble_1_1SW
 }
 
 
-SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1size(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_MapType_1size(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   std::map< double,double > *arg1 = (std::map< double,double > *) 0 ;
   unsigned int result;
@@ -1553,7 +1490,7 @@ SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1size(JNIE
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1empty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_CCPiAccessibleVolumeJNI_MapType_1empty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   std::map< double,double > *arg1 = (std::map< double,double > *) 0 ;
   bool result;
@@ -1568,7 +1505,7 @@ SWIGEXPORT jboolean JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1empty(
 }
 
 
-SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_MapType_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   std::map< double,double > *arg1 = (std::map< double,double > *) 0 ;
   
   (void)jenv;
@@ -1579,7 +1516,7 @@ SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1clear(JNIE
 }
 
 
-SWIGEXPORT jdouble JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
+SWIGEXPORT jdouble JNICALL Java_CCPiAccessibleVolumeJNI_MapType_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
   jdouble jresult = 0 ;
   std::map< double,double > *arg1 = (std::map< double,double > *) 0 ;
   double *arg2 = 0 ;
@@ -1605,7 +1542,7 @@ SWIGEXPORT jdouble JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1get(JNI
 }
 
 
-SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2, jdouble jarg3) {
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_MapType_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2, jdouble jarg3) {
   std::map< double,double > *arg1 = (std::map< double,double > *) 0 ;
   double *arg2 = 0 ;
   double *arg3 = 0 ;
@@ -1624,7 +1561,7 @@ SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1set(JNIEnv
 }
 
 
-SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1del(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_MapType_1del(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
   std::map< double,double > *arg1 = (std::map< double,double > *) 0 ;
   double *arg2 = 0 ;
   double temp2 ;
@@ -1646,7 +1583,7 @@ SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1del(JNIEnv
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1has_1key(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
+SWIGEXPORT jboolean JNICALL Java_CCPiAccessibleVolumeJNI_MapType_1has_1key(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
   jboolean jresult = 0 ;
   std::map< double,double > *arg1 = (std::map< double,double > *) 0 ;
   double *arg2 = 0 ;
@@ -1665,22 +1602,55 @@ SWIGEXPORT jboolean JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1has_1k
 }
 
 
-SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_MapDoubleDouble_1iterator(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
+SWIGEXPORT jdouble JNICALL Java_CCPiAccessibleVolumeJNI_MapType_1getKey(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jdouble jresult = 0 ;
   std::map< double,double > *arg1 = (std::map< double,double > *) 0 ;
-  MapIterator *result = 0 ;
+  unsigned int arg2 ;
+  double *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(std::map< double,double > **)&jarg1; 
-  result = (MapIterator *)std_map_Sl_double_Sc_double_Sg__iterator((std::map< double,double > const *)arg1);
-  *(MapIterator **)&jresult = result; 
+  arg2 = (unsigned int)jarg2; 
+  try {
+    result = (double *) &std_map_Sl_double_Sc_double_Sg__getKey(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = (jdouble)*result; 
   return jresult;
 }
 
 
-SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1MapDoubleDouble(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+SWIGEXPORT jdouble JNICALL Java_CCPiAccessibleVolumeJNI_MapType_1getValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jdouble jresult = 0 ;
+  std::map< double,double > *arg1 = (std::map< double,double > *) 0 ;
+  unsigned int arg2 ;
+  double *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< double,double > **)&jarg1; 
+  arg2 = (unsigned int)jarg2; 
+  try {
+    result = (double *) &std_map_Sl_double_Sc_double_Sg__getValue(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = (jdouble)*result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1MapType(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   std::map< double,double > *arg1 = (std::map< double,double > *) 0 ;
   
   (void)jenv;
@@ -1721,8 +1691,8 @@ SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiAccessibleVolumeI
   delete [] arg1; 
   delete [] arg2; 
   delete [] arg3; 
-  //delete [] arg4; 
-  //delete [] arg5; 
+ // delete [] arg4; 
+ // delete [] arg5; 
   return jresult;
 }
 
@@ -1868,7 +1838,7 @@ SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiAccessibleVolumeI
   result = (CCPiAccessibleVolumeITKImpl *)new CCPiAccessibleVolumeITKImpl(arg1,arg2,arg3,arg4,arg5,arg6,arg7);
   *(CCPiAccessibleVolumeITKImpl **)&jresult = result; 
   SWIG_JavaArrayArgoutUchar(jenv, jarr3, (unsigned char *)arg3, jarg3); 
- // delete [] arg3; 
+  //delete [] arg3; 
   return jresult;
 }
 
