@@ -43,7 +43,7 @@ public class CCPiAccessibleVolumeITKImpl {
   }
 
   public java.util.Map<Double,Double> GetAccessibleVolume() {
-	java.util.Map<Double,Double> result = new java.util.HashMap<Double,Double>();
+	java.util.Map<Double,Double> result = new java.util.LinkedHashMap<Double,Double>();
 	MapType map = new MapType(CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeITKImpl_GetAccessibleVolume(swigCPtr, this),true);
 	for(int idx=0;idx<map.size();idx++)
 		result.put(map.getKey(idx),map.getValue(idx));

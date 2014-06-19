@@ -45,9 +45,8 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
         String[] maskFileNames = (String[])imageIDTitleMap.values().toArray(new String[0]);   
         for(String maskFileName : maskFileNames)
             accessibleVolumeInputDialog.addMaskFileName(maskFileName);
-        accessibleVolumeInputDialog.setVisible(true);     
-//		JOptionPane.showMessageDialog(null, accessibleVolumeInputDialog.getMaskFileName());        
-//        if(!accessibleVolumeInputDialog.isCancelButtonPressed())        
+        accessibleVolumeInputDialog.setVisible(true);           
+        if(!accessibleVolumeInputDialog.isCancelButtonPressed())        
             Process(imagePlus.getImageStack(),WindowManager.getImage(accessibleVolumeInputDialog.getMaskFileName()).getImageStack(),accessibleVolumeInputDialog.getOutputFileName(),accessibleVolumeInputDialog.getMinSphereDiameter(),accessibleVolumeInputDialog.getMaxSphereDiameter(),accessibleVolumeInputDialog.getNumberOfSpheres(),accessibleVolumeInputDialog.getImageResolution());
     }
 
@@ -87,8 +86,7 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
         CCPiAccessibleVolumeInputImages input = new CCPiAccessibleVolumeInputImages(dims,voxelSize,origin,data,maskData);
         CCPiAccessibleVolumeITKImpl filter = new CCPiAccessibleVolumeITKImpl(input, ui, outputImageData, (float)Math.log(minSphereDiameter), (float)Math.log(maxSphereDiameter), numberOfSpheres, (float)imageResolution);
         filter.Compute();
-				JOptionPane.showMessageDialog(null, input.getScafoldVolume());  
-				JOptionPane.showMessageDialog(null,input.getScafoldPorosity());  
+
         Map<Double,Double> result = filter.GetAccessibleVolume();
         WriteAccessibleVolumeResultToCSVFile(outputFilename,result);
         outputImageData = filter.GetOutputImage();
@@ -109,8 +107,6 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
         }        
         outputImage.show();
         outputImage.updateAndDraw();
-        System.out.println("Scaffold Porosity:"+input.getScafoldPorosity()+" Scaffold Volume:"+input.getScafoldVolume());               
-        System.out.println("Scaffold Porosity:"+input.getScafoldPorosity()+" Scaffold Volume:"+input.getScafoldPorosity());               
     }
     
     HashMap<Integer,String> GenerateImageIDAndTitleHashMap()

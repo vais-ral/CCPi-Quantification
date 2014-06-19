@@ -11,7 +11,7 @@
 
 %typemap(jstype) std::map<double, double> "java.util.Map<Double,Double>"
 %typemap(javaout) std::map<double, double> {
-	java.util.Map<Double,Double> result = new java.util.HashMap<Double,Double>();
+	java.util.Map<Double,Double> result = new java.util.LinkedHashMap<Double,Double>();
 	MapType map = new MapType($jnicall,true);
 	for(int idx=0;idx<map.size();idx++)
 		result.put(map.getKey(idx),map.getValue(idx));
@@ -20,8 +20,10 @@
 %template(MapType) std::map<double, double>;
 
 
-
 %feature("director") CCPiUserApplicationInterface;
+
+%ignore CCPiAccessibleVolumeInputImages::GetVolumeData;
+%ignore CCPiAccessibleVolumeInputImages::GetVolumeMaskData;
 
 %{
 #include <map>
@@ -35,5 +37,6 @@
 %include "..\Core\CCPiAccessibleVolumeITKImpl.h"
 %include "..\Core\CCPiUserApplicationInterface.h"
 %include "..\Core\CCPiConsoleUserInterface.h"
+
 
 /*  long size = arg1->GetInputImages()->getDimensions()[0]*arg1->GetInputImages()->getDimensions()[1]*arg1->GetInputImages()->getDimensions()[2];*/
