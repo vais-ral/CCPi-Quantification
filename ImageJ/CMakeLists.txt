@@ -27,8 +27,7 @@ ADD_JAR(CCPiImageJPlugin_Java 	AccessibleVolumePluginFilter_.java
 							CCPiConsoleUserInterface.java
 							CCPiImageJUserInterface.java
 							CCPiUserApplicationInterface.java
-							MapDoubleDouble.java
-							MapIterator.java
+							MapType.java
 							SWIGTYPE_p_itk__ImageT_unsigned_char_3_t__Pointer.java
 		OUTPUT_NAME		CCPiImageJ_Plugin.jar) 						 
 							 

@@ -11,7 +11,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-
+import java.util.Map;
+import javax.swing.JOptionPane;
 /*
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
@@ -44,8 +45,9 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
         String[] maskFileNames = (String[])imageIDTitleMap.values().toArray(new String[0]);   
         for(String maskFileName : maskFileNames)
             accessibleVolumeInputDialog.addMaskFileName(maskFileName);
-        accessibleVolumeInputDialog.setVisible(true);             
-        if(!accessibleVolumeInputDialog.isCancelButtonPressed())        
+        accessibleVolumeInputDialog.setVisible(true);     
+//		JOptionPane.showMessageDialog(null, accessibleVolumeInputDialog.getMaskFileName());        
+//        if(!accessibleVolumeInputDialog.isCancelButtonPressed())        
             Process(imagePlus.getImageStack(),WindowManager.getImage(accessibleVolumeInputDialog.getMaskFileName()).getImageStack(),accessibleVolumeInputDialog.getOutputFileName(),accessibleVolumeInputDialog.getMinSphereDiameter(),accessibleVolumeInputDialog.getMaxSphereDiameter(),accessibleVolumeInputDialog.getNumberOfSpheres(),accessibleVolumeInputDialog.getImageResolution());
     }
 
@@ -85,14 +87,9 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
         CCPiAccessibleVolumeInputImages input = new CCPiAccessibleVolumeInputImages(dims,voxelSize,origin,data,maskData);
         CCPiAccessibleVolumeITKImpl filter = new CCPiAccessibleVolumeITKImpl(input, ui, outputImageData, (float)Math.log(minSphereDiameter), (float)Math.log(maxSphereDiameter), numberOfSpheres, (float)imageResolution);
         filter.Compute();
-        MapDoubleDouble result = filter.GetAccessibleVolume();
-        MapIterator it= result.iterator(); 
-        String message = "";
-        while(it.hasNext())
-        {
-            message+=it.next();
-            message+="\n";
-        }
+				JOptionPane.showMessageDialog(null, input.getScafoldVolume());  
+				JOptionPane.showMessageDialog(null,input.getScafoldPorosity());  
+        Map<Double,Double> result = filter.GetAccessibleVolume();
         WriteAccessibleVolumeResultToCSVFile(outputFilename,result);
         outputImageData = filter.GetOutputImage();
         ImagePlus outputImage =  IJ.createHyperStack("AccessibleVolume", inputImage.getWidth(), inputImage.getHeight(),imagePlus.getNChannels(), imagePlus.getNSlices(), imagePlus.getNFrames(), imagePlus.getBitDepth());
@@ -113,6 +110,7 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
         outputImage.show();
         outputImage.updateAndDraw();
         System.out.println("Scaffold Porosity:"+input.getScafoldPorosity()+" Scaffold Volume:"+input.getScafoldVolume());               
+        System.out.println("Scaffold Porosity:"+input.getScafoldPorosity()+" Scaffold Volume:"+input.getScafoldPorosity());               
     }
     
     HashMap<Integer,String> GenerateImageIDAndTitleHashMap()
@@ -127,7 +125,7 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
          return result;
     }
     
-    void WriteAccessibleVolumeResultToCSVFile(String filename, MapDoubleDouble result)
+    void WriteAccessibleVolumeResultToCSVFile(String filename, Map<Double,Double> result)
     {
         try{
         File outputFile = new File(filename);        
@@ -135,10 +133,8 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
             outputFile.createNewFile();
         FileWriter fw = new FileWriter(outputFile.getAbsoluteFile());        
         BufferedWriter bfw = new BufferedWriter(fw);
-        MapIterator it= result.iterator(); 
-        while(it.hasNext())
-        {
-            bfw.write(it.next().toString());
+		for(Map.Entry<Double,Double> entry: result.entrySet()){
+            bfw.write(entry.getKey()+","+entry.getValue());
             bfw.write("\n");
         }
         bfw.close();

@@ -8,21 +8,18 @@
 
 
 public class CCPiAccessibleVolumeJNI {
-  public final static native long new_MapIterator(long jarg1, MapDoubleDouble jarg1_);
-  public final static native boolean MapIterator_hasNext(long jarg1, MapIterator jarg1_);
-  public final static native double MapIterator_nextImpl(long jarg1, MapIterator jarg1_);
-  public final static native void delete_MapIterator(long jarg1);
-  public final static native long new_MapDoubleDouble__SWIG_0();
-  public final static native long new_MapDoubleDouble__SWIG_1(long jarg1, MapDoubleDouble jarg1_);
-  public final static native long MapDoubleDouble_size(long jarg1, MapDoubleDouble jarg1_);
-  public final static native boolean MapDoubleDouble_empty(long jarg1, MapDoubleDouble jarg1_);
-  public final static native void MapDoubleDouble_clear(long jarg1, MapDoubleDouble jarg1_);
-  public final static native double MapDoubleDouble_get(long jarg1, MapDoubleDouble jarg1_, double jarg2);
-  public final static native void MapDoubleDouble_set(long jarg1, MapDoubleDouble jarg1_, double jarg2, double jarg3);
-  public final static native void MapDoubleDouble_del(long jarg1, MapDoubleDouble jarg1_, double jarg2);
-  public final static native boolean MapDoubleDouble_has_key(long jarg1, MapDoubleDouble jarg1_, double jarg2);
-  public final static native long MapDoubleDouble_iterator(long jarg1, MapDoubleDouble jarg1_);
-  public final static native void delete_MapDoubleDouble(long jarg1);
+  public final static native long new_MapType__SWIG_0();
+  public final static native long new_MapType__SWIG_1(long jarg1, MapType jarg1_);
+  public final static native long MapType_size(long jarg1, MapType jarg1_);
+  public final static native boolean MapType_empty(long jarg1, MapType jarg1_);
+  public final static native void MapType_clear(long jarg1, MapType jarg1_);
+  public final static native double MapType_get(long jarg1, MapType jarg1_, double jarg2);
+  public final static native void MapType_set(long jarg1, MapType jarg1_, double jarg2, double jarg3);
+  public final static native void MapType_del(long jarg1, MapType jarg1_, double jarg2);
+  public final static native boolean MapType_has_key(long jarg1, MapType jarg1_, double jarg2);
+  public final static native double MapType_getKey(long jarg1, MapType jarg1_, long jarg2);
+  public final static native double MapType_getValue(long jarg1, MapType jarg1_, long jarg2);
+  public final static native void delete_MapType(long jarg1);
   public final static native long new_CCPiAccessibleVolumeInputImages(int[] jarg1, float[] jarg2, float[] jarg3, short[] jarg4, short[] jarg5);
   public final static native void delete_CCPiAccessibleVolumeInputImages(long jarg1);
   public final static native double CCPiAccessibleVolumeInputImages_getScafoldVolume(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
