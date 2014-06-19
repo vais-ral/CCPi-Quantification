@@ -27,8 +27,6 @@ public class CCPiAccessibleVolumeJNI {
   public final static native long[] CCPiAccessibleVolumeInputImages_getDimensions(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
   public final static native float[] CCPiAccessibleVolumeInputImages_getVoxelSize(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
   public final static native float[] CCPiAccessibleVolumeInputImages_getOrigin(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
-  public final static native long CCPiAccessibleVolumeInputImages_GetVolumeMaskData(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
-  public final static native long CCPiAccessibleVolumeInputImages_GetVolumeData(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
   public final static native long new_CCPiAccessibleVolumeITKImpl(long jarg1, CCPiAccessibleVolumeInputImages jarg1_, long jarg2, CCPiUserApplicationInterface jarg2_, short[] jarg3, float jarg4, float jarg5, int jarg6, float jarg7);
   public final static native void delete_CCPiAccessibleVolumeITKImpl(long jarg1);
   public final static native void CCPiAccessibleVolumeITKImpl_Compute(long jarg1, CCPiAccessibleVolumeITKImpl jarg1_);

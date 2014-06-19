@@ -58,12 +58,4 @@ public class CCPiAccessibleVolumeInputImages {
     return CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeInputImages_getOrigin(swigCPtr, this);
   }
 
-  public SWIGTYPE_p_itk__ImageT_unsigned_char_3_t__Pointer GetVolumeMaskData() {
-    return new SWIGTYPE_p_itk__ImageT_unsigned_char_3_t__Pointer(CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeInputImages_GetVolumeMaskData(swigCPtr, this), true);
-  }
-
-  public SWIGTYPE_p_itk__ImageT_unsigned_char_3_t__Pointer GetVolumeData() {
-    return new SWIGTYPE_p_itk__ImageT_unsigned_char_3_t__Pointer(CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeInputImages_GetVolumeData(swigCPtr, this), true);
-  }
-
 }
