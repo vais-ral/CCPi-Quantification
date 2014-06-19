@@ -24,7 +24,7 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
 
     ImagePlus imagePlus;
     static {
-        System.loadLibrary("CCPiJava");
+        System.loadLibrary("CCPiImageJPlugin_Cpp");
     }
     
     @Override
