@@ -2,7 +2,7 @@ set PACKAGE {CCPi}
 
 set LIBS {
     hxplot hxtime hxsurface hxcolor hxfield
-    hxcore amiramesh mclib oiv tcl qt
+    hxcore hxspreadsheet amiramesh mclib oiv tcl qt
     ITKCommon itksys itkv3p_netlib itkvcl itkvnl itkvnl_algo
 	ITKStatistics
 }

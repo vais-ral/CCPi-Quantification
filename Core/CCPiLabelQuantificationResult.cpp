@@ -16,7 +16,7 @@ void CCPiLabelQuantificationResult::initialise()
 std::vector<std::string> CCPiLabelQuantificationResult::GetQuantityNames()
 {
 	std::vector<std::string> result;
-	for(std::map<std::string,std::map<int,double>>::iterator itr = QuantityMap.begin(); itr!=QuantityMap.end(); itr++)
+	for(std::map<std::string,std::map<int,double> >::iterator itr = QuantityMap.begin(); itr!=QuantityMap.end(); itr++)
 	{
 		result.push_back(itr->first);
 	}
