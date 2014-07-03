@@ -17,19 +17,24 @@
 #include "itkBinaryThresholdImageFilter.h"
 
 #include <vector>
+#ifdef _WINDOWS
+  #define TYPENAME
+#else
+  #define TYPENAME typename
+#endif
 
 template <class T>
 class CCPiSimpleHistogramThresholdingITKImpl
 {
 public:
 	// Typedefs for image types
-	typedef itk::Image< T, 3 >     ImageType;
-	typedef itk::Image< unsigned char, 3 >     OutputImageType;
+	typedef TYPENAME itk::Image< T, 3 >     ImageType;
+	typedef TYPENAME itk::Image< unsigned char, 3 >     OutputImageType;
 
 	// Typedef for histogram generator
-	typedef itk::Statistics::ScalarImageToHistogramGenerator< ImageType > HistogramGeneratorType;
+	typedef TYPENAME itk::Statistics::ScalarImageToHistogramGenerator< ImageType > HistogramGeneratorType;
 	// Typedef for histogram
-	typedef typename HistogramGeneratorType::HistogramType  HistogramType;
+	typedef TYPENAME HistogramGeneratorType::HistogramType  HistogramType;
 	// Typedef for thresholding filter
 	typedef itk::BinaryThresholdImageFilter< ImageType, OutputImageType > ThresholdFilterType;
 
@@ -51,14 +56,14 @@ public:
 	/** 
 	 * @return output image after thresholding
 	 */
-	typename OutputImageType::Pointer	GetOutputImage();
+	TYPENAME OutputImageType::Pointer	GetOutputImage();
 	/**
 	 * @return returns the two peak values in the histogram
 	 */
 	std::vector<float>					GetPeaks();
 
 private:
-	typename ImageType::Pointer		 Image;
+	TYPENAME ImageType::Pointer		 Image;
 	float							 MinPixelIntensity;
 	float							 MaxPixelIntensity;
 	OutputImageType::Pointer		 OutputImage;
@@ -72,7 +77,7 @@ private:
 	 * @origin	   : origin values of the image
 	 * @return ITK image object 
 	 */
-	typename ImageType::Pointer					CreateImageFromRawPointer(T* inputImage, const int *volumeDims, const float *voxelSize, const float *origin);
+	TYPENAME ImageType::Pointer					CreateImageFromRawPointer(T* inputImage, const int *volumeDims, const float *voxelSize, const float *origin);
 	/**
 	 * Computes Histogram from image
 	 * @inputImage : input image to which histogram has to be calculated
@@ -80,7 +85,7 @@ private:
 	 * @maxIntensity : upper threshold for the histogram
 	 * @return histogram.
 	 */
-	typename HistogramGeneratorType::Pointer	ComputeHistogram(typename ImageType::Pointer inputImage, float minIntensity, float maxIntensity);
+	TYPENAME HistogramGeneratorType::Pointer	ComputeHistogram(TYPENAME ImageType::Pointer inputImage, float minIntensity, float maxIntensity);
 	/**
 	 * Computes and returns two peaks in the histogram this is a very basic searching which
 	 * finds the two consecutive peaks.
@@ -89,14 +94,14 @@ private:
 	 * @maxPixelIntensity: maximum pixel intensity
 	 * @return two peak intensity values
 	 */
-	std::vector<float>							FindTwoPeaksInHistogram(const typename HistogramType *histogram,float minPixelIntensity, float maxPixelIntensity);
+	std::vector<float>							FindTwoPeaksInHistogram(const  HistogramType *histogram,float minPixelIntensity, float maxPixelIntensity);
 	/**
 	 * Thresholds the input image with a threshold value 
 	 * @inputImage : input image
 	 * @thresholdValue : threshold value
 	 * @return : return result image after thesholding
 	 */
-	typename OutputImageType::Pointer			ThresholdAnImage(typename ImageType::Pointer inputImage, double thresholdValue);
+	TYPENAME OutputImageType::Pointer			ThresholdAnImage(TYPENAME ImageType::Pointer inputImage, double thresholdValue);
 };
 
 
@@ -109,21 +114,21 @@ CCPiSimpleHistogramThresholdingITKImpl<T>::CCPiSimpleHistogramThresholdingITKImp
 }
 
 template <class T>
-typename CCPiSimpleHistogramThresholdingITKImpl<T>::ImageType::Pointer 
+TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::ImageType::Pointer 
 	CCPiSimpleHistogramThresholdingITKImpl<T>::CreateImageFromRawPointer(T* inputImage, const int *volumeDims, const float *voxelSize, const float *origin)
 {
 	// Typedef for importing image data from VolView data
 	typedef itk::ImportImageFilter< T, 3 > ImportFilterType;
 	// Create import filter
-	typename ImportFilterType::Pointer importFilter = ImportFilterType::New();
+	TYPENAME ImportFilterType::Pointer importFilter = ImportFilterType::New();
 
-	typename ImportFilterType::IndexType start;
+	TYPENAME ImportFilterType::IndexType start;
 	start.Fill(0);
-	typename ImportFilterType::SizeType size;
+	TYPENAME ImportFilterType::SizeType size;
 	size[0] = volumeDims[0];
 	size[1] = volumeDims[1];
 	size[2] = volumeDims[2];
-	typename ImportFilterType::RegionType region;
+	TYPENAME ImportFilterType::RegionType region;
 	region.SetIndex(start);
 	region.SetSize(size);
 	importFilter->SetSpacing(voxelSize);
@@ -144,18 +149,18 @@ template <class T>
 void CCPiSimpleHistogramThresholdingITKImpl<T>::Compute()
 {
 
-	CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramGeneratorType::Pointer histogramGenerator = ComputeHistogram(Image, MinPixelIntensity, MaxPixelIntensity);
-	const typename CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramType *histogram = histogramGenerator->GetOutput();
+	TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramGeneratorType::Pointer histogramGenerator = ComputeHistogram(Image, MinPixelIntensity, MaxPixelIntensity);
+	const  CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramType *histogram = histogramGenerator->GetOutput();
 	Peaks = FindTwoPeaksInHistogram(histogram,MinPixelIntensity, MaxPixelIntensity);
 	double thresholdValue = (Peaks[0]+Peaks[1])/2.0;
 	OutputImage = ThresholdAnImage(Image, thresholdValue);
 }
 
 template <class T>
-typename CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramGeneratorType::Pointer
-	CCPiSimpleHistogramThresholdingITKImpl<T>::ComputeHistogram(typename CCPiSimpleHistogramThresholdingITKImpl<T>::ImageType::Pointer inputImage, float minIntensity, float maxIntensity)
+TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramGeneratorType::Pointer
+	CCPiSimpleHistogramThresholdingITKImpl<T>::ComputeHistogram(TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::ImageType::Pointer inputImage, float minIntensity, float maxIntensity)
 {
-	typename CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+	TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
 	// Output of import filter is input to distance map filter
 	histogramGenerator->SetInput( inputImage );
 
@@ -174,7 +179,7 @@ typename CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramGeneratorType::Poin
 
 
 template <class T>
-std::vector<float> CCPiSimpleHistogramThresholdingITKImpl<T>::FindTwoPeaksInHistogram(const typename CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramType *histogram,float minPixelIntensity, float maxPixelIntensity)
+std::vector<float> CCPiSimpleHistogramThresholdingITKImpl<T>::FindTwoPeaksInHistogram(const TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramType *histogram,float minPixelIntensity, float maxPixelIntensity)
 {
 	const unsigned int histogramSize = histogram->Size();
 
@@ -222,10 +227,10 @@ std::vector<float> CCPiSimpleHistogramThresholdingITKImpl<T>::FindTwoPeaksInHist
 }
 
 template<class T>
-typename CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType::Pointer
-	CCPiSimpleHistogramThresholdingITKImpl<T>::ThresholdAnImage(typename CCPiSimpleHistogramThresholdingITKImpl<T>::ImageType::Pointer image, double thresholdValue)
+CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType::Pointer
+	CCPiSimpleHistogramThresholdingITKImpl<T>::ThresholdAnImage(TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::ImageType::Pointer image, double thresholdValue)
 {
-	typename CCPiSimpleHistogramThresholdingITKImpl<T>::ThresholdFilterType::Pointer thresholdFilter = CCPiSimpleHistogramThresholdingITKImpl<T>::ThresholdFilterType::New();
+	TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::ThresholdFilterType::Pointer thresholdFilter = CCPiSimpleHistogramThresholdingITKImpl<T>::ThresholdFilterType::New();
 	thresholdFilter->SetInput( image );
 	thresholdFilter->SetOutsideValue(1); // Value >= threshold
 	thresholdFilter->SetInsideValue(0);  // Value < threshold
@@ -238,7 +243,7 @@ typename CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType::Pointer
 
 
 template<class T>
-typename CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType::Pointer	CCPiSimpleHistogramThresholdingITKImpl<T>::GetOutputImage()
+CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType::Pointer	CCPiSimpleHistogramThresholdingITKImpl<T>::GetOutputImage()
 {
 	return OutputImage;
 }

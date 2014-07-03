@@ -144,7 +144,7 @@ std::vector<float> CCPiSimpleHistogramThresholding::runThresholding(
 
 	CCPiSimpleHistogramThresholdingITKImpl<IT> shThresholding(data, dims, voxelSize, origin, min, max);
 	shThresholding.Compute();
-	CCPiSimpleHistogramThresholdingITKImpl<IT>::OutputImageType::Pointer image = shThresholding.GetOutputImage();
+	TYPENAME CCPiSimpleHistogramThresholdingITKImpl<IT>::OutputImageType::Pointer image = shThresholding.GetOutputImage();
 	itk::ImageRegionConstIterator< CCPiSimpleHistogramThresholdingITKImpl<IT>::OutputImageType > outputImageIterator( image,
 		image->GetRequestedRegion());
 

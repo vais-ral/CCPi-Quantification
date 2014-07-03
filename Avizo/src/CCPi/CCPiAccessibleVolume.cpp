@@ -255,7 +255,7 @@ HxSpreadSheet* CCPiAccessibleVolume::createSpreadsheetOutput(std::string prefix,
 void CCPiAccessibleVolume::writeAccessibleVolumePathFractionToFile(std::map<double,double> result,std::string fileName)
 {
 	std::ofstream csvFileWriter;
-	csvFileWriter.open(fileName,std::ios::trunc);
+	csvFileWriter.open(fileName.c_str(),std::ios::trunc);
 	if(!csvFileWriter.is_open())
 	{
 		theMsg->stream() << "Error Opening output file"<<std::endl;
