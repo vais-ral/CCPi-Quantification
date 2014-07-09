@@ -11,7 +11,7 @@
 #include "CCPiUserApplicationInterface.h"
 
 #include "itkImage.h"
-
+#include "CCPiImageData.h"
 
 #include <map>
 #include <set>
@@ -21,18 +21,18 @@ typedef itk::Image< float, 3 >             DistanceMapImageType;
 class CCPiAccessibleVolumeITKImpl
 {
 public:
-	CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInputImages *input, CCPiUserApplicationInterface *userAppInterface, unsigned char* outputImage, float sphereDiameterRangeMin, float sphereDiameterRangeMax, int numberOfSpheres, float imageResolution);
+	CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInputImages *input, CCPiUserApplicationInterface *userAppInterface, CCPiImageDataUnsignedChar* outputImage, float sphereDiameterRangeMin, float sphereDiameterRangeMax, int numberOfSpheres, float imageResolution);
 	~CCPiAccessibleVolumeITKImpl();
 	void                    Compute();
 	std::map<double,double> GetAccessibleVolume();
-	void	SetOutputImage(unsigned char* outputImage);
-	unsigned char*			GetOutputImage();
+	void	SetOutputImage(CCPiImageDataUnsignedChar* outputImage);
+	CCPiImageDataUnsignedChar*		 GetOutputImage();
 	CCPiAccessibleVolumeInputImages* GetInputImages();
 
 private:
 	CCPiAccessibleVolumeInputImages *InputData;
 	CCPiUserApplicationInterface    *UserAppInterface;
-	unsigned char*              OutputImage;
+	CCPiImageDataUnsignedChar       *OutputImage;
 	float					    SphereDiameterRangeMin;
 	float						SphereDiameterRangeMax;
 	int							NumberOfSpheres;

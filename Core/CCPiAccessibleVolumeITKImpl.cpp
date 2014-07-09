@@ -17,7 +17,7 @@
 #define TYPENAME typename
 #endif
 
-CCPiAccessibleVolumeITKImpl::CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInputImages *inputImages, CCPiUserApplicationInterface *userInterface,unsigned char* outputImage, float logMin, float logMax, int numberOfSpheres, float imageResolution)
+CCPiAccessibleVolumeITKImpl::CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInputImages *inputImages, CCPiUserApplicationInterface *userInterface,CCPiImageDataUnsignedChar* outputImage, float logMin, float logMax, int numberOfSpheres, float imageResolution)
 {
 	InputData = inputImages;
 	UserAppInterface = userInterface;
@@ -44,7 +44,7 @@ std::map<double,double> CCPiAccessibleVolumeITKImpl::GetAccessibleVolume()
 DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::GetDistanceMapOfImageWithDanielsson(ImageType::Pointer inputImage)
 {
 	typedef itk::DanielssonDistanceMapImageFilter< ImageType, DistanceMapImageType >   DistanceMapFilterType;
-	DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
+	TYPENAME DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
 	//distanceMapFilter->InputIsBinaryOn();
 	distanceMapFilter->SetSquaredDistance(false);
 	distanceMapFilter->SetUseImageSpacing(false);
@@ -59,7 +59,7 @@ DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::GetDistanceMapOfImage
 DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::GetDistanceMapOfImageWithMaurer(ImageType::Pointer inputImage)
 {
 	typedef itk::SignedMaurerDistanceMapImageFilter< ImageType, DistanceMapImageType >   DistanceMapFilterType;
-	DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
+	TYPENAME DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
 	//distanceMapFilter->InputIsBinaryOn();
 	distanceMapFilter->SetSquaredDistance(false);
 	distanceMapFilter->SetUseImageSpacing(false);
@@ -75,7 +75,7 @@ DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::ApplyMaskToInputDista
 {
 	typedef itk::MaskImageFilter< DistanceMapImageType, ImageType, DistanceMapImageType > MaskFilterType;
 
-	MaskFilterType::Pointer maskFilter = MaskFilterType::New();
+	TYPENAME MaskFilterType::Pointer maskFilter = MaskFilterType::New();
 	// Image to be masked is output from distance map
 	maskFilter->SetInput1(inputImage);
 	// Mask image is output from mask import filter
@@ -87,7 +87,7 @@ DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::ApplyMaskToInputDista
 ImageType::Pointer CCPiAccessibleVolumeITKImpl::BinaryThresholdImage(DistanceMapImageType::Pointer inputImage, float lowerThresholdValue, float upperThresholdValue)
 {
 		typedef itk::BinaryThresholdImageFilter< DistanceMapImageType, ImageType > ThresholdFilterType;
-        ThresholdFilterType::Pointer threshold = ThresholdFilterType::New();
+        TYPENAME ThresholdFilterType::Pointer threshold = ThresholdFilterType::New();
         threshold->SetInput(inputImage);
         threshold->SetInsideValue(itk::NumericTraits<unsigned short>::One);
         threshold->SetOutsideValue(itk::NumericTraits<unsigned short>::Zero);
@@ -101,7 +101,7 @@ ImageType::Pointer CCPiAccessibleVolumeITKImpl::SegmentInputImage(DistanceMapIma
 {
 	//Make a copy of the input image
 	typedef itk::ImageDuplicator< DistanceMapImageType > DistanceMapImageDuplicatorType;
-	DistanceMapImageDuplicatorType::Pointer distMapDuplicator = DistanceMapImageDuplicatorType::New();
+	TYPENAME DistanceMapImageDuplicatorType::Pointer distMapDuplicator = DistanceMapImageDuplicatorType::New();
 	distMapDuplicator->SetInputImage(inputImage);
 	distMapDuplicator->Update();
 
@@ -110,8 +110,8 @@ ImageType::Pointer CCPiAccessibleVolumeITKImpl::SegmentInputImage(DistanceMapIma
 	typedef itk::RelabelComponentImageFilter< ImageType, ImageType > RelabelType;
 
 
-        ConCompFilterType::Pointer conCompFilter = ConCompFilterType::New();
-	RelabelType::Pointer relabel = RelabelType::New();
+    TYPENAME ConCompFilterType::Pointer conCompFilter = ConCompFilterType::New();
+	TYPENAME RelabelType::Pointer relabel = RelabelType::New();
 
 	ImageType::Pointer binaryImage = BinaryThresholdImage(distMapDuplicator->GetOutput(), thresholdValue, itk::NumericTraits<DistanceMapImageType::PixelType>::max());
 
@@ -129,7 +129,7 @@ ImageType::Pointer CCPiAccessibleVolumeITKImpl::SegmentInputImage(DistanceMapIma
 template<typename T, typename O>
 T CCPiAccessibleVolumeITKImpl::CreateDuplicateCopyOfImage(T image)
 {
-	TYPENAME itk::ImageDuplicator< O >::Pointer duplicateImage = itk::ImageDuplicator< O >::New();
+	itk::ImageDuplicator< O >::Pointer duplicateImage = itk::ImageDuplicator< O >::New();
 	duplicateImage->SetInputImage(image);
 	duplicateImage->Update();
 	return duplicateImage->GetOutput();
@@ -214,7 +214,7 @@ double CCPiAccessibleVolumeITKImpl::ComputeVolumePathForGivenRadius(DistanceMapI
 	BinarizeImageWithSelectedLabels(copyOfSegementedImage, nonMaskedLabels);
 	DistanceMapImageType::Pointer distanceMapOfProcessedImage = GetDistanceMapOfImageWithMaurer(copyOfSegementedImage);
 	ImageType::Pointer binaryThresholdedImage = BinaryThresholdImage(distanceMapOfProcessedImage,-1*itk::NumericTraits<DistanceMapImageType::PixelType>::max(),sphereRadius);
-	double pathVolume = ComputeVolumePathAndLabelOutputImage(binaryThresholdedImage, InputData->GetVolumeMaskData(), OutputImage, sphereIndex+1);
+	double pathVolume = ComputeVolumePathAndLabelOutputImage(binaryThresholdedImage, InputData->GetVolumeMaskData(), OutputImage->GetImage(), sphereIndex+1);
 	return pathVolume;
 }
 
@@ -280,13 +280,13 @@ void CCPiAccessibleVolumeITKImpl::CopyImage(DistanceMapImageType::Pointer inputI
         }	
 }
 
-void CCPiAccessibleVolumeITKImpl::SetOutputImage(unsigned char* outputImage)
+void CCPiAccessibleVolumeITKImpl::SetOutputImage(CCPiImageDataUnsignedChar* outputImage)
 {
 	if(outputImage!=NULL)
 	{
 		//check if memory is owned by this class
 		if(isOutputMemoryOwner)
-			delete[] OutputImage;
+			delete OutputImage;
 		OutputImage = outputImage;
 		isOutputMemoryOwner = false;
 	}
@@ -295,16 +295,18 @@ void CCPiAccessibleVolumeITKImpl::SetOutputImage(unsigned char* outputImage)
 void CCPiAccessibleVolumeITKImpl::AllocateMemoryForOutputImageIfNeeded()
 {
 	long size = InputData->getDimensions()[0]*InputData->getDimensions()[1]*InputData->getDimensions()[2];
+	long Dims[3];
+	Dims[0]=InputData->getDimensions()[0];Dims[1]=InputData->getDimensions()[1];Dims[2]=InputData->getDimensions()[2];
 	if(isOutputMemoryOwner||OutputImage!=NULL) {
 	}else{
-		OutputImage = new unsigned char[size];
+		OutputImage = new CCPiImageDataUnsignedChar(Dims);
 		isOutputMemoryOwner = true;
 	}
-	for(long idx = 0; idx < size;idx++) OutputImage[idx] = 0;
+	for(long idx = 0; idx < size;idx++) OutputImage->GetImage()[idx] = 0;
 }
 
 
-unsigned char* CCPiAccessibleVolumeITKImpl::GetOutputImage()
+CCPiImageDataUnsignedChar* CCPiAccessibleVolumeITKImpl::GetOutputImage()
 {
 	return OutputImage;
 }
