@@ -160,10 +160,10 @@ void CCPiAccessibleVolume::run(unsigned char *data, const int *dims,
 	long imgDims[3];
 	imgDims[0]=dims[0];imgDims[1]=dims[1];imgDims[2]=dims[2];
 	CCPiImageDataUnsignedChar* imgData = new CCPiImageDataUnsignedChar(data, imgDims, false);
-	CCPiImageDataUnsignedChar* imgMaskData = new CCPiImageDataUnsignedChar(data, imgDims, false);
+	CCPiImageDataUnsignedChar* imgMaskData = new CCPiImageDataUnsignedChar(maskData, imgDims, false);
 	CCPiAccessibleVolumeInputImages *imgInput = new CCPiAccessibleVolumeInputImages(dims,voxelSize,origin,imgData,imgMaskData);
 	CCPiAvizoUserInterface          *userInterface = new CCPiAvizoUserInterface();
-
+	
     // Get data from user interface
     float logMin = log(portDiameterRange.getValue(0));
     float logMax = log(portDiameterRange.getValue(1));
@@ -187,6 +187,9 @@ void CCPiAccessibleVolume::run(unsigned char *data, const int *dims,
 		outputVolumeFraction->insert(std::pair<double,double>(resultIterator->first,resultIterator->second));
 	}
 	delete imgInput;
+	delete imgData;
+	delete imgMaskData;
+	delete imgOutput;
 	delete userInterface;
 }
 
