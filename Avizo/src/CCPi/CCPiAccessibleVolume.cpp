@@ -173,7 +173,8 @@ void CCPiAccessibleVolume::run(unsigned char *data, const int *dims,
 
 	theWorkArea->setProgressValue( (float)0.05 );
 
-	CCPiAccessibleVolumeITKImpl algImpl(imgInput, userInterface, output,  logMin, logMax, numSpheres, imageResolution);
+	CCPiImageDataUnsignedChar* imgOutput = new CCPiImageDataUnsignedChar(output, imgDims, false);
+	CCPiAccessibleVolumeITKImpl algImpl(imgInput, userInterface, imgOutput,  logMin, logMax, numSpheres, imageResolution);
 	algImpl.Compute();
 
 	 //createSpreadsheetOutput(algImpl.GetAccessibleVolume());

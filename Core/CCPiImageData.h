@@ -15,6 +15,7 @@ class CCPiImageData
 
 public:
 	CCPiImageData(T* data, long dims[3], bool deepCopy);
+	CCPiImageData(long dims[3]);
 	~CCPiImageData();
 	T* GetImage(){return Image;}
 	long* GetDimensions(){return Dimensions;}
@@ -43,6 +44,17 @@ CCPiImageData<T>::CCPiImageData(T* data, long dims[3], bool deepCopy)
 		Image = data;
 		isOwner = false;
 	}
+}
+
+template<class T>
+CCPiImageData<T>::CCPiImageData(long dims[3])
+{
+	Dimensions[0] = dims[0];
+	Dimensions[1] = dims[1];
+	Dimensions[2] = dims[2];
+
+	Image = new T[ Dimensions[0] * Dimensions[1] * Dimensions[2] ];
+	isOwner = true;
 }
 
 template<class T>
