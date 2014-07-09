@@ -83,13 +83,16 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
         }
         
         CCPiImageJUserInterface ui = new CCPiImageJUserInterface();
-        CCPiAccessibleVolumeInputImages input = new CCPiAccessibleVolumeInputImages(dims,voxelSize,origin,data,maskData);
-        CCPiAccessibleVolumeITKImpl filter = new CCPiAccessibleVolumeITKImpl(input, ui, outputImageData, (float)Math.log(minSphereDiameter), (float)Math.log(maxSphereDiameter), numberOfSpheres, (float)imageResolution);
+		CCPiImageDataUnsignedChar imgData = new CCPiImageDataUnsignedChar(data, dims, true);
+		CCPiImageDataUnsignedChar imgMaskData = new CCPiImageDataUnsignedChar(maskData, dims, true);
+		CCPiImageDataUnsignedChar imgOutputData = new CCPiImageDataUnsignedChar(outputImageData, dims, true);
+        CCPiAccessibleVolumeInputImages input = new CCPiAccessibleVolumeInputImages(dims,voxelSize,origin,imgData,imgMaskData);
+        CCPiAccessibleVolumeITKImpl filter = new CCPiAccessibleVolumeITKImpl(input, ui, imgOutputData, (float)Math.log(minSphereDiameter), (float)Math.log(maxSphereDiameter), numberOfSpheres, (float)imageResolution);
         filter.Compute();
 
         Map<Double,Double> result = filter.GetAccessibleVolume();
         WriteAccessibleVolumeResultToCSVFile(outputFilename,result);
-        outputImageData = filter.GetOutputImage();
+        outputImageData = filter.GetOutputImage().GetImage();
         ImagePlus outputImage =  IJ.createHyperStack("AccessibleVolume", inputImage.getWidth(), inputImage.getHeight(),imagePlus.getNChannels(), imagePlus.getNSlices(), imagePlus.getNFrames(), imagePlus.getBitDepth());
         int count=0;
         for(int sliceNumber=0;sliceNumber < inputImage.getSize();sliceNumber++){

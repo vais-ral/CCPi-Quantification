@@ -20,19 +20,19 @@ public class CCPiAccessibleVolumeJNI {
   public final static native double MapType_getKey(long jarg1, MapType jarg1_, long jarg2);
   public final static native double MapType_getValue(long jarg1, MapType jarg1_, long jarg2);
   public final static native void delete_MapType(long jarg1);
-  public final static native long new_CCPiAccessibleVolumeInputImages(int[] jarg1, float[] jarg2, float[] jarg3, short[] jarg4, short[] jarg5);
+  public final static native long new_CCPiAccessibleVolumeInputImages(int[] jarg1, float[] jarg2, float[] jarg3, long jarg4, CCPiImageDataUnsignedChar jarg4_, long jarg5, CCPiImageDataUnsignedChar jarg5_);
   public final static native void delete_CCPiAccessibleVolumeInputImages(long jarg1);
   public final static native double CCPiAccessibleVolumeInputImages_getScafoldVolume(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
   public final static native double CCPiAccessibleVolumeInputImages_getScafoldPorosity(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
   public final static native long[] CCPiAccessibleVolumeInputImages_getDimensions(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
   public final static native float[] CCPiAccessibleVolumeInputImages_getVoxelSize(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
   public final static native float[] CCPiAccessibleVolumeInputImages_getOrigin(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
-  public final static native long new_CCPiAccessibleVolumeITKImpl(long jarg1, CCPiAccessibleVolumeInputImages jarg1_, long jarg2, CCPiUserApplicationInterface jarg2_, short[] jarg3, float jarg4, float jarg5, int jarg6, float jarg7);
+  public final static native long new_CCPiAccessibleVolumeITKImpl(long jarg1, CCPiAccessibleVolumeInputImages jarg1_, long jarg2, CCPiUserApplicationInterface jarg2_, long jarg3, CCPiImageDataUnsignedChar jarg3_, float jarg4, float jarg5, int jarg6, float jarg7);
   public final static native void delete_CCPiAccessibleVolumeITKImpl(long jarg1);
   public final static native void CCPiAccessibleVolumeITKImpl_Compute(long jarg1, CCPiAccessibleVolumeITKImpl jarg1_);
   public final static native long CCPiAccessibleVolumeITKImpl_GetAccessibleVolume(long jarg1, CCPiAccessibleVolumeITKImpl jarg1_);
-  public final static native void CCPiAccessibleVolumeITKImpl_SetOutputImage(long jarg1, CCPiAccessibleVolumeITKImpl jarg1_, short[] jarg2);
-  public final static native short[] CCPiAccessibleVolumeITKImpl_GetOutputImage(long jarg1, CCPiAccessibleVolumeITKImpl jarg1_);
+  public final static native void CCPiAccessibleVolumeITKImpl_SetOutputImage(long jarg1, CCPiAccessibleVolumeITKImpl jarg1_, long jarg2, CCPiImageDataUnsignedChar jarg2_);
+  public final static native long CCPiAccessibleVolumeITKImpl_GetOutputImage(long jarg1, CCPiAccessibleVolumeITKImpl jarg1_);
   public final static native long CCPiAccessibleVolumeITKImpl_GetInputImages(long jarg1, CCPiAccessibleVolumeITKImpl jarg1_);
   public final static native void CCPiUserApplicationInterface_LogMessage(long jarg1, CCPiUserApplicationInterface jarg1_, String jarg2);
   public final static native void CCPiUserApplicationInterface_SetStatusMessage(long jarg1, CCPiUserApplicationInterface jarg1_, String jarg2);
@@ -48,6 +48,11 @@ public class CCPiAccessibleVolumeJNI {
   public final static native boolean CCPiConsoleUserInterface_isCancel(long jarg1, CCPiConsoleUserInterface jarg1_);
   public final static native long new_CCPiConsoleUserInterface();
   public final static native void delete_CCPiConsoleUserInterface(long jarg1);
+  public final static native long new_CCPiImageDataUnsignedChar__SWIG_0(short[] jarg1, int[] jarg2, boolean jarg3);
+  public final static native long new_CCPiImageDataUnsignedChar__SWIG_1(int[] jarg1);
+  public final static native void delete_CCPiImageDataUnsignedChar(long jarg1);
+  public final static native short[] CCPiImageDataUnsignedChar_GetImage(long jarg1, CCPiImageDataUnsignedChar jarg1_);
+  public final static native int[] CCPiImageDataUnsignedChar_GetDimensions(long jarg1, CCPiImageDataUnsignedChar jarg1_);
   public final static native long CCPiConsoleUserInterface_SWIGUpcast(long jarg1);
 
   public static void SwigDirector_CCPiUserApplicationInterface_LogMessage(CCPiUserApplicationInterface self, String message) {

@@ -1272,6 +1272,7 @@ SWIGINTERN double const &std_map_Sl_double_Sc_double_Sg__getValue(std::map< doub
 			}
 
 #include <map>
+#include "..\Core\CCPiImageData.h"
 #include "..\Core\CCPiAccessibleVolumeInputImages.h"
 #include "..\Core\CCPiAccessibleVolumeITKImpl.h"
 #include "..\Core\CCPiUserApplicationInterface.h"
@@ -1660,39 +1661,35 @@ SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1MapType(JNIEnv *jen
 }
 
 
-SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiAccessibleVolumeInputImages(JNIEnv *jenv, jclass jcls, jintArray jarg1, jfloatArray jarg2, jfloatArray jarg3, jshortArray jarg4, jshortArray jarg5) {
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiAccessibleVolumeInputImages(JNIEnv *jenv, jclass jcls, jintArray jarg1, jfloatArray jarg2, jfloatArray jarg3, jlong jarg4, jobject jarg4_, jlong jarg5, jobject jarg5_) {
   jlong jresult = 0 ;
   int *arg1 = (int *) 0 ;
   float *arg2 = (float *) 0 ;
   float *arg3 = (float *) 0 ;
-  unsigned char *arg4 = (unsigned char *) 0 ;
-  unsigned char *arg5 = (unsigned char *) 0 ;
+  CCPiImageDataUnsignedChar *arg4 = (CCPiImageDataUnsignedChar *) 0 ;
+  CCPiImageDataUnsignedChar *arg5 = (CCPiImageDataUnsignedChar *) 0 ;
   jint *jarr1 ;
   jfloat *jarr2 ;
   jfloat *jarr3 ;
-  jshort *jarr4 ;
-  jshort *jarr5 ;
   CCPiAccessibleVolumeInputImages *result = 0 ;
   
   (void)jenv;
   (void)jcls;
+  (void)jarg4_;
+  (void)jarg5_;
   if (!SWIG_JavaArrayInInt(jenv, &jarr1, (int **)&arg1, jarg1)) return 0; 
   if (!SWIG_JavaArrayInFloat(jenv, &jarr2, (float **)&arg2, jarg2)) return 0; 
   if (!SWIG_JavaArrayInFloat(jenv, &jarr3, (float **)&arg3, jarg3)) return 0; 
-  if (!SWIG_JavaArrayInUchar(jenv, &jarr4, (unsigned char **)&arg4, jarg4)) return 0; 
-  if (!SWIG_JavaArrayInUchar(jenv, &jarr5, (unsigned char **)&arg5, jarg5)) return 0; 
+  arg4 = *(CCPiImageDataUnsignedChar **)&jarg4; 
+  arg5 = *(CCPiImageDataUnsignedChar **)&jarg5; 
   result = (CCPiAccessibleVolumeInputImages *)new CCPiAccessibleVolumeInputImages((int const *)arg1,(float const *)arg2,(float const *)arg3,arg4,arg5);
   *(CCPiAccessibleVolumeInputImages **)&jresult = result; 
   SWIG_JavaArrayArgoutInt(jenv, jarr1, (int *)arg1, jarg1); 
   SWIG_JavaArrayArgoutFloat(jenv, jarr2, (float *)arg2, jarg2); 
   SWIG_JavaArrayArgoutFloat(jenv, jarr3, (float *)arg3, jarg3); 
-  SWIG_JavaArrayArgoutUchar(jenv, jarr4, (unsigned char *)arg4, jarg4); 
-  SWIG_JavaArrayArgoutUchar(jenv, jarr5, (unsigned char *)arg5, jarg5); 
   delete [] arg1; 
   delete [] arg2; 
   delete [] arg3; 
- // delete [] arg4; 
- // delete [] arg5; 
   return jresult;
 }
 
@@ -1747,7 +1744,9 @@ SWIGEXPORT jlongArray JNICALL Java_CCPiAccessibleVolumeJNI_CCPiAccessibleVolumeI
   (void)jarg1_;
   arg1 = *(CCPiAccessibleVolumeInputImages **)&jarg1; 
   result = (unsigned int *)(arg1)->getDimensions();
-  jresult = SWIG_JavaArrayOutUint(jenv, (unsigned int *)result, 3); 
+  {
+    jresult = SWIG_JavaArrayOutUint(jenv, (unsigned int*)result, 3 /*FillMeInAsSizeCannotBeDeterminedAutomatically*/);
+  }
   return jresult;
 }
 
@@ -1762,7 +1761,9 @@ SWIGEXPORT jfloatArray JNICALL Java_CCPiAccessibleVolumeJNI_CCPiAccessibleVolume
   (void)jarg1_;
   arg1 = *(CCPiAccessibleVolumeInputImages **)&jarg1; 
   result = (float *)(arg1)->getVoxelSize();
-  jresult = SWIG_JavaArrayOutFloat(jenv, (float *)result, 3); 
+  {
+    jresult = SWIG_JavaArrayOutFloat(jenv, result, 3 /*FillMeInAsSizeCannotBeDeterminedAutomatically*/); 
+  }
   return jresult;
 }
 
@@ -1777,38 +1778,38 @@ SWIGEXPORT jfloatArray JNICALL Java_CCPiAccessibleVolumeJNI_CCPiAccessibleVolume
   (void)jarg1_;
   arg1 = *(CCPiAccessibleVolumeInputImages **)&jarg1; 
   result = (float *)(arg1)->getOrigin();
-  jresult = SWIG_JavaArrayOutFloat(jenv, (float *)result, 3); 
+  {
+    jresult = SWIG_JavaArrayOutFloat(jenv, result, 3 /*FillMeInAsSizeCannotBeDeterminedAutomatically*/); 
+  }
   return jresult;
 }
 
 
-SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiAccessibleVolumeITKImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jshortArray jarg3, jfloat jarg4, jfloat jarg5, jint jarg6, jfloat jarg7) {
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiAccessibleVolumeITKImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jlong jarg3, jobject jarg3_, jfloat jarg4, jfloat jarg5, jint jarg6, jfloat jarg7) {
   jlong jresult = 0 ;
   CCPiAccessibleVolumeInputImages *arg1 = (CCPiAccessibleVolumeInputImages *) 0 ;
   CCPiUserApplicationInterface *arg2 = (CCPiUserApplicationInterface *) 0 ;
-  unsigned char *arg3 = (unsigned char *) 0 ;
+  CCPiImageDataUnsignedChar *arg3 = (CCPiImageDataUnsignedChar *) 0 ;
   float arg4 ;
   float arg5 ;
   int arg6 ;
   float arg7 ;
-  jshort *jarr3 ;
   CCPiAccessibleVolumeITKImpl *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
+  (void)jarg3_;
   arg1 = *(CCPiAccessibleVolumeInputImages **)&jarg1; 
   arg2 = *(CCPiUserApplicationInterface **)&jarg2; 
-  if (!SWIG_JavaArrayInUchar(jenv, &jarr3, (unsigned char **)&arg3, jarg3)) return 0; 
+  arg3 = *(CCPiImageDataUnsignedChar **)&jarg3; 
   arg4 = (float)jarg4; 
   arg5 = (float)jarg5; 
   arg6 = (int)jarg6; 
   arg7 = (float)jarg7; 
   result = (CCPiAccessibleVolumeITKImpl *)new CCPiAccessibleVolumeITKImpl(arg1,arg2,arg3,arg4,arg5,arg6,arg7);
   *(CCPiAccessibleVolumeITKImpl **)&jresult = result; 
-  SWIG_JavaArrayArgoutUchar(jenv, jarr3, (unsigned char *)arg3, jarg3); 
-//  delete [] arg3; 
   return jresult;
 }
 
@@ -1849,34 +1850,31 @@ SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_CCPiAccessibleVolumeITKImp
 }
 
 
-SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_CCPiAccessibleVolumeITKImpl_1SetOutputImage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshortArray jarg2) {
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_CCPiAccessibleVolumeITKImpl_1SetOutputImage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   CCPiAccessibleVolumeITKImpl *arg1 = (CCPiAccessibleVolumeITKImpl *) 0 ;
-  unsigned char *arg2 = (unsigned char *) 0 ;
-  jshort *jarr2 ;
+  CCPiImageDataUnsignedChar *arg2 = (CCPiImageDataUnsignedChar *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
+  (void)jarg2_;
   arg1 = *(CCPiAccessibleVolumeITKImpl **)&jarg1; 
-  if (!SWIG_JavaArrayInUchar(jenv, &jarr2, (unsigned char **)&arg2, jarg2)) return ; 
+  arg2 = *(CCPiImageDataUnsignedChar **)&jarg2; 
   (arg1)->SetOutputImage(arg2);
-  SWIG_JavaArrayArgoutUchar(jenv, jarr2, (unsigned char *)arg2, jarg2); 
-  delete [] arg2; 
 }
 
 
-SWIGEXPORT jshortArray JNICALL Java_CCPiAccessibleVolumeJNI_CCPiAccessibleVolumeITKImpl_1GetOutputImage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jshortArray jresult = 0 ;
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_CCPiAccessibleVolumeITKImpl_1GetOutputImage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
   CCPiAccessibleVolumeITKImpl *arg1 = (CCPiAccessibleVolumeITKImpl *) 0 ;
-  unsigned char *result = 0 ;
+  CCPiImageDataUnsignedChar *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(CCPiAccessibleVolumeITKImpl **)&jarg1; 
-  result = (unsigned char *)(arg1)->GetOutputImage();
-long size = arg1->GetInputImages()->getDimensions()[0]*arg1->GetInputImages()->getDimensions()[1]*arg1->GetInputImages()->getDimensions()[2];
-  jresult = SWIG_JavaArrayOutUchar(jenv, (unsigned char *)result, size); 
+  result = (CCPiImageDataUnsignedChar *)(arg1)->GetOutputImage();
+  *(CCPiImageDataUnsignedChar **)&jresult = result; 
   return jresult;
 }
 
@@ -2093,6 +2091,100 @@ SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1CCPiConsoleUserInte
   (void)jcls;
   arg1 = *(CCPiConsoleUserInterface **)&jarg1; 
   delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiImageDataUnsignedChar_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jshortArray jarg1, jintArray jarg2, jboolean jarg3) {
+  jlong jresult = 0 ;
+  unsigned char *arg1 = (unsigned char *) 0 ;
+  long *arg2 ;
+  bool arg3 ;
+  jshort *jarr1 ;
+  jint *jarr2 ;
+  CCPiImageData< unsigned char > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  if (!SWIG_JavaArrayInUchar(jenv, &jarr1, (unsigned char **)&arg1, jarg1)) return 0; 
+  if (jarg2 && jenv->GetArrayLength(jarg2) != 3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, "incorrect array size");
+    return 0;
+  }
+  if (!SWIG_JavaArrayInLong(jenv, &jarr2, (long **)&arg2, jarg2)) return 0; 
+  arg3 = jarg3 ? true : false; 
+  result = (CCPiImageData< unsigned char > *)new CCPiImageData< unsigned char >(arg1,arg2,arg3);
+  *(CCPiImageData< unsigned char > **)&jresult = result; 
+  SWIG_JavaArrayArgoutUchar(jenv, jarr1, (unsigned char *)arg1, jarg1); 
+  SWIG_JavaArrayArgoutLong(jenv, jarr2, (long *)arg2, jarg2); 
+  delete [] arg1; 
+  delete [] arg2; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiImageDataUnsignedChar_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jintArray jarg1) {
+  jlong jresult = 0 ;
+  long *arg1 ;
+  jint *jarr1 ;
+  CCPiImageData< unsigned char > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  if (jarg1 && jenv->GetArrayLength(jarg1) != 3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, "incorrect array size");
+    return 0;
+  }
+  if (!SWIG_JavaArrayInLong(jenv, &jarr1, (long **)&arg1, jarg1)) return 0; 
+  result = (CCPiImageData< unsigned char > *)new CCPiImageData< unsigned char >(arg1);
+  *(CCPiImageData< unsigned char > **)&jresult = result; 
+  SWIG_JavaArrayArgoutLong(jenv, jarr1, (long *)arg1, jarg1); 
+  delete [] arg1; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1CCPiImageDataUnsignedChar(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  CCPiImageData< unsigned char > *arg1 = (CCPiImageData< unsigned char > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(CCPiImageData< unsigned char > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jshortArray JNICALL Java_CCPiAccessibleVolumeJNI_CCPiImageDataUnsignedChar_1GetImage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jshortArray jresult = 0 ;
+  CCPiImageData< unsigned char > *arg1 = (CCPiImageData< unsigned char > *) 0 ;
+  unsigned char *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiImageData< unsigned char > **)&jarg1; 
+  result = (unsigned char *)(arg1)->GetImage();
+  {
+    long size = arg1->GetDimensions()[0]*arg1->GetDimensions()[1]*arg1->GetDimensions()[2];
+    jresult =	SWIG_JavaArrayOutUchar(jenv, (unsigned char *)result, size);
+  }
+  return jresult;
+}
+
+
+SWIGEXPORT jintArray JNICALL Java_CCPiAccessibleVolumeJNI_CCPiImageDataUnsignedChar_1GetDimensions(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jintArray jresult = 0 ;
+  CCPiImageData< unsigned char > *arg1 = (CCPiImageData< unsigned char > *) 0 ;
+  long *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiImageData< unsigned char > **)&jarg1; 
+  result = (long *)(arg1)->GetDimensions();
+  {
+    jresult = SWIG_JavaArrayOutInt(jenv, (int*)result, 3 /*FillMeInAsSizeCannotBeDeterminedAutomatically*/); 
+  }
+  return jresult;
 }
 
 
