@@ -79,11 +79,16 @@ int CCPiAccessibleVolumeParaviewImpl::RequestData(vtkInformation *request,
 		  mdata[i] = 1;
 	  }
   }
-  CCPiAccessibleVolumeInputImages *imagesInput = new CCPiAccessibleVolumeInputImages(volumeDims,voxelSize,origin, (unsigned char *)input->GetScalarPointer(), (unsigned char *)maskData->GetScalarPointer());
+  long inputDataDims[3];
+  inputDataDims[0]=volumeDims[0];inputDataDims[1]=volumeDims[1];inputDataDims[2]=volumeDims[2];
+  CCPiImageDataUnsignedChar* inputData = new CCPiImageDataUnsignedChar((unsigned char *)input->GetScalarPointer(), inputDataDims, false);
+  CCPiImageDataUnsignedChar* inputMaskData = new CCPiImageDataUnsignedChar((unsigned char *)maskData->GetScalarPointer(), inputDataDims, false);
+  CCPiAccessibleVolumeInputImages *imagesInput = new CCPiAccessibleVolumeInputImages(volumeDims,voxelSize,origin, inputData, inputMaskData);
   float sphereDiameterRangeMin=log(MinSphereDiameter), sphereDiameterRangeMax=log(MaxSphereDiameter), imageResolution =ImageResolution;
   CCPiParaviewUserInterface userInterface(this);
   this->SetProgress(0.5);
-  CCPiAccessibleVolumeITKImpl* algoImpl = new CCPiAccessibleVolumeITKImpl(imagesInput, &userInterface, (unsigned char*)output->GetScalarPointer(), sphereDiameterRangeMin, sphereDiameterRangeMax, NumberOfSpheres, imageResolution); 
+  CCPiImageDataUnsignedChar* outputData = new CCPiImageDataUnsignedChar((unsigned char *)output->GetScalarPointer(), inputDataDims, false);
+  CCPiAccessibleVolumeITKImpl* algoImpl = new CCPiAccessibleVolumeITKImpl(imagesInput, &userInterface, outputData, sphereDiameterRangeMin, sphereDiameterRangeMax, NumberOfSpheres, imageResolution); 
   algoImpl->Compute();
   std::map<double,double> avResultMap = algoImpl->GetAccessibleVolume();
   vtkSmartPointer<vtkDoubleArray> sphereDiaColumn = vtkSmartPointer<vtkDoubleArray>::New();
