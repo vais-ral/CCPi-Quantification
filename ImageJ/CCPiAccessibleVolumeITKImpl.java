@@ -34,8 +34,8 @@ public class CCPiAccessibleVolumeITKImpl {
     }
   }
 
-  public CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInputImages input, CCPiUserApplicationInterface userAppInterface, short[] outputImage, float sphereDiameterRangeMin, float sphereDiameterRangeMax, int numberOfSpheres, float imageResolution) {
-    this(CCPiAccessibleVolumeJNI.new_CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInputImages.getCPtr(input), input, CCPiUserApplicationInterface.getCPtr(userAppInterface), userAppInterface, outputImage, sphereDiameterRangeMin, sphereDiameterRangeMax, numberOfSpheres, imageResolution), true);
+  public CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInputImages input, CCPiUserApplicationInterface userAppInterface, CCPiImageDataUnsignedChar outputImage, float sphereDiameterRangeMin, float sphereDiameterRangeMax, int numberOfSpheres, float imageResolution) {
+    this(CCPiAccessibleVolumeJNI.new_CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInputImages.getCPtr(input), input, CCPiUserApplicationInterface.getCPtr(userAppInterface), userAppInterface, CCPiImageDataUnsignedChar.getCPtr(outputImage), outputImage, sphereDiameterRangeMin, sphereDiameterRangeMax, numberOfSpheres, imageResolution), true);
   }
 
   public void Compute() {
@@ -50,12 +50,13 @@ public class CCPiAccessibleVolumeITKImpl {
 	return result;
 }
 
-  public void SetOutputImage(short[] outputImage) {
-    CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeITKImpl_SetOutputImage(swigCPtr, this, outputImage);
+  public void SetOutputImage(CCPiImageDataUnsignedChar outputImage) {
+    CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeITKImpl_SetOutputImage(swigCPtr, this, CCPiImageDataUnsignedChar.getCPtr(outputImage), outputImage);
   }
 
-  public short[] GetOutputImage() {
-    return CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeITKImpl_GetOutputImage(swigCPtr, this);
+  public CCPiImageDataUnsignedChar GetOutputImage() {
+    long cPtr = CCPiAccessibleVolumeJNI.CCPiAccessibleVolumeITKImpl_GetOutputImage(swigCPtr, this);
+    return (cPtr == 0) ? null : new CCPiImageDataUnsignedChar(cPtr, false);
   }
 
   public CCPiAccessibleVolumeInputImages GetInputImages() {

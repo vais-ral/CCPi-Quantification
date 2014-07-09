@@ -34,8 +34,8 @@ public class CCPiAccessibleVolumeInputImages {
     }
   }
 
-  public CCPiAccessibleVolumeInputImages(int[] volumeDims, float[] voxelSize, float[] origin, short[] volumeData, short[] maskedVolumeData) {
-    this(CCPiAccessibleVolumeJNI.new_CCPiAccessibleVolumeInputImages(volumeDims, voxelSize, origin, volumeData, maskedVolumeData), true);
+  public CCPiAccessibleVolumeInputImages(int[] volumeDims, float[] voxelSize, float[] origin, CCPiImageDataUnsignedChar volumeData, CCPiImageDataUnsignedChar maskedVolumeData) {
+    this(CCPiAccessibleVolumeJNI.new_CCPiAccessibleVolumeInputImages(volumeDims, voxelSize, origin, CCPiImageDataUnsignedChar.getCPtr(volumeData), volumeData, CCPiImageDataUnsignedChar.getCPtr(maskedVolumeData), maskedVolumeData), true);
   }
 
   public double getScafoldVolume() {
