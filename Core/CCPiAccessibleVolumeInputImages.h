@@ -9,13 +9,14 @@
 #define CCPIACCESSIBLEVOLUMEINPUTIMAGES_H
 
 #include "itkImage.h"
+#include "CCPiImageData.h"
 
 typedef itk::Image< unsigned char, 3 >     ImageType;
 
 class CCPiAccessibleVolumeInputImages
 {
 public:
-	CCPiAccessibleVolumeInputImages(const int *volumeDims, const float *voxelSize, const float *origin, unsigned char *volumeData, unsigned char *maskedVolumeData);
+	CCPiAccessibleVolumeInputImages(const int *volumeDims, const float *voxelSize, const float *origin, CCPiImageDataUnsignedChar *volumeData, CCPiImageDataUnsignedChar *maskedVolumeData);
 	~CCPiAccessibleVolumeInputImages();
 	double        getScafoldVolume();
 	double		  getScafoldPorosity();
@@ -26,8 +27,8 @@ public:
 	ImageType::Pointer   GetVolumeData();
 
 private:
-	unsigned char *VolumeData;
-	unsigned char *MaskedVolumeData;
+	CCPiImageDataUnsignedChar *VolumeData;
+	CCPiImageDataUnsignedChar *MaskedVolumeData;
 	unsigned int VolumeDims[3];
 	float		  VoxelSize[3];
 	float		  Origin[3];
@@ -35,7 +36,7 @@ private:
 	double		  ScafoldPorosity;
 
 	void calculateScafoldingValues();
-	ImageType::Pointer ConvertImageToITKStructure(unsigned char* data);
+	ImageType::Pointer ConvertImageToITKStructure(CCPiImageDataUnsignedChar* data);
 
 };
 

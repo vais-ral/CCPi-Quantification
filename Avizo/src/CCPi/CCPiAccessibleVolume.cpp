@@ -157,7 +157,11 @@ void CCPiAccessibleVolume::run(unsigned char *data, const int *dims,
     const float *voxelSize, const float *origin, unsigned char *maskData,
     unsigned char *output,std::map<double,double> *outputVolumeFraction)
 {
-	CCPiAccessibleVolumeInputImages *imgInput = new CCPiAccessibleVolumeInputImages(dims,voxelSize,origin,data,maskData);
+	long imgDims[3];
+	imgDims[0]=dims[0];imgDims[1]=dims[1];imgDims[2]=dims[2];
+	CCPiImageDataUnsignedChar* imgData = new CCPiImageDataUnsignedChar(data, imgDims, false);
+	CCPiImageDataUnsignedChar* imgMaskData = new CCPiImageDataUnsignedChar(data, imgDims, false);
+	CCPiAccessibleVolumeInputImages *imgInput = new CCPiAccessibleVolumeInputImages(dims,voxelSize,origin,imgData,imgMaskData);
 	CCPiAvizoUserInterface          *userInterface = new CCPiAvizoUserInterface();
 
     // Get data from user interface
