@@ -19,7 +19,7 @@ INCLUDE(UseJava)
 FIND_JAR(ImageJ ii.jar)
 set(CMAKE_JAVA_INCLUDE_PATH ${ImageJ})
 
-ADD_JAR(CCPiImageJPlugin_Java 	AccessibleVolumePluginFilter_.java 
+ADD_JAR(CCPiImageJPlugin_Java 	AccessibleVolumePluginFilter_.java
 							CCPiAccessibleVolume.java
 							CCPiAccessibleVolumeInputImages.java
 							CCPiAccessibleVolumeITKImpl.java
@@ -28,7 +28,10 @@ ADD_JAR(CCPiImageJPlugin_Java 	AccessibleVolumePluginFilter_.java
 							CCPiImageJUserInterface.java
 							CCPiUserApplicationInterface.java
 							MapType.java
+							SimpleHistogramThresholding_.java
+							FloatVector.java
+							CCPiSimpleHistogramThresholdingITKImplUnsignedChar.java
 		OUTPUT_NAME		CCPiImageJ_Plugin.jar) 						 
 							 
-TARGET_LINK_LIBRARIES(CCPiImageJPlugin_Cpp ITKCommon 
+TARGET_LINK_LIBRARIES(CCPiImageJPlugin_Cpp ITKCommon ITKStatistics
 							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys)							

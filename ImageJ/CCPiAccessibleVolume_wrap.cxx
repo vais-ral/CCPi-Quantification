@@ -1233,6 +1233,10 @@ static jdoubleArray SWIG_JavaArrayOutDouble (JNIEnv *jenv, double *result, jsize
 
 #include <string>
 
+
+#include <vector>
+#include <stdexcept>
+
 SWIGINTERN double const &std_map_Sl_double_Sc_double_Sg__get(std::map< double,double > *self,double const &key){
                 std::map<double,double >::iterator i = self->find(key);
                 if (i != self->end())
@@ -1277,7 +1281,22 @@ SWIGINTERN double const &std_map_Sl_double_Sc_double_Sg__getValue(std::map< doub
 #include "..\Core\CCPiAccessibleVolumeITKImpl.h"
 #include "..\Core\CCPiUserApplicationInterface.h"
 #include "..\Core\CCPiConsoleUserInterface.h"
+#include "..\Core\CCPiSimpleHistogramThresholdingITKImpl.h"
 
+SWIGINTERN std::vector< float >::const_reference std_vector_Sl_float_Sg__get(std::vector< float > *self,int i){
+                int size = int(self->size());
+                if (i>=0 && i<size)
+                    return (*self)[i];
+                else
+                    throw std::out_of_range("vector index out of range");
+            }
+SWIGINTERN void std_vector_Sl_float_Sg__set(std::vector< float > *self,int i,std::vector< float >::value_type const &val){
+                int size = int(self->size());
+                if (i>=0 && i<size)
+                    (*self)[i] = val;
+                else
+                    throw std::out_of_range("vector index out of range");
+            }
 
 
 /* ---------------------------------------------------
@@ -1657,6 +1676,174 @@ SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1MapType(JNIEnv *jen
   (void)jenv;
   (void)jcls;
   arg1 = *(std::map< double,double > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1FloatVector_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::vector< float > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::vector< float > *)new std::vector< float >();
+  *(std::vector< float > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1FloatVector_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  jlong jresult = 0 ;
+  std::vector< float >::size_type arg1 ;
+  std::vector< float > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (std::vector< float >::size_type)jarg1; 
+  result = (std::vector< float > *)new std::vector< float >(arg1);
+  *(std::vector< float > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_FloatVector_1size(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::vector< float > *arg1 = (std::vector< float > *) 0 ;
+  std::vector< float >::size_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< float > **)&jarg1; 
+  result = ((std::vector< float > const *)arg1)->size();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_FloatVector_1capacity(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::vector< float > *arg1 = (std::vector< float > *) 0 ;
+  std::vector< float >::size_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< float > **)&jarg1; 
+  result = ((std::vector< float > const *)arg1)->capacity();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_FloatVector_1reserve(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  std::vector< float > *arg1 = (std::vector< float > *) 0 ;
+  std::vector< float >::size_type arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< float > **)&jarg1; 
+  arg2 = (std::vector< float >::size_type)jarg2; 
+  (arg1)->reserve(arg2);
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_CCPiAccessibleVolumeJNI_FloatVector_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  std::vector< float > *arg1 = (std::vector< float > *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< float > **)&jarg1; 
+  result = (bool)((std::vector< float > const *)arg1)->empty();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_FloatVector_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::vector< float > *arg1 = (std::vector< float > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< float > **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_FloatVector_1add(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jfloat jarg2) {
+  std::vector< float > *arg1 = (std::vector< float > *) 0 ;
+  std::vector< float >::value_type *arg2 = 0 ;
+  std::vector< float >::value_type temp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< float > **)&jarg1; 
+  temp2 = (std::vector< float >::value_type)jarg2; 
+  arg2 = &temp2; 
+  (arg1)->push_back((std::vector< float >::value_type const &)*arg2);
+}
+
+
+SWIGEXPORT jfloat JNICALL Java_CCPiAccessibleVolumeJNI_FloatVector_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jfloat jresult = 0 ;
+  std::vector< float > *arg1 = (std::vector< float > *) 0 ;
+  int arg2 ;
+  std::vector< float >::value_type *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< float > **)&jarg1; 
+  arg2 = (int)jarg2; 
+  try {
+    result = (std::vector< float >::value_type *) &std_vector_Sl_float_Sg__get(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = (jfloat)*result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_FloatVector_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jfloat jarg3) {
+  std::vector< float > *arg1 = (std::vector< float > *) 0 ;
+  int arg2 ;
+  std::vector< float >::value_type *arg3 = 0 ;
+  std::vector< float >::value_type temp3 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< float > **)&jarg1; 
+  arg2 = (int)jarg2; 
+  temp3 = (std::vector< float >::value_type)jarg3; 
+  arg3 = &temp3; 
+  try {
+    std_vector_Sl_float_Sg__set(arg1,arg2,(float const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1FloatVector(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::vector< float > *arg1 = (std::vector< float > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::vector< float > **)&jarg1; 
   delete arg1;
 }
 
@@ -2185,6 +2372,105 @@ SWIGEXPORT jintArray JNICALL Java_CCPiAccessibleVolumeJNI_CCPiImageDataUnsignedC
     jresult = SWIG_JavaArrayOutInt(jenv, (int*)result, 3 /*FillMeInAsSizeCannotBeDeterminedAutomatically*/); 
   }
   return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiSimpleHistogramThresholdingITKImplUnsignedChar(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jintArray jarg2, jfloatArray jarg3, jfloatArray jarg4, jfloat jarg5, jfloat jarg6) {
+  jlong jresult = 0 ;
+  CCPiImageData< unsigned char > *arg1 = (CCPiImageData< unsigned char > *) 0 ;
+  int *arg2 = (int *) 0 ;
+  float *arg3 = (float *) 0 ;
+  float *arg4 = (float *) 0 ;
+  float arg5 ;
+  float arg6 ;
+  jint *jarr2 ;
+  jfloat *jarr3 ;
+  jfloat *jarr4 ;
+  CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiImageData< unsigned char > **)&jarg1; 
+  if (!SWIG_JavaArrayInInt(jenv, &jarr2, (int **)&arg2, jarg2)) return 0; 
+  if (!SWIG_JavaArrayInFloat(jenv, &jarr3, (float **)&arg3, jarg3)) return 0; 
+  if (!SWIG_JavaArrayInFloat(jenv, &jarr4, (float **)&arg4, jarg4)) return 0; 
+  arg5 = (float)jarg5; 
+  arg6 = (float)jarg6; 
+  result = (CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *)new CCPiSimpleHistogramThresholdingITKImpl< unsigned char >(arg1,(int const *)arg2,(float const *)arg3,(float const *)arg4,arg5,arg6);
+  *(CCPiSimpleHistogramThresholdingITKImpl< unsigned char > **)&jresult = result; 
+  SWIG_JavaArrayArgoutInt(jenv, jarr2, (int *)arg2, jarg2); 
+  SWIG_JavaArrayArgoutFloat(jenv, jarr3, (float *)arg3, jarg3); 
+  SWIG_JavaArrayArgoutFloat(jenv, jarr4, (float *)arg4, jarg4); 
+  delete [] arg2; 
+  delete [] arg3; 
+  delete [] arg4; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_CCPiSimpleHistogramThresholdingITKImplUnsignedChar_1Compute(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *arg1 = (CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiSimpleHistogramThresholdingITKImpl< unsigned char > **)&jarg1; 
+  (arg1)->Compute();
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_CCPiSimpleHistogramThresholdingITKImplUnsignedChar_1GetOutputImage_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *arg1 = (CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *) 0 ;
+  CCPiImageDataUnsignedChar *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiSimpleHistogramThresholdingITKImpl< unsigned char > **)&jarg1; 
+  result = (CCPiImageDataUnsignedChar *)(arg1)->GetOutputImage();
+  *(CCPiImageDataUnsignedChar **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_CCPiSimpleHistogramThresholdingITKImplUnsignedChar_1GetOutputImage_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *arg1 = (CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *) 0 ;
+  CCPiImageDataUnsignedChar *arg2 = (CCPiImageDataUnsignedChar *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(CCPiSimpleHistogramThresholdingITKImpl< unsigned char > **)&jarg1; 
+  arg2 = *(CCPiImageDataUnsignedChar **)&jarg2; 
+  (arg1)->GetOutputImage(arg2);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_CCPiSimpleHistogramThresholdingITKImplUnsignedChar_1GetPeaks(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *arg1 = (CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *) 0 ;
+  std::vector< float > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiSimpleHistogramThresholdingITKImpl< unsigned char > **)&jarg1; 
+  result = (arg1)->GetPeaks();
+  *(std::vector< float > **)&jresult = new std::vector< float >((const std::vector< float > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1CCPiSimpleHistogramThresholdingITKImplUnsignedChar(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *arg1 = (CCPiSimpleHistogramThresholdingITKImpl< unsigned char > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(CCPiSimpleHistogramThresholdingITKImpl< unsigned char > **)&jarg1; 
+  delete arg1;
 }
 
 

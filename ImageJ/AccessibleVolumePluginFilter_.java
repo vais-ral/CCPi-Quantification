@@ -57,9 +57,9 @@ public class AccessibleVolumePluginFilter_ implements PlugInFilter {
         dims[1] = inputImage.getHeight();
         dims[2] = imagePlus.getNSlices();
         float[] voxelSize = new float[3];
-        voxelSize[0] = 1;
-        voxelSize[1] = 1;
-        voxelSize[2] = 1;
+        voxelSize[0] = (float)imageResolution;
+        voxelSize[1] = (float)imageResolution;
+        voxelSize[2] = (float)imageResolution;
         float[] origin = new float[3];
         origin[0] = 0;
         origin[1] = 0;

@@ -4,6 +4,7 @@
 %include "arrays_java.i"
 %include "std_map.i"
 %include "std_string.i"
+%include "std_vector.i"
 
 %apply int[] {long *};
 %apply int[] {int *};
@@ -36,6 +37,7 @@
 #include "..\Core\CCPiAccessibleVolumeITKImpl.h"
 #include "..\Core\CCPiUserApplicationInterface.h"
 #include "..\Core\CCPiConsoleUserInterface.h"
+#include "..\Core\CCPiSimpleHistogramThresholdingITKImpl.h"
 %}
 
 
@@ -57,14 +59,16 @@ $result = SWIG_JavaArrayOutFloat(jenv, $1, 3 /*FillMeInAsSizeCannotBeDeterminedA
   jresult =	SWIG_JavaArrayOutUchar(jenv, (unsigned char *)result, size);
 }
 
+namespace std {
+	%template(FloatVector) vector<float>;
+}
 
 %include "..\Core\CCPiImageData.h"
 %include "..\Core\CCPiAccessibleVolumeInputImages.h"
 %include "..\Core\CCPiAccessibleVolumeITKImpl.h"
 %include "..\Core\CCPiUserApplicationInterface.h"
 %include "..\Core\CCPiConsoleUserInterface.h"
+%include "..\Core\CCPiSimpleHistogramThresholdingITKImpl.h"
 
 %template(CCPiImageDataUnsignedChar) CCPiImageData<unsigned char>;
-
-
-/*  long size = arg1->GetInputImages()->getDimensions()[0]*arg1->GetInputImages()->getDimensions()[1]*arg1->GetInputImages()->getDimensions()[2];*/
+%template(CCPiSimpleHistogramThresholdingITKImplUnsignedChar) CCPiSimpleHistogramThresholdingITKImpl<unsigned char>;
