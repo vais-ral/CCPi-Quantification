@@ -35,6 +35,8 @@ private:
 	int  VtkDataType;
 	CCPiLabelQuantificationResult* Result;
 	CCPiUserApplicationInterface *UserAppInterface;
+    // Create the controller class for calculations
+    CCPiQuantification3D<T> quan3D;
 };
 
 template <class T>
@@ -59,8 +61,6 @@ CCPiLabelQuantificationITKImpl<T>::~CCPiLabelQuantificationITKImpl()
 template <class T>
 void CCPiLabelQuantificationITKImpl<T>::Compute()
 {
-    // Create the controller class for calculations
-    CCPiQuantification3D<T> quan3D;
 	UserAppInterface->SetStatusMessage("Initialising...");
     UserAppInterface->SetProgressValue( 0.01 );
 
@@ -106,6 +106,7 @@ void CCPiLabelQuantificationITKImpl<T>::Compute()
         }
     }
 	UserAppInterface->SetStatusMessage("Quantification complete");
+	Result = quan3D.GetQuantificationResult();
 }
 
 template <class T>
