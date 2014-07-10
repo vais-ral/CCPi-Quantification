@@ -134,7 +134,8 @@ void CCPiLabelQuantification::runQuantification(IT *data, int vtkDataType)
 
     theWorkArea->setProgressValue(1.0);
     theWorkArea->setProgressInfo("Processing Complete");
-    
+    delete image;
+	delete ui;
 }
 
 /**
