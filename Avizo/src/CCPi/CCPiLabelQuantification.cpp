@@ -16,7 +16,11 @@
 #include <hxcore/HxWorkArea.h>
 #include <hxfield/HxUniformScalarField3.h>
 
+#include "CCPiImageData.h"
+#include "CCPiAvizoUserInterface.h"
 #include "CCPiLabelQuantification.h"
+#include "CCPiLabelQuantificationITKImpl.h"
+#include "CCPiLabelQuantificationResult.h"
 
 
 
@@ -108,60 +112,65 @@ void CCPiLabelQuantification::runQuantification(IT *data, int vtkDataType)
     origin[0] = m_field->bbox()[0];
     origin[1] = m_field->bbox()[2];
     origin[2] = m_field->bbox()[4];
-    
+    float voxelSize[3];
+	voxelSize[0] = m_field->getVoxelSize().getValue()[0];
+	voxelSize[1] = m_field->getVoxelSize().getValue()[1];
+	voxelSize[2] = m_field->getVoxelSize().getValue()[2];
     // Get the min and max values of input data
     float min = 0.0, max = 0.0;
     m_field->getRange(min, max);
     
-    // Initialise the controller
-    quan3D.Initialise(data, m_field->lattice.dims(), 1,
-      vtkDataType, origin, m_field->getVoxelSize().getValue(), 
-      min, max);
+	long dims[3];
+	dims[0]= m_field->lattice.dimsLong()[0];
+	dims[1]= m_field->lattice.dimsLong()[1];
+	dims[2]= m_field->lattice.dimsLong()[2];
+	CCPiImageData<IT>* image = new CCPiImageData<IT>(data, dims, false);
+	CCPiAvizoUserInterface *ui = new CCPiAvizoUserInterface();
+	CCPiLabelQuantificationITKImpl<IT> quantification(image, (CCPiUserApplicationInterface*)ui, origin, dims, voxelSize,  min, max, portMinSize.getValue(), vtkDataType);
+	quantification.Compute();
 
-    quan3D.SetMinFeatureSize(portMinSize.getValue());
-    quan3D.CreateVoxelIndexList();
-
-    quan3D.PrepareForQuantification();
-
-    quan3D.PrintSummaryData();  
-
-    quan3D.WriteCSVData(portOutputFile.getValue());
-
-    int totalVoxels = quan3D.GetNumVoxelValues(), n = 0;
-
-    theWorkArea->setProgressValue(0.05);
-    theWorkArea->setProgressInfo("Processing...");
-
-    #pragma omp parallel for schedule(dynamic)
-    for(int i = 0; i < totalVoxels; i++) {
-
-        CCPiQuantificationWorker<IT> *worker = NULL;
-
-        // Do the real work
-        #pragma omp critical(nextworker)
-        {
-            worker = quan3D.GetNextWorker();
-        }
-        if (worker != NULL) {
-
-            if (0 == worker->Run()) {
-                #pragma omp critical(writefile)
-                {
-                    worker->WriteCSVData(portOutputFile.getValue());
-                }
-            }
-            delete worker;
-        }
-        #pragma omp atomic
-        n++;
-        if (omp_get_thread_num() == 0) {
-            theWorkArea->setProgressValue((float)n/(float)totalVoxels);
-            theWorkArea->setProgressInfo("Quantification underway");
-        }
-    }
-    theMsg->stream() << "Quantification complete" << std::endl;
+	//Register spreadsheet volume fraction
+	setResult(createSpreadsheetOutput(m_field->getName(),quantification.GetOutput()));
 
     theWorkArea->setProgressValue(1.0);
     theWorkArea->setProgressInfo("Processing Complete");
     
+}
+
+/**
+ * Creates the volume path as a spreadsheet and puts in the work area
+ * @param name prefix for the module
+ * @param volpathMap is map of sphere diameter and its volume path
+ * @return the output in a spreadsheet.
+ */
+HxSpreadSheet* CCPiLabelQuantification::createSpreadsheetOutput(std::string prefix,CCPiLabelQuantificationResult* quantResult)
+{
+
+	HxSpreadSheet *output = new HxSpreadSheet();
+//	output->addTable(("Accessible Volume("+prefix+")").c_str());
+	output->setLabel(("LabelQuantification("+prefix+")").c_str());
+	int tableId = 0;
+	std::vector<std::string> columnNames = quantResult->GetQuantityNames();
+	std::list<int> labelIndexes = quantResult->GetLabelIndexes();
+	for(std::vector<std::string>::iterator itr = columnNames.begin(); itr!=columnNames.end();itr++)
+	{
+		int columnId = output->addColumn((*itr).c_str(),HxSpreadSheet::Column::FLOAT,tableId);
+	}
+
+	output->setNumRows(labelIndexes.size(),tableId);
+	output->setCurrentTableIndex(tableId);
+
+	int columnId=0;
+	for(std::vector<std::string>::iterator column_itr = columnNames.begin();column_itr!=columnNames.end();column_itr++, columnId++)
+	{
+		int rowId=0;
+		for(std::list<int>::iterator row_itr=labelIndexes.begin();row_itr!=labelIndexes.end();row_itr++, rowId++)
+		{
+			double value = quantResult->GetValue(*column_itr, *row_itr);
+			int columnId = output->findColumn((*column_itr).c_str(), HxSpreadSheet::Column::FLOAT,tableId);
+			HxSpreadSheet::Column *column = output->column(columnId,tableId);
+			column->setValue(rowId,value);
+		}
+	}
+    return output;
 }
