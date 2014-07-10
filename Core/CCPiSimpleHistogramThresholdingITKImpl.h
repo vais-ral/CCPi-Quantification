@@ -258,7 +258,7 @@ CCPiImageDataUnsignedChar*	CCPiSimpleHistogramThresholdingITKImpl<T>::GetOutputI
 	CCPiImageDataUnsignedChar* returnImage = new CCPiImageDataUnsignedChar(imgDims);
 	unsigned char* returnImageData = returnImage->GetImage();
 	//Copy the OutputImage to returnImage
-	itk::ImageRegionConstIterator< CCPiSimpleHistogramThresholdingITKImpl<IT>::OutputImageType > outputImageIterator( OutputImage,
+	itk::ImageRegionConstIterator< CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType > outputImageIterator( OutputImage,
 		OutputImage->GetRequestedRegion());
 	long iOut = 0;
 	for (outputImageIterator.GoToBegin(); !outputImageIterator.IsAtEnd(); ++outputImageIterator, iOut++) {
