@@ -15,9 +15,10 @@
 #include "itkImportImageFilter.h"
 #include "itkScalarImageToHistogramGenerator.h"
 #include "itkBinaryThresholdImageFilter.h"
+#include "CCPiImageData.h"
 
 #include <vector>
-#ifdef _WINDOWS
+#if (_MSC_VER < 1600)
   #define TYPENAME
 #else
   #define TYPENAME typename
@@ -48,7 +49,7 @@ public:
 	 * @minIntensity : minimum intensity to be used by the thresholding
 	 * @maxIntensiyt : maximum intensity to be used by the thresholding
 	 */
-	CCPiSimpleHistogramThresholdingITKImpl(T* inputImage, const int *volumeDims, const float *voxelSize, const float *origin,float minIntensity, float maxIntensity);
+	CCPiSimpleHistogramThresholdingITKImpl(CCPiImageData<T>* inputImage, const int *volumeDims, const float *voxelSize, const float *origin,float minIntensity, float maxIntensity);
 	/**
 	 * Here is the entry point for the computation 
 	 */
@@ -56,7 +57,12 @@ public:
 	/** 
 	 * @return output image after thresholding
 	 */
-	TYPENAME OutputImageType::Pointer	GetOutputImage();
+	CCPiImageDataUnsignedChar*	GetOutputImage();
+	/**
+	 * Copies the OutputImage to the input returnImage
+	 * @return copies to the input.
+	 */
+	void GetOutputImage(CCPiImageDataUnsignedChar* returnImage);
 	/**
 	 * @return returns the two peak values in the histogram
 	 */
@@ -106,9 +112,9 @@ private:
 
 
 template <class T>
-CCPiSimpleHistogramThresholdingITKImpl<T>::CCPiSimpleHistogramThresholdingITKImpl(T* inputImage, const int *volumeDims, const float *voxelSize, const float *origin,float minIntensity, float maxIntensity)
+CCPiSimpleHistogramThresholdingITKImpl<T>::CCPiSimpleHistogramThresholdingITKImpl(CCPiImageData<T>* inputImage, const int *volumeDims, const float *voxelSize, const float *origin,float minIntensity, float maxIntensity)
 {
-	Image = CreateImageFromRawPointer(inputImage, volumeDims, voxelSize, origin);
+	Image = CreateImageFromRawPointer(inputImage->GetImage(), volumeDims, voxelSize, origin);
 	MinPixelIntensity = minIntensity;
 	MaxPixelIntensity = maxIntensity;
 }
@@ -243,9 +249,46 @@ CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType::Pointer
 
 
 template<class T>
-CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType::Pointer	CCPiSimpleHistogramThresholdingITKImpl<T>::GetOutputImage()
+CCPiImageDataUnsignedChar*	CCPiSimpleHistogramThresholdingITKImpl<T>::GetOutputImage()
 {
-	return OutputImage;
+	long imgDims[3];
+	OutputImageType::RegionType region = OutputImage->GetLargestPossibleRegion();
+	OutputImageType::SizeType size = region.GetSize();
+	imgDims[0]=size[0];imgDims[1]=size[1];imgDims[2]=size[2];
+	CCPiImageDataUnsignedChar* returnImage = new CCPiImageDataUnsignedChar(imgDims);
+	unsigned char* returnImageData = returnImage->GetImage();
+	//Copy the OutputImage to returnImage
+	itk::ImageRegionConstIterator< CCPiSimpleHistogramThresholdingITKImpl<IT>::OutputImageType > outputImageIterator( OutputImage,
+		OutputImage->GetRequestedRegion());
+	long iOut = 0;
+	for (outputImageIterator.GoToBegin(); !outputImageIterator.IsAtEnd(); ++outputImageIterator, iOut++) {
+			returnImageData[iOut] = outputImageIterator.Get();	
+	}	
+	return returnImage;
+}
+
+
+template<class T>
+void CCPiSimpleHistogramThresholdingITKImpl<T>::GetOutputImage(CCPiImageDataUnsignedChar* returnImage)
+{
+
+	long imgDims[3];
+	OutputImageType::RegionType region = OutputImage->GetLargestPossibleRegion();
+	OutputImageType::SizeType size = region.GetSize();
+	imgDims[0]=size[0];imgDims[1]=size[1];imgDims[2]=size[2];
+
+	//Don't copy the image
+	if(imgDims[0]!=returnImage->GetDimensions()[0] || imgDims[1]!=returnImage->GetDimensions()[1] || imgDims[1]!=returnImage->GetDimensions()[1])
+		return;
+
+	unsigned char* returnImageData = returnImage->GetImage();
+	//Copy the OutputImage to returnImage
+	itk::ImageRegionConstIterator< CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType > outputImageIterator( OutputImage,
+		OutputImage->GetRequestedRegion());
+	long iOut = 0;
+	for (outputImageIterator.GoToBegin(); !outputImageIterator.IsAtEnd(); ++outputImageIterator, iOut++) {
+			returnImageData[iOut] = outputImageIterator.Get();	
+	}	
 }
 
 

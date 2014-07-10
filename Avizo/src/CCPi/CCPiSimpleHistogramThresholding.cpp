@@ -141,17 +141,15 @@ std::vector<float> CCPiSimpleHistogramThresholding::runThresholding(
 	const float min, const float max,
     unsigned char *output)
 {
-
-	CCPiSimpleHistogramThresholdingITKImpl<IT> shThresholding(data, dims, voxelSize, origin, min, max);
+	long imgDims[3];
+	imgDims[0]=dims[0];imgDims[1]=dims[1];imgDims[2]=dims[2];
+	CCPiImageData<IT> *imgData = new CCPiImageData<IT>(data,imgDims,false);
+	CCPiSimpleHistogramThresholdingITKImpl<IT> shThresholding(imgData, dims, voxelSize, origin, min, max);
 	shThresholding.Compute();
-	TYPENAME CCPiSimpleHistogramThresholdingITKImpl<IT>::OutputImageType::Pointer image = shThresholding.GetOutputImage();
-	itk::ImageRegionConstIterator< TYPENAME CCPiSimpleHistogramThresholdingITKImpl<IT>::OutputImageType > outputImageIterator( image,
-		image->GetRequestedRegion());
-
-	long iOut = 0;
-	for (outputImageIterator.GoToBegin(); !outputImageIterator.IsAtEnd(); ++outputImageIterator, iOut++) {
-			output[iOut] = outputImageIterator.Get();	
-	}	
+	CCPiImageDataUnsignedChar *outputImgData = new CCPiImageDataUnsignedChar(output,imgDims,false);
+	shThresholding.GetOutputImage(outputImgData); //Copies result image to outputImgData
+	delete imgData;
+	delete outputImgData;
 	return shThresholding.GetPeaks();
 }
 
