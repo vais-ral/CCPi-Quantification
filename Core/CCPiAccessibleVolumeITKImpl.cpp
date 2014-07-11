@@ -44,7 +44,7 @@ std::map<double,double> CCPiAccessibleVolumeITKImpl::GetAccessibleVolume()
 DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::GetDistanceMapOfImageWithDanielsson(ImageType::Pointer inputImage)
 {
 	typedef itk::DanielssonDistanceMapImageFilter< ImageType, DistanceMapImageType >   DistanceMapFilterType;
-	TYPENAME DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
+	DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
 	//distanceMapFilter->InputIsBinaryOn();
 	distanceMapFilter->SetSquaredDistance(false);
 	distanceMapFilter->SetUseImageSpacing(false);
@@ -59,7 +59,7 @@ DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::GetDistanceMapOfImage
 DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::GetDistanceMapOfImageWithMaurer(ImageType::Pointer inputImage)
 {
 	typedef itk::SignedMaurerDistanceMapImageFilter< ImageType, DistanceMapImageType >   DistanceMapFilterType;
-	TYPENAME DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
+	DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
 	//distanceMapFilter->InputIsBinaryOn();
 	distanceMapFilter->SetSquaredDistance(false);
 	distanceMapFilter->SetUseImageSpacing(false);
@@ -75,7 +75,7 @@ DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::ApplyMaskToInputDista
 {
 	typedef itk::MaskImageFilter< DistanceMapImageType, ImageType, DistanceMapImageType > MaskFilterType;
 
-	TYPENAME MaskFilterType::Pointer maskFilter = MaskFilterType::New();
+	MaskFilterType::Pointer maskFilter = MaskFilterType::New();
 	// Image to be masked is output from distance map
 	maskFilter->SetInput1(inputImage);
 	// Mask image is output from mask import filter
@@ -87,7 +87,7 @@ DistanceMapImageType::Pointer CCPiAccessibleVolumeITKImpl::ApplyMaskToInputDista
 ImageType::Pointer CCPiAccessibleVolumeITKImpl::BinaryThresholdImage(DistanceMapImageType::Pointer inputImage, float lowerThresholdValue, float upperThresholdValue)
 {
 		typedef itk::BinaryThresholdImageFilter< DistanceMapImageType, ImageType > ThresholdFilterType;
-        TYPENAME ThresholdFilterType::Pointer threshold = ThresholdFilterType::New();
+        ThresholdFilterType::Pointer threshold = ThresholdFilterType::New();
         threshold->SetInput(inputImage);
         threshold->SetInsideValue(itk::NumericTraits<unsigned short>::One);
         threshold->SetOutsideValue(itk::NumericTraits<unsigned short>::Zero);
@@ -101,7 +101,7 @@ ImageType::Pointer CCPiAccessibleVolumeITKImpl::SegmentInputImage(DistanceMapIma
 {
 	//Make a copy of the input image
 	typedef itk::ImageDuplicator< DistanceMapImageType > DistanceMapImageDuplicatorType;
-	TYPENAME DistanceMapImageDuplicatorType::Pointer distMapDuplicator = DistanceMapImageDuplicatorType::New();
+	DistanceMapImageDuplicatorType::Pointer distMapDuplicator = DistanceMapImageDuplicatorType::New();
 	distMapDuplicator->SetInputImage(inputImage);
 	distMapDuplicator->Update();
 
@@ -110,8 +110,8 @@ ImageType::Pointer CCPiAccessibleVolumeITKImpl::SegmentInputImage(DistanceMapIma
 	typedef itk::RelabelComponentImageFilter< ImageType, ImageType > RelabelType;
 
 
-    TYPENAME ConCompFilterType::Pointer conCompFilter = ConCompFilterType::New();
-	TYPENAME RelabelType::Pointer relabel = RelabelType::New();
+    	ConCompFilterType::Pointer conCompFilter = ConCompFilterType::New();
+	RelabelType::Pointer relabel = RelabelType::New();
 
 	ImageType::Pointer binaryImage = BinaryThresholdImage(distMapDuplicator->GetOutput(), thresholdValue, itk::NumericTraits<DistanceMapImageType::PixelType>::max());
 
@@ -129,7 +129,7 @@ ImageType::Pointer CCPiAccessibleVolumeITKImpl::SegmentInputImage(DistanceMapIma
 template<typename T, typename O>
 T CCPiAccessibleVolumeITKImpl::CreateDuplicateCopyOfImage(T image)
 {
-	itk::ImageDuplicator< O >::Pointer duplicateImage = itk::ImageDuplicator< O >::New();
+	TYPENAME itk::ImageDuplicator< O >::Pointer duplicateImage = itk::ImageDuplicator< O >::New();
 	duplicateImage->SetInputImage(image);
 	duplicateImage->Update();
 	return duplicateImage->GetOutput();

@@ -1280,14 +1280,14 @@ SWIGINTERN double const &std_map_Sl_double_Sc_double_Sg__getValue(std::map< doub
 			}
 
 #include <map>
-#include "..\Core\CCPiImageData.h"
-#include "..\Core\CCPiAccessibleVolumeInputImages.h"
-#include "..\Core\CCPiAccessibleVolumeITKImpl.h"
-#include "..\Core\CCPiUserApplicationInterface.h"
-#include "..\Core\CCPiConsoleUserInterface.h"
-#include "..\Core\CCPiSimpleHistogramThresholdingITKImpl.h"
-#include "..\Core\CCPiLabelQuantificationResult.h"
-#include "..\Core\CCPiLabelQuantificationITKImpl.h"
+#include "../Core/CCPiImageData.h"
+#include "../Core/CCPiAccessibleVolumeInputImages.h"
+#include "../Core/CCPiAccessibleVolumeITKImpl.h"
+#include "../Core/CCPiUserApplicationInterface.h"
+#include "../Core/CCPiConsoleUserInterface.h"
+#include "../Core/CCPiSimpleHistogramThresholdingITKImpl.h"
+#include "../Core/CCPiLabelQuantificationResult.h"
+#include "../Core/CCPiLabelQuantificationITKImpl.h"
 
 SWIGINTERN std::vector< float >::const_reference std_vector_Sl_float_Sg__get(std::vector< float > *self,int i){
                 int size = int(self->size());

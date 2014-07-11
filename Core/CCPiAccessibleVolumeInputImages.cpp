@@ -69,14 +69,14 @@ ImageType::Pointer CCPiAccessibleVolumeInputImages::ConvertImageToITKStructure(C
 
     // Size of image
     unsigned long imgSize = ((unsigned long)VolumeDims[0])*VolumeDims[1]*VolumeDims[2];
-	TYPENAME ImportFilterType::Pointer importFilter = ImportFilterType::New();
-    TYPENAME ImportFilterType::IndexType start;
+    ImportFilterType::Pointer importFilter = ImportFilterType::New();
+    ImportFilterType::IndexType start;
     start.Fill(0);
-    TYPENAME ImportFilterType::SizeType size;
+    ImportFilterType::SizeType size;
     size[0] = VolumeDims[0];
     size[1] = VolumeDims[1];
     size[2] = VolumeDims[2];
-    TYPENAME ImportFilterType::RegionType region;
+    ImportFilterType::RegionType region;
     region.SetIndex(start);
     region.SetSize(size);
     importFilter->SetSpacing(VoxelSize);
