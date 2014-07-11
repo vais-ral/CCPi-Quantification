@@ -31,6 +31,24 @@ public class CCPiAccessibleVolumeJNI {
   public final static native float FloatVector_get(long jarg1, FloatVector jarg1_, int jarg2);
   public final static native void FloatVector_set(long jarg1, FloatVector jarg1_, int jarg2, float jarg3);
   public final static native void delete_FloatVector(long jarg1);
+  public final static native long new_StringVector__SWIG_0();
+  public final static native long new_StringVector__SWIG_1(long jarg1);
+  public final static native long StringVector_size(long jarg1, StringVector jarg1_);
+  public final static native long StringVector_capacity(long jarg1, StringVector jarg1_);
+  public final static native void StringVector_reserve(long jarg1, StringVector jarg1_, long jarg2);
+  public final static native boolean StringVector_isEmpty(long jarg1, StringVector jarg1_);
+  public final static native void StringVector_clear(long jarg1, StringVector jarg1_);
+  public final static native void StringVector_add(long jarg1, StringVector jarg1_, String jarg2);
+  public final static native String StringVector_get(long jarg1, StringVector jarg1_, int jarg2);
+  public final static native void StringVector_set(long jarg1, StringVector jarg1_, int jarg2, String jarg3);
+  public final static native void delete_StringVector(long jarg1);
+  public final static native long new_IntList();
+  public final static native long IntList_size(long jarg1, IntList jarg1_);
+  public final static native boolean IntList_isEmpty(long jarg1, IntList jarg1_);
+  public final static native void IntList_clear(long jarg1, IntList jarg1_);
+  public final static native void IntList_add(long jarg1, IntList jarg1_, int jarg2);
+  public final static native int IntList_get(long jarg1, IntList jarg1_, int jarg2);
+  public final static native void delete_IntList(long jarg1);
   public final static native long new_CCPiAccessibleVolumeInputImages(int[] jarg1, float[] jarg2, float[] jarg3, long jarg4, CCPiImageDataUnsignedChar jarg4_, long jarg5, CCPiImageDataUnsignedChar jarg5_);
   public final static native void delete_CCPiAccessibleVolumeInputImages(long jarg1);
   public final static native double CCPiAccessibleVolumeInputImages_getScafoldVolume(long jarg1, CCPiAccessibleVolumeInputImages jarg1_);
@@ -59,6 +77,12 @@ public class CCPiAccessibleVolumeJNI {
   public final static native boolean CCPiConsoleUserInterface_isCancel(long jarg1, CCPiConsoleUserInterface jarg1_);
   public final static native long new_CCPiConsoleUserInterface();
   public final static native void delete_CCPiConsoleUserInterface(long jarg1);
+  public final static native long new_CCPiLabelQuantificationResult();
+  public final static native void delete_CCPiLabelQuantificationResult(long jarg1);
+  public final static native long CCPiLabelQuantificationResult_GetQuantityNames(long jarg1, CCPiLabelQuantificationResult jarg1_);
+  public final static native void CCPiLabelQuantificationResult_SetValue(long jarg1, CCPiLabelQuantificationResult jarg1_, String jarg2, int jarg3, double jarg4);
+  public final static native double CCPiLabelQuantificationResult_GetValue(long jarg1, CCPiLabelQuantificationResult jarg1_, String jarg2, int jarg3);
+  public final static native long CCPiLabelQuantificationResult_GetLabelIndexes(long jarg1, CCPiLabelQuantificationResult jarg1_);
   public final static native long new_CCPiImageDataUnsignedChar__SWIG_0(short[] jarg1, int[] jarg2, boolean jarg3);
   public final static native long new_CCPiImageDataUnsignedChar__SWIG_1(int[] jarg1);
   public final static native void delete_CCPiImageDataUnsignedChar(long jarg1);
@@ -70,6 +94,10 @@ public class CCPiAccessibleVolumeJNI {
   public final static native void CCPiSimpleHistogramThresholdingITKImplUnsignedChar_GetOutputImage__SWIG_1(long jarg1, CCPiSimpleHistogramThresholdingITKImplUnsignedChar jarg1_, long jarg2, CCPiImageDataUnsignedChar jarg2_);
   public final static native long CCPiSimpleHistogramThresholdingITKImplUnsignedChar_GetPeaks(long jarg1, CCPiSimpleHistogramThresholdingITKImplUnsignedChar jarg1_);
   public final static native void delete_CCPiSimpleHistogramThresholdingITKImplUnsignedChar(long jarg1);
+  public final static native long new_CCPiLabelQuantificationITKImplUnsignedChar(long jarg1, CCPiImageDataUnsignedChar jarg1_, long jarg2, CCPiUserApplicationInterface jarg2_, float[] jarg3, int[] jarg4, float[] jarg5, float jarg6, float jarg7, float jarg8, int jarg9);
+  public final static native void delete_CCPiLabelQuantificationITKImplUnsignedChar(long jarg1);
+  public final static native void CCPiLabelQuantificationITKImplUnsignedChar_Compute(long jarg1, CCPiLabelQuantificationITKImplUnsignedChar jarg1_);
+  public final static native long CCPiLabelQuantificationITKImplUnsignedChar_GetOutput(long jarg1, CCPiLabelQuantificationITKImplUnsignedChar jarg1_);
   public final static native long CCPiConsoleUserInterface_SWIGUpcast(long jarg1);
 
   public static void SwigDirector_CCPiUserApplicationInterface_LogMessage(CCPiUserApplicationInterface self, String message) {

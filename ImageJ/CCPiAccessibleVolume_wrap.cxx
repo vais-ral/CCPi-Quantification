@@ -1237,6 +1237,10 @@ static jdoubleArray SWIG_JavaArrayOutDouble (JNIEnv *jenv, double *result, jsize
 #include <vector>
 #include <stdexcept>
 
+
+#include <list>
+#include <stdexcept>
+
 SWIGINTERN double const &std_map_Sl_double_Sc_double_Sg__get(std::map< double,double > *self,double const &key){
                 std::map<double,double >::iterator i = self->find(key);
                 if (i != self->end())
@@ -1282,6 +1286,8 @@ SWIGINTERN double const &std_map_Sl_double_Sc_double_Sg__getValue(std::map< doub
 #include "..\Core\CCPiUserApplicationInterface.h"
 #include "..\Core\CCPiConsoleUserInterface.h"
 #include "..\Core\CCPiSimpleHistogramThresholdingITKImpl.h"
+#include "..\Core\CCPiLabelQuantificationResult.h"
+#include "..\Core\CCPiLabelQuantificationITKImpl.h"
 
 SWIGINTERN std::vector< float >::const_reference std_vector_Sl_float_Sg__get(std::vector< float > *self,int i){
                 int size = int(self->size());
@@ -1296,6 +1302,32 @@ SWIGINTERN void std_vector_Sl_float_Sg__set(std::vector< float > *self,int i,std
                     (*self)[i] = val;
                 else
                     throw std::out_of_range("vector index out of range");
+            }
+SWIGINTERN std::vector< std::string >::const_reference std_vector_Sl_std_string_Sg__get(std::vector< std::string > *self,int i){
+                int size = int(self->size());
+                if (i>=0 && i<size)
+                    return (*self)[i];
+                else
+                    throw std::out_of_range("vector index out of range");
+            }
+SWIGINTERN void std_vector_Sl_std_string_Sg__set(std::vector< std::string > *self,int i,std::vector< std::string >::value_type const &val){
+                int size = int(self->size());
+                if (i>=0 && i<size)
+                    (*self)[i] = val;
+                else
+                    throw std::out_of_range("vector index out of range");
+            }
+SWIGINTERN std::list< int >::const_reference std_list_Sl_int_Sg__get(std::list< int > *self,int i){
+                int size = int(self->size());
+                int j;
+                if (i>=0 && i<size) {
+                    std::list<int>::const_iterator p;  
+                    p=self->begin(); 
+                    for (j=0; j<i; j++) {p++;}
+                    return (*p);   
+                }
+                else
+                    throw std::out_of_range("list index out of range");
             }
 
 
@@ -1848,6 +1880,288 @@ SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1FloatVector(JNIEnv 
 }
 
 
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1StringVector_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::vector< std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::vector< std::string > *)new std::vector< std::string >();
+  *(std::vector< std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1StringVector_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  jlong jresult = 0 ;
+  std::vector< std::string >::size_type arg1 ;
+  std::vector< std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (std::vector< std::string >::size_type)jarg1; 
+  result = (std::vector< std::string > *)new std::vector< std::string >(arg1);
+  *(std::vector< std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_StringVector_1size(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  std::vector< std::string >::size_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  result = ((std::vector< std::string > const *)arg1)->size();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_StringVector_1capacity(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  std::vector< std::string >::size_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  result = ((std::vector< std::string > const *)arg1)->capacity();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_StringVector_1reserve(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  std::vector< std::string >::size_type arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = (std::vector< std::string >::size_type)jarg2; 
+  (arg1)->reserve(arg2);
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_CCPiAccessibleVolumeJNI_StringVector_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  result = (bool)((std::vector< std::string > const *)arg1)->empty();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_StringVector_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_StringVector_1add(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  std::vector< std::string >::value_type *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::vector< std::string >::value_type arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  (arg1)->push_back((std::vector< std::string >::value_type const &)*arg2);
+}
+
+
+SWIGEXPORT jstring JNICALL Java_CCPiAccessibleVolumeJNI_StringVector_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jstring jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  int arg2 ;
+  std::vector< std::string >::value_type *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = (int)jarg2; 
+  try {
+    result = (std::vector< std::string >::value_type *) &std_vector_Sl_std_string_Sg__get(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_StringVector_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jstring jarg3) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  int arg2 ;
+  std::vector< std::string >::value_type *arg3 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = (int)jarg2; 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return ;
+  std::vector< std::string >::value_type arg3_str(arg3_pstr);
+  arg3 = &arg3_str;
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  try {
+    std_vector_Sl_std_string_Sg__set(arg1,arg2,(std::string const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1StringVector(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1IntList(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::list< int > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::list< int > *)new std::list< int >();
+  *(std::list< int > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_IntList_1size(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::list< int > *arg1 = (std::list< int > *) 0 ;
+  std::list< int >::size_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::list< int > **)&jarg1; 
+  result = ((std::list< int > const *)arg1)->size();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_CCPiAccessibleVolumeJNI_IntList_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  std::list< int > *arg1 = (std::list< int > *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::list< int > **)&jarg1; 
+  result = (bool)((std::list< int > const *)arg1)->empty();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_IntList_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::list< int > *arg1 = (std::list< int > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::list< int > **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_IntList_1add(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  std::list< int > *arg1 = (std::list< int > *) 0 ;
+  std::list< int >::value_type *arg2 = 0 ;
+  std::list< int >::value_type temp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::list< int > **)&jarg1; 
+  temp2 = (std::list< int >::value_type)jarg2; 
+  arg2 = &temp2; 
+  (arg1)->push_back((std::list< int >::value_type const &)*arg2);
+}
+
+
+SWIGEXPORT jint JNICALL Java_CCPiAccessibleVolumeJNI_IntList_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jint jresult = 0 ;
+  std::list< int > *arg1 = (std::list< int > *) 0 ;
+  int arg2 ;
+  std::list< int >::value_type *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::list< int > **)&jarg1; 
+  arg2 = (int)jarg2; 
+  try {
+    result = (std::list< int >::value_type *) &std_list_Sl_int_Sg__get(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = (jint)*result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1IntList(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::list< int > *arg1 = (std::list< int > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::list< int > **)&jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiAccessibleVolumeInputImages(JNIEnv *jenv, jclass jcls, jintArray jarg1, jfloatArray jarg2, jfloatArray jarg3, jlong jarg4, jobject jarg4_, jlong jarg5, jobject jarg5_) {
   jlong jresult = 0 ;
   int *arg1 = (int *) 0 ;
@@ -2281,6 +2595,108 @@ SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1CCPiConsoleUserInte
 }
 
 
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiLabelQuantificationResult(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  CCPiLabelQuantificationResult *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (CCPiLabelQuantificationResult *)new CCPiLabelQuantificationResult();
+  *(CCPiLabelQuantificationResult **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1CCPiLabelQuantificationResult(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  CCPiLabelQuantificationResult *arg1 = (CCPiLabelQuantificationResult *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(CCPiLabelQuantificationResult **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_CCPiLabelQuantificationResult_1GetQuantityNames(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CCPiLabelQuantificationResult *arg1 = (CCPiLabelQuantificationResult *) 0 ;
+  std::vector< std::string > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiLabelQuantificationResult **)&jarg1; 
+  result = (arg1)->GetQuantityNames();
+  *(std::vector< std::string > **)&jresult = new std::vector< std::string >((const std::vector< std::string > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_CCPiLabelQuantificationResult_1SetValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jint jarg3, jdouble jarg4) {
+  CCPiLabelQuantificationResult *arg1 = (CCPiLabelQuantificationResult *) 0 ;
+  std::string arg2 ;
+  int arg3 ;
+  double arg4 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiLabelQuantificationResult **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  } 
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  (&arg2)->assign(arg2_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  arg3 = (int)jarg3; 
+  arg4 = (double)jarg4; 
+  (arg1)->SetValue(arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT jdouble JNICALL Java_CCPiAccessibleVolumeJNI_CCPiLabelQuantificationResult_1GetValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jint jarg3) {
+  jdouble jresult = 0 ;
+  CCPiLabelQuantificationResult *arg1 = (CCPiLabelQuantificationResult *) 0 ;
+  std::string arg2 ;
+  int arg3 ;
+  double result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiLabelQuantificationResult **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  } 
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  (&arg2)->assign(arg2_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  arg3 = (int)jarg3; 
+  result = (double)(arg1)->GetValue(arg2,arg3);
+  jresult = (jdouble)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_CCPiLabelQuantificationResult_1GetLabelIndexes(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CCPiLabelQuantificationResult *arg1 = (CCPiLabelQuantificationResult *) 0 ;
+  std::list< int > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiLabelQuantificationResult **)&jarg1; 
+  result = (arg1)->GetLabelIndexes();
+  *(std::list< int > **)&jresult = new std::list< int >((const std::list< int > &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiImageDataUnsignedChar_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jshortArray jarg1, jintArray jarg2, jboolean jarg3) {
   jlong jresult = 0 ;
   unsigned char *arg1 = (unsigned char *) 0 ;
@@ -2471,6 +2887,95 @@ SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1CCPiSimpleHistogram
   (void)jcls;
   arg1 = *(CCPiSimpleHistogramThresholdingITKImpl< unsigned char > **)&jarg1; 
   delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_new_1CCPiLabelQuantificationITKImplUnsignedChar(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jfloatArray jarg3, jintArray jarg4, jfloatArray jarg5, jfloat jarg6, jfloat jarg7, jfloat jarg8, jint jarg9) {
+  jlong jresult = 0 ;
+  CCPiImageData< unsigned char > *arg1 = (CCPiImageData< unsigned char > *) 0 ;
+  CCPiUserApplicationInterface *arg2 = (CCPiUserApplicationInterface *) 0 ;
+  float *arg3 ;
+  long *arg4 ;
+  float *arg5 ;
+  float arg6 ;
+  float arg7 ;
+  float arg8 ;
+  int arg9 ;
+  jfloat *jarr3 ;
+  jint *jarr4 ;
+  jfloat *jarr5 ;
+  CCPiLabelQuantificationITKImpl< unsigned char > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(CCPiImageData< unsigned char > **)&jarg1; 
+  arg2 = *(CCPiUserApplicationInterface **)&jarg2; 
+  if (jarg3 && jenv->GetArrayLength(jarg3) != 3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, "incorrect array size");
+    return 0;
+  }
+  if (!SWIG_JavaArrayInFloat(jenv, &jarr3, (float **)&arg3, jarg3)) return 0; 
+  if (jarg4 && jenv->GetArrayLength(jarg4) != 3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, "incorrect array size");
+    return 0;
+  }
+  if (!SWIG_JavaArrayInLong(jenv, &jarr4, (long **)&arg4, jarg4)) return 0; 
+  if (jarg5 && jenv->GetArrayLength(jarg5) != 3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, "incorrect array size");
+    return 0;
+  }
+  if (!SWIG_JavaArrayInFloat(jenv, &jarr5, (float **)&arg5, jarg5)) return 0; 
+  arg6 = (float)jarg6; 
+  arg7 = (float)jarg7; 
+  arg8 = (float)jarg8; 
+  arg9 = (int)jarg9; 
+  result = (CCPiLabelQuantificationITKImpl< unsigned char > *)new CCPiLabelQuantificationITKImpl< unsigned char >(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  *(CCPiLabelQuantificationITKImpl< unsigned char > **)&jresult = result; 
+  SWIG_JavaArrayArgoutFloat(jenv, jarr3, (float *)arg3, jarg3); 
+  SWIG_JavaArrayArgoutLong(jenv, jarr4, (long *)arg4, jarg4); 
+  SWIG_JavaArrayArgoutFloat(jenv, jarr5, (float *)arg5, jarg5); 
+  delete [] arg3; 
+  delete [] arg4; 
+  delete [] arg5; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_delete_1CCPiLabelQuantificationITKImplUnsignedChar(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  CCPiLabelQuantificationITKImpl< unsigned char > *arg1 = (CCPiLabelQuantificationITKImpl< unsigned char > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(CCPiLabelQuantificationITKImpl< unsigned char > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_CCPiAccessibleVolumeJNI_CCPiLabelQuantificationITKImplUnsignedChar_1Compute(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  CCPiLabelQuantificationITKImpl< unsigned char > *arg1 = (CCPiLabelQuantificationITKImpl< unsigned char > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiLabelQuantificationITKImpl< unsigned char > **)&jarg1; 
+  (arg1)->Compute();
+}
+
+
+SWIGEXPORT jlong JNICALL Java_CCPiAccessibleVolumeJNI_CCPiLabelQuantificationITKImplUnsignedChar_1GetOutput(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CCPiLabelQuantificationITKImpl< unsigned char > *arg1 = (CCPiLabelQuantificationITKImpl< unsigned char > *) 0 ;
+  CCPiLabelQuantificationResult *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CCPiLabelQuantificationITKImpl< unsigned char > **)&jarg1; 
+  result = (CCPiLabelQuantificationResult *)(arg1)->GetOutput();
+  *(CCPiLabelQuantificationResult **)&jresult = result; 
+  return jresult;
 }
 
 

@@ -6,12 +6,18 @@ FIND_PACKAGE(JNI REQUIRED)
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE(${ITK_USE_FILE})
 
+FIND_PACKAGE(VTK REQUIRED)
+INCLUDE(${VTK_USE_FILE})
+
 INCLUDE_DIRECTORIES(../Core)
 INCLUDE_DIRECTORIES(${JNI_INCLUDE_DIRS})
 
 ADD_LIBRARY(CCPiImageJPlugin_Cpp SHARED CCPiAccessibleVolume_wrap.cxx ../Core/CCPiAccessibleVolumeInputImages.cpp
 							 ../Core/CCPiAccessibleVolumeITKImpl.cpp
-							 ../Core/CCPiConsoleUserInterface.cpp)
+							 ../Core/CCPiConsoleUserInterface.cpp
+							 ../Core/CCPiLabelQuantificationResult.cpp
+							 ../Core/Quan3D.cpp
+							 ../Core/QuanWorker.cpp)
 
 FIND_PACKAGE(Java REQUIRED)
 INCLUDE(UseJava)
@@ -31,7 +37,12 @@ ADD_JAR(CCPiImageJPlugin_Java 	AccessibleVolumePluginFilter_.java
 							SimpleHistogramThresholding_.java
 							FloatVector.java
 							CCPiSimpleHistogramThresholdingITKImplUnsignedChar.java
+							LabelQuantification_.java
+							CCPiLabelQuantificationITKImplUnsignedChar.java
+							CCPiLabelQuantificationResult.java
+							StringVector.java
+							IntList.java							
 		OUTPUT_NAME		CCPiImageJ_Plugin.jar) 						 
 							 
 TARGET_LINK_LIBRARIES(CCPiImageJPlugin_Cpp ITKCommon ITKStatistics
-							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys)							
+							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys vtkHybrid)							

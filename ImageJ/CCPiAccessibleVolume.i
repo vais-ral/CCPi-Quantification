@@ -5,6 +5,7 @@
 %include "std_map.i"
 %include "std_string.i"
 %include "std_vector.i"
+%include "std_list.i"
 
 %apply int[] {long *};
 %apply int[] {int *};
@@ -38,6 +39,8 @@
 #include "..\Core\CCPiUserApplicationInterface.h"
 #include "..\Core\CCPiConsoleUserInterface.h"
 #include "..\Core\CCPiSimpleHistogramThresholdingITKImpl.h"
+#include "..\Core\CCPiLabelQuantificationResult.h"
+#include "..\Core\CCPiLabelQuantificationITKImpl.h"
 %}
 
 
@@ -61,6 +64,8 @@ $result = SWIG_JavaArrayOutFloat(jenv, $1, 3 /*FillMeInAsSizeCannotBeDeterminedA
 
 namespace std {
 	%template(FloatVector) vector<float>;
+	%template(StringVector) vector<string>;
+	%template(IntList) list<int>;
 }
 
 %include "..\Core\CCPiImageData.h"
@@ -69,6 +74,9 @@ namespace std {
 %include "..\Core\CCPiUserApplicationInterface.h"
 %include "..\Core\CCPiConsoleUserInterface.h"
 %include "..\Core\CCPiSimpleHistogramThresholdingITKImpl.h"
+%include "..\Core\CCPiLabelQuantificationResult.h"
+%include "..\Core\CCPiLabelQuantificationITKImpl.h"
 
 %template(CCPiImageDataUnsignedChar) CCPiImageData<unsigned char>;
 %template(CCPiSimpleHistogramThresholdingITKImplUnsignedChar) CCPiSimpleHistogramThresholdingITKImpl<unsigned char>;
+%template(CCPiLabelQuantificationITKImplUnsignedChar) CCPiLabelQuantificationITKImpl<unsigned char>;
