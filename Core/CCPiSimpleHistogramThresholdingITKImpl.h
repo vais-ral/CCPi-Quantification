@@ -18,7 +18,7 @@
 #include "CCPiImageData.h"
 
 #include <vector>
-#if (_MSC_VER < 1600)
+#if (_MSC_VER < 1600 && _WINDOWS)
   #define TYPENAME
 #else
   #define TYPENAME typename
@@ -33,7 +33,7 @@ public:
 	typedef TYPENAME itk::Image< unsigned char, 3 >     OutputImageType;
 
 	// Typedef for histogram generator
-	typedef TYPENAME itk::Statistics::ScalarImageToHistogramGenerator< ImageType > HistogramGeneratorType;
+	typedef itk::Statistics::ScalarImageToHistogramGenerator< ImageType > HistogramGeneratorType;
 	// Typedef for histogram
 	typedef TYPENAME HistogramGeneratorType::HistogramType  HistogramType;
 	// Typedef for thresholding filter

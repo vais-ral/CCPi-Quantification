@@ -35,3 +35,14 @@ TARGET_LINK_LIBRARIES(CCPiLabelQuantification ITKCommon
 							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys)
 TARGET_LINK_LIBRARIES(CCPiSimpleHistogramThresholding ITKCommon 
 							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics)  
+
+SET(CPACK_GENERATOR "RPM")
+SET(CPACK_RPM_PACKAGE_SUMMARY "CCPi Quantification Code Paraview Plugin")
+SET(CPACK_RPM_PACKAGE_NAME "CCPiParaviewPlugin")
+SET(CPACK_RPM_PACKAGE_VERSION "4.1")
+SET(CPACK_RPM_PACKAGE_RELEASE "0.1")
+SET(CPACK_RPM_PACKAGE_VENDOR  "CCPi")
+SET(CPACK_RPM_PACKAGE_DESCRIPTION "This package provides CCPi Quantification
+code algorithms in Paraview.")
+ 
+INCLUDE(CPack)
