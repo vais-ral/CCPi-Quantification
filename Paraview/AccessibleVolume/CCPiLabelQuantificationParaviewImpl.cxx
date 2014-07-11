@@ -17,9 +17,7 @@
 #include <math.h>
 
 #include "omp.h"
-
-#include "Quan3D.hpp"       // Class that control quantification calculation
-#include "QuanWorker.hpp"   // Worker class to does calculation for one label
+#include "CCPiLabelQuantificationITKImpl.h"
 
 vtkStandardNewMacro(CCPiLabelQuantificationParaviewImpl);
 
@@ -118,63 +116,14 @@ int CCPiLabelQuantificationParaviewImpl::FillOutputPortInformation(int port, vtk
 template <class IT>
 void CCPiLabelQuantificationParaviewImpl::runQuantification(IT *data, float origin[3], int volumeDims[3], float voxelSize[3], float min,float max, int vtkDataType,vtkTable *output)
 {
-    // Create the controller class for calculations
-    CCPiQuantification3D<IT> quan3D;
-
-	this->SetProgressText("Initialising...");
-    this->UpdateProgress( 0.01 );
-	
-
-
-    // Initialise the controller
-    quan3D.Initialise(data, volumeDims, 1,
-      vtkDataType, origin, voxelSize/****m_field->getVoxelSize().getValue()***/, 
-      min, max);
-
-    quan3D.SetMinFeatureSize(/****portMinSize.getValue()*****/MinFeatureSize);
-    quan3D.CreateVoxelIndexList();
-
-    quan3D.PrepareForQuantification();
-
-    quan3D.PrintSummaryData();  
-
-    int totalVoxels = quan3D.GetNumVoxelValues(), n = 0;
-
-	this->SetProgressText("Processing...");
-    this->UpdateProgress( 0.05 );
-
-    #pragma omp parallel for schedule(dynamic)
-    for(int i = 0; i < totalVoxels; i++) {
-
-        CCPiQuantificationWorker<IT> *worker = NULL;
-
-        // Do the real work
-        #pragma omp critical(nextworker)
-        {
-            worker = quan3D.GetNextWorker();
-        }
-        if (worker != NULL) {
-
-            if (0 == worker->Run()) {
-                #pragma omp critical(writefile)
-                {
-					quan3D.SetQuantificationResultByWorker(worker->GetId(),worker->GetQuantificationResult());
-                }
-            }
-            delete worker;
-        }
-        #pragma omp atomic
-        n++;
-        if (omp_get_thread_num() == 0) {
-	this->SetProgressText("Quantification underway");
-    this->UpdateProgress( (float)n/(float)totalVoxels );
-        }
-    }
-	this->SetProgressText("Quantification complete");
-
-
+	long imgDims[3];
+	imgDims[0]=volumeDims[0];imgDims[1]=volumeDims[1];imgDims[2]=volumeDims[2];
+	CCPiImageData<IT> inputImage(data,imgDims,false);
+	CCPiParaviewUserInterface ui(this);
+	CCPiLabelQuantificationITKImpl<IT> quantification(&inputImage, &ui,origin,imgDims,voxelSize,min,max,MinFeatureSize,vtkDataType);
+	quantification.Compute();
 	//Copy the result to output
-	CCPiLabelQuantificationResult* result = quan3D.GetQuantificationResult();
+	CCPiLabelQuantificationResult* result = quantification.GetOutput();
 	std::vector<std::string> columnNames = result->GetQuantityNames();
 	for(std::vector<std::string>::iterator itr = columnNames.begin(); itr!=columnNames.end();itr++)
 	{

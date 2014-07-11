@@ -111,16 +111,13 @@ std::vector<float> CCPiSimpleHistogramThresholdingParaviewImpl::runThresholding(
 	const float min, const float max,
     unsigned char *output)
 {
-
-	CCPiSimpleHistogramThresholdingITKImpl<IT> shThresholding(data, dims, voxelSize, origin, min, max);
+	long imgDims[3];
+	imgDims[0]=dims[0];imgDims[1]=dims[1];imgDims[2]=dims[2];
+	CCPiImageData<IT> inputImage(data, imgDims,false); 
+	CCPiSimpleHistogramThresholdingITKImpl<IT> shThresholding(&inputImage, dims, voxelSize, origin, min, max);
 	shThresholding.Compute();
-	CCPiSimpleHistogramThresholdingITKImpl<IT>::OutputImageType::Pointer image = shThresholding.GetOutputImage();
-	itk::ImageRegionConstIterator< CCPiSimpleHistogramThresholdingITKImpl<IT>::OutputImageType > outputImageIterator( image,
-		image->GetRequestedRegion());
-	long iOut = 0;
-	for (outputImageIterator.GoToBegin(); !outputImageIterator.IsAtEnd(); ++outputImageIterator, iOut++) {
-			output[iOut] = outputImageIterator.Get();	
-	}	
+	CCPiImageDataUnsignedChar outputImage(output, imgDims, false);
+	shThresholding.GetOutputImage(&outputImage);
 	return shThresholding.GetPeaks();
 }
 
