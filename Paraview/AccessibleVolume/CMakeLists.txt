@@ -26,7 +26,7 @@ ADD_PARAVIEW_PLUGIN(CCPiSimpleHistogramThresholding(CCPi) "1.0"
 ADD_PARAVIEW_PLUGIN(CCPiLabelQuantification(CCPi) "1.0"
   SERVER_MANAGER_XML CCPiAccessibleVolume.xml
   SERVER_MANAGER_SOURCES CCPiLabelQuantificationParaviewImpl.cxx 
-  SERVER_SOURCES CCPiParaviewUserInterface.cpp ../../Core/Quan3D.cpp ../../Core/QuanWorker.cpp )
+  SERVER_SOURCES CCPiParaviewUserInterface.cpp ../../Core/Quan3D.cpp ../../Core/QuanWorker.cpp ../../Core/CCPiLabelQuantificationResult.cpp)
 
 include_directories(../../Core)  
 TARGET_LINK_LIBRARIES(CCPiAccessibleVolume ITKCommon 
