@@ -13,6 +13,7 @@
 #include "CCPiImageData.h"
 #include "CCPiUserApplicationInterface.h"
 #include "CCPiLabelQuantificationResult.h"
+#include "omp.h"
 #include "Quan3D.hpp"
 #include "QuanWorker.hpp"
 
