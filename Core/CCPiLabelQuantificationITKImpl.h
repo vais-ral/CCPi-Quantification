@@ -13,7 +13,9 @@
 #include "CCPiImageData.h"
 #include "CCPiUserApplicationInterface.h"
 #include "CCPiLabelQuantificationResult.h"
+#ifdef _OPENMP
 #include "omp.h"
+#endif
 #include "Quan3D.hpp"
 #include "QuanWorker.hpp"
 
@@ -101,7 +103,10 @@ void CCPiLabelQuantificationITKImpl<T>::Compute()
         }
         #pragma omp atomic
         n++;
-        if (omp_get_thread_num() == 0) {
+#ifdef _OPENMP
+        if (omp_get_thread_num() == 0)
+#endif
+		{
 			UserAppInterface->SetStatusMessage("Quantification underway");
 			UserAppInterface->SetProgressValue( (float)n/(float)totalVoxels );
         }
