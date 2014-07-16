@@ -3,9 +3,9 @@
 
 #if defined(_WIN32) || defined(__WIN32__)
   #if defined(CCPiCore_EXPORTS) // add by CMake 
-    #define  CCPI_EXPORT extern "C" __declspec(dllexport)
+    #define  CCPI_EXPORT __declspec(dllexport)
   #else
-    #define  CCPI_EXPORT extern "C" __declspec(dllimport)
+    #define  CCPI_EXPORT __declspec(dllimport)
   #endif /* CCPi_EXPORTS */
 #elif defined(linux) || defined(__linux)
  #define CCPI_EXPORT
