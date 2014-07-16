@@ -8,9 +8,10 @@
 #ifndef CCPIUSERAPPLICATIONINTERFACE_H
 #define CCPIUSERAPPLICATIONINTERFACE_H
 
+#include "CCPiDefines.h"
 #include <string>
 
-class CCPiUserApplicationInterface
+class CCPI_EXPORT CCPiUserApplicationInterface
 {
 public:
 	/* 

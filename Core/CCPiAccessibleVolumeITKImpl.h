@@ -7,6 +7,7 @@
 #ifndef CCPIACCESSIBLEVOLUMEITKIMPL_H
 #define CCPIACCESSIBLEVOLUMEITKIMPL_H
 
+#include "CCPiDefines.h"
 #include "CCPiAccessibleVolumeInputImages.h"
 #include "CCPiUserApplicationInterface.h"
 
@@ -18,7 +19,7 @@
 
 typedef itk::Image< float, 3 >             DistanceMapImageType;
 
-class CCPiAccessibleVolumeITKImpl
+class CCPI_EXPORT CCPiAccessibleVolumeITKImpl
 {
 public:
 	CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInputImages *input, CCPiUserApplicationInterface *userAppInterface, CCPiImageDataUnsignedChar* outputImage, float sphereDiameterRangeMin, float sphereDiameterRangeMax, int numberOfSpheres, float imageResolution);

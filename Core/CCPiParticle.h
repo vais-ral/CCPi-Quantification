@@ -7,6 +7,7 @@
 #ifndef CCPIPARTICLE_H
 #define CCPIPARTICLE_H
 
+#include "CCPiDefines.h"
 #include <iostream>
 #include <vector>
 
@@ -15,7 +16,7 @@ using namespace std;
 /**
  * Defines a particle that holds all the relevant info for it.
  */
-class CCPiParticle {
+class CCPI_EXPORT CCPiParticle {
 
   public:
   

@@ -52,6 +52,7 @@ The following characteristics are calculated:
 #ifndef __QUAN3D_HPP
 #define __QUAN3D_HPP
 
+#include "CCPiDefines.h"
 #include <cstring>
 #include <iostream>
 #include <vector>
@@ -65,7 +66,7 @@ The following characteristics are calculated:
 
 template <class IT> class CCPiQuantificationWorker;
 
-template <class IT> class CCPiQuantification3D {
+template <class IT> class CCPI_EXPORT CCPiQuantification3D {
 
   public:
 

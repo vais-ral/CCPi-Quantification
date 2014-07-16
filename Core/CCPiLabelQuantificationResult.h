@@ -7,12 +7,13 @@
 #ifndef CCPILABELQUANTIFICATIONRESULT_H
 #define CCPILABELQUANTIFICATIONRESULT_H
 
+#include "CCPiDefines.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <list>
 
-class CCPiLabelQuantificationResult
+class CCPI_EXPORT CCPiLabelQuantificationResult
 {
 public:
 	CCPiLabelQuantificationResult();

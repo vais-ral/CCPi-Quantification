@@ -21,9 +21,10 @@ labelled image. It is a friend class to CCPiQuantification<IT>
 #ifndef __QUANWORKER_HPP
 #define __QUANWORKER_HPP
 
+#include "CCPiDefines.h"
 #include "Quan3D.hpp"
 
-template <class IT> class CCPiQuantificationWorker {
+template <class IT> class CCPI_EXPORT CCPiQuantificationWorker {
 
   public:
 
