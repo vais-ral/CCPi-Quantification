@@ -8,6 +8,7 @@
 #ifndef CCPIPARTICLETRACKER_H
 #define CCPIPARTICLETRACKER_H
 
+#include "CCPiDefines.h"
 #include <functional>
 #include <iostream>
 #include <list>
@@ -27,7 +28,7 @@ using namespace std;
  * ...
  */
  
-class CCPiParticleTracker {
+class CCPI_EXPORT CCPiParticleTracker {
 
   public:
   

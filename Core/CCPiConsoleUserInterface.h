@@ -7,9 +7,10 @@
 #ifndef CCPICONSOLEUSERINTERFACE_H
 #define CCPICONSOLEUSERINTERFACE_H
 
+#include "CCPiDefines.h"
 #include "CCPiUserApplicationInterface.h"
 
-class CCPiConsoleUserInterface : public CCPiUserApplicationInterface
+class CCPI_EXPORT CCPiConsoleUserInterface : public CCPiUserApplicationInterface
 {
 public:
 	void LogMessage(std::string message);

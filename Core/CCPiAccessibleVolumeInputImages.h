@@ -8,12 +8,14 @@
 #ifndef CCPIACCESSIBLEVOLUMEINPUTIMAGES_H
 #define CCPIACCESSIBLEVOLUMEINPUTIMAGES_H
 
+#include "CCPiDefines.h"
+
 #include "itkImage.h"
 #include "CCPiImageData.h"
 
 typedef itk::Image< unsigned char, 3 >     ImageType;
 
-class CCPiAccessibleVolumeInputImages
+class CCPI_EXPORT CCPiAccessibleVolumeInputImages
 {
 public:
 	CCPiAccessibleVolumeInputImages(const int *volumeDims, const float *voxelSize, const float *origin, CCPiImageDataUnsignedChar *volumeData, CCPiImageDataUnsignedChar *maskedVolumeData);

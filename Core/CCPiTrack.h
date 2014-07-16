@@ -7,6 +7,7 @@
 #ifndef CCPITRACK_H
 #define CCPITRACK_H
 
+#include "CCPiDefines.h"
 #include <iostream>
 #include <vector>
 
@@ -18,7 +19,7 @@ using namespace std;
  * Defines a track that is basically an array of sequential particles.
  */
  
-class CCPiTrack {
+class CCPI_EXPORT CCPiTrack {
 
   public:
   
