@@ -28,7 +28,7 @@ ADD_PARAVIEW_PLUGIN(CCPiLabelQuantification(CCPi) "1.0"
   SERVER_MANAGER_SOURCES CCPiLabelQuantificationParaviewImpl.cxx 
   SERVER_SOURCES CCPiParaviewUserInterface.cpp)
 
-ADD_SUBDIRECTORY(../../Core)
+ADD_SUBDIRECTORY(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore")
  
 include_directories(../../Core)  
 TARGET_LINK_LIBRARIES(CCPiAccessibleVolume CCPiCore ITKCommon 
