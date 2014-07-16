@@ -18,7 +18,7 @@ include(ParaViewPlugins)
 ADD_PARAVIEW_PLUGIN(CCPiAccessibleVolume(CCPi) "1.0"
   SERVER_MANAGER_XML CCPiAccessibleVolume.xml 
   SERVER_MANAGER_SOURCES CCPiAccessibleVolumeParaviewImpl.cxx
-  SERVER_SOURCES CCPiParaviewUserInterface.cpp ../../Core/CCPiAccessibleVolumeInputImages.cpp ../../Core/CCPiAccessibleVolumeITKImpl.cpp)
+  SERVER_SOURCES CCPiParaviewUserInterface.cpp)
 ADD_PARAVIEW_PLUGIN(CCPiSimpleHistogramThresholding(CCPi) "1.0"
   SERVER_MANAGER_XML CCPiAccessibleVolume.xml 
   SERVER_MANAGER_SOURCES CCPiSimpleHistogramThresholdingParaviewImpl.cxx
@@ -26,14 +26,16 @@ ADD_PARAVIEW_PLUGIN(CCPiSimpleHistogramThresholding(CCPi) "1.0"
 ADD_PARAVIEW_PLUGIN(CCPiLabelQuantification(CCPi) "1.0"
   SERVER_MANAGER_XML CCPiAccessibleVolume.xml
   SERVER_MANAGER_SOURCES CCPiLabelQuantificationParaviewImpl.cxx 
-  SERVER_SOURCES CCPiParaviewUserInterface.cpp ../../Core/Quan3D.cpp ../../Core/QuanWorker.cpp ../../Core/CCPiLabelQuantificationResult.cpp)
+  SERVER_SOURCES CCPiParaviewUserInterface.cpp)
 
+ADD_SUBDIRECTORY(../../Core)
+ 
 include_directories(../../Core)  
-TARGET_LINK_LIBRARIES(CCPiAccessibleVolume ITKCommon 
+TARGET_LINK_LIBRARIES(CCPiAccessibleVolume CCPiCore ITKCommon 
 							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys)							
-TARGET_LINK_LIBRARIES(CCPiLabelQuantification ITKCommon 
+TARGET_LINK_LIBRARIES(CCPiLabelQuantification CCPiCore ITKCommon 
 							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys)
-TARGET_LINK_LIBRARIES(CCPiSimpleHistogramThresholding ITKCommon 
+TARGET_LINK_LIBRARIES(CCPiSimpleHistogramThresholding CCPiCore ITKCommon 
 							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics)  
 
 SET(CPACK_GENERATOR "RPM")
