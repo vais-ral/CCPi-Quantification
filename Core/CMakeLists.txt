@@ -29,3 +29,10 @@ ADD_LIBRARY(CCPiCore ${LIB_TYPE} QuanWorker.cpp
 						 
 TARGET_LINK_LIBRARIES(CCPiCore ITKCommon ITKStatistics
 							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys vtkHybrid)							
+
+OPTION(BUILD_TESTING "Build the testing tree." ON)
+IF(BUILD_TESTING)
+   ENABLE_TESTING()   
+ENDIF(BUILD_TESTING)
+
+SUBDIRS(test)					
