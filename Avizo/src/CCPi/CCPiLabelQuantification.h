@@ -71,6 +71,14 @@ class CCPI_API CCPiLabelQuantification : public HxCompModule
      * @return @TODO
      */
     template<class IT> void runQuantification(IT *data, int vtkDataType);
+
+	/**
+	 * Creates a Spreadsheet output to be added to the avizo workspace using the label quantification results
+	 * @param prefix: output data prefix in the avizo workspace
+	 * @param quantResult: Quantification Results
+	 * @return spreadsheet
+	 */
+	HxSpreadSheet* createSpreadsheetOutput(std::string prefix,CCPiLabelQuantificationResult* quantResult);
 };
 
 #endif // CCPILABELQUANTIFICATION_H
