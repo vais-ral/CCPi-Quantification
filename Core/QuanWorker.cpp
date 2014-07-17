@@ -111,7 +111,7 @@ int CCPiQuantificationWorker<IT>::Run()
   for (int k = 0; k < voxelCount; k++) {
       positions[k][0] = voxelPositions[k][0];
       if ( (voxelPositions[k][0] == 0) || (voxelPositions[k][0] == m_QuantificationData->m_Dimensions[0]-1) ||
-           (voxelPositions[k][1] == 0) || (voxelPositions[k][1] == m_QuantificationData->m_Dimensions[2]-1) ||
+           (voxelPositions[k][1] == 0) || (voxelPositions[k][1] == m_QuantificationData->m_Dimensions[1]-1) ||
            (voxelPositions[k][2] == 0) || (voxelPositions[k][2] == m_QuantificationData->m_Dimensions[2]-1) )
         numBoundaryVoxels++;
       positions[k][1] = voxelPositions[k][1];
