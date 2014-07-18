@@ -156,7 +156,7 @@ void CCPiSimpleHistogramThresholdingITKImpl<T>::Compute()
 {
 
 	TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramGeneratorType::Pointer histogramGenerator = ComputeHistogram(Image, MinPixelIntensity, MaxPixelIntensity);
-	const  CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramType *histogram = histogramGenerator->GetOutput();
+	const TYPENAME  CCPiSimpleHistogramThresholdingITKImpl<T>::HistogramType *histogram = histogramGenerator->GetOutput();
 	Peaks = FindTwoPeaksInHistogram(histogram,MinPixelIntensity, MaxPixelIntensity);
 	double thresholdValue = (Peaks[0]+Peaks[1])/2.0;
 	OutputImage = ThresholdAnImage(Image, thresholdValue);
@@ -258,7 +258,7 @@ CCPiImageDataUnsignedChar*	CCPiSimpleHistogramThresholdingITKImpl<T>::GetOutputI
 	CCPiImageDataUnsignedChar* returnImage = new CCPiImageDataUnsignedChar(imgDims);
 	unsigned char* returnImageData = returnImage->GetImage();
 	//Copy the OutputImage to returnImage
-	itk::ImageRegionConstIterator< CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType > outputImageIterator( OutputImage,
+	itk::ImageRegionConstIterator< TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType > outputImageIterator( OutputImage,
 		OutputImage->GetRequestedRegion());
 	long iOut = 0;
 	for (outputImageIterator.GoToBegin(); !outputImageIterator.IsAtEnd(); ++outputImageIterator, iOut++) {
@@ -283,7 +283,7 @@ void CCPiSimpleHistogramThresholdingITKImpl<T>::GetOutputImage(CCPiImageDataUnsi
 
 	unsigned char* returnImageData = returnImage->GetImage();
 	//Copy the OutputImage to returnImage
-	itk::ImageRegionConstIterator< CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType > outputImageIterator( OutputImage,
+	itk::ImageRegionConstIterator< TYPENAME CCPiSimpleHistogramThresholdingITKImpl<T>::OutputImageType > outputImageIterator( OutputImage,
 		OutputImage->GetRequestedRegion());
 	long iOut = 0;
 	for (outputImageIterator.GoToBegin(); !outputImageIterator.IsAtEnd(); ++outputImageIterator, iOut++) {
