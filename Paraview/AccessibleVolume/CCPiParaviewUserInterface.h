@@ -5,7 +5,7 @@
  */
 
 #ifndef CCPIPARAVIEWUSERINTERFACE_H
-#define CCPIAVIZOUSERINTERFACE_H
+#define CCPIPARAVIEWUSERINTERFACE_H
 
 #include "CCPiUserApplicationInterface.h"
 #include "vtkAlgorithm.h"
