@@ -376,7 +376,7 @@ void CCPiQuantificationWorker<IT>::WriteCSVData(std::string filename)
 {
   // Create a file and write to it
   std::ofstream finalStatisticsLog(filename.c_str(), std::ios::app);
-  finalStatisticsLog << m_FinalStatisticsLog.str();
+  finalStatisticsLog << m_FinalStatisticsLog.str().c_str();
   finalStatisticsLog.close();
 }
 

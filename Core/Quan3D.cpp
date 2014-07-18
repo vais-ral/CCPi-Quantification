@@ -257,7 +257,7 @@ void CCPiQuantification3D<IT>::WriteCSVData(std::string filename)
 {
   // Create a file and write to it
   std::ofstream finalStatisticsLog(filename.c_str(), std::ios::trunc);
-  finalStatisticsLog << m_FinalStatisticsLog.str();
+  finalStatisticsLog << m_FinalStatisticsLog.str().c_str();
   finalStatisticsLog.close();
 }
 
