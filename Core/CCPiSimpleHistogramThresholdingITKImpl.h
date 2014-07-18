@@ -18,7 +18,7 @@
 #include "CCPiImageData.h"
 
 #include <vector>
-#if (_MSC_VER < 1500)
+#if (_MSC_VER < 1500 && _WINDOWS)
   #define TYPENAME
 #else
   #define TYPENAME typename
