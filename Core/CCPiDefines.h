@@ -7,7 +7,7 @@
   #else
     #define  CCPI_EXPORT __declspec(dllimport)
   #endif /* CCPi_EXPORTS */
-#elif defined(linux) || defined(__linux)
+#elif defined(linux) || defined(__linux) || defined(__APPLE__)
  #define CCPI_EXPORT
 #endif
 

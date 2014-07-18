@@ -40,5 +40,4 @@ ADD_JAR(CCPiImageJPlugin_Java 	AccessibleVolumePluginFilter_.java
 							IntList.java							
 		OUTPUT_NAME		CCPiImageJ_Plugin.jar) 						 
 							 
-TARGET_LINK_LIBRARIES(CCPiImageJPlugin_Cpp CCPiCore ITKCommon ITKStatistics
-							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys vtkHybrid)							
+TARGET_LINK_LIBRARIES(CCPiImageJPlugin_Cpp CCPiCore ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS})							

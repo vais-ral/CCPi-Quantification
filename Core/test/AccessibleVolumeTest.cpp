@@ -51,6 +51,8 @@ int main(int argc, char *argv[])
 	std::map<double,double> outputAV = algo.GetAccessibleVolume();
 #if _WIN32	
 	if(_isnan(outputAV[80.0])) return 1;
+#elif __APPLE__
+	if(std::isnan(outputAV[80.0])) return 1;
 #else
 	if(isnan(outputAV[80.0])) return 1;
 #endif
