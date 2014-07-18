@@ -64,8 +64,8 @@ CCPiLabelQuantificationITKImpl<T>::~CCPiLabelQuantificationITKImpl()
 template <class T>
 void CCPiLabelQuantificationITKImpl<T>::Compute()
 {
-	UserAppInterface->SetStatusMessage("Initialising...");
     UserAppInterface->SetProgressValue( 0.01 );
+	UserAppInterface->SetStatusMessage("Initialising...");
 
     // Initialise the controller
 	quan3D.Initialise(ImageData->GetImage(), VolumeDims, 1,
@@ -107,8 +107,8 @@ void CCPiLabelQuantificationITKImpl<T>::Compute()
         if (omp_get_thread_num() == 0)
 #endif
 		{
-			UserAppInterface->SetStatusMessage("Quantification underway");
 			UserAppInterface->SetProgressValue( (float)n/(float)totalVoxels );
+			UserAppInterface->SetStatusMessage("Quantification underway");
         }
     }
 	UserAppInterface->SetStatusMessage("Quantification complete");

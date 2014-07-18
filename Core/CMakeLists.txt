@@ -4,8 +4,14 @@ PROJECT (CCPiCore)
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE(${ITK_USE_FILE})
 
+IF(ParaView_DIR)
+FIND_PACKAGE(VTK COMPONENTS vtkCommonCore vtkImagingCore vtkImagingHybrid vtkFiltersCore vtkCommonComputationalGeometry NO_MODULE)
+INCLUDE(${VTK_USE_FILE})
+ELSE()
 FIND_PACKAGE(VTK REQUIRED)
 INCLUDE(${VTK_USE_FILE})
+ENDIF()
+
 
 # Allow the developer to select if Dynamic or Static libraries are built
 OPTION (BUILD_SHARED_LIBS "Build Shared Libraries" OFF)
@@ -26,9 +32,18 @@ ADD_LIBRARY(CCPiCore ${LIB_TYPE} QuanWorker.cpp
 							CCPiParticleTracker.cpp
 							CCPiTrack.cpp
 			)
-						 
-TARGET_LINK_LIBRARIES(CCPiCore ITKCommon ITKStatistics
-							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys vtkHybrid)							
+SET (CCPI_VTK_LIBS)
+IF (VTK_MAJOR_VERSION EQUAL 6)			
+SET (CCPI_VTK_LIBS ${VTK_LIBRARIES})
+ELSE()
+SET (CCPI_VTK_LIBS vtkHybrid)
+ENDIF()
+
+SET(CCPI_ITK_LIBS ITKCommon ITKStatistics itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys)
+
+
+TARGET_LINK_LIBRARIES(CCPiCore  ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS})							
+							
 
 OPTION(BUILD_TESTING "Build the testing tree." ON)
 IF(BUILD_TESTING)
