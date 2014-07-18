@@ -6,7 +6,7 @@
 
 void CCPiAvizoUserInterface::LogMessage(std::string message)
 {
-	theMsg->stream() << message <<std::endl;
+	theMsg->stream() << message.c_str() <<std::endl;
 }
 
 void CCPiAvizoUserInterface::SetStatusMessage(std::string message)
