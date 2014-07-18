@@ -34,7 +34,7 @@ ADD_LIBRARY(CCPiCore ${LIB_TYPE} QuanWorker.cpp
 			)
 SET (CCPI_VTK_LIBS)
 IF (VTK_MAJOR_VERSION EQUAL 6)			
-SET (CCPI_VTK_LIBS ${VTK_LIBRARIES})
+SET (CCPI_VTK_LIBS vtkCommonCore vtkImagingCore vtkImagingHybrid vtkFiltersCore vtkCommonComputationalGeometry)
 ELSE()
 SET (CCPI_VTK_LIBS vtkHybrid)
 ENDIF()
