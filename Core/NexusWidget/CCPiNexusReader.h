@@ -1,0 +1,35 @@
+/**
+ * This reads the data from nexus files given the filename and the data path
+ * Author : Mr. Srikanth Nagella
+ */
+
+#ifndef CCPINEXUSREADER_H
+#define CCPINEXUSREADER_H
+
+#include "hdf5.h"
+#include <string>
+
+#include "CCPiDefines.h"
+class CCPI_EXPORT CCPiNexusReader
+{
+public:
+	enum DATATYPE { UCHAR, CHAR, SHORT, USHORT, INT, UINT, LONG, ULONG, LLONG, ULLONG, FLOAT, DOUBLE, LDOUBLE, UNKNOWN } ;
+	CCPiNexusReader(std::string filename);
+	~CCPiNexusReader();
+	void ReadCompleteData(std::string datasetPath, void** data,int *ndims, int** dims, DATATYPE* dataType, double** axisData);
+private:
+	std::string Filename;
+	hid_t		FileId;
+
+	void* AllocateMemory(hid_t datatype, int ndims, hsize_t *dims);
+	void* AllocateMemory(hid_t datatype, hsize_t totalsize);
+	DATATYPE GetDataType(hid_t datatype);
+	bool isSignalData(hid_t dataset);
+	bool ReadAxisData(std::string datasetPath, int ndims, hsize_t *dims, void** axisData);
+	bool ReadOneAxisDataAndSetInOutput(int axisId,std::string datasetPath, int axisNDims, hsize_t *axisDims,  double* axisData);
+	bool CopyAndDeleteData(DATATYPE dataType,int num, void* data, double *axisData);
+	template<class T>
+	void CopyAndDeleteDataTemplate(int num, T* data, double *axisData);
+};
+
+#endif
