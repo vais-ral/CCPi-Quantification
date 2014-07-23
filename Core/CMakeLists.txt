@@ -51,3 +51,9 @@ IF(BUILD_TESTING)
 ENDIF(BUILD_TESTING)
 
 SUBDIRS(test)					
+
+#Allow the developer to select Nexus Widget to be built with the core
+OPTION(BUILD_NEXUS_WIDGET "Build Nexus Widget" OFF)
+IF(BUILD_NEXUS_WIDGET)
+	SUBDIRS(NexusWidget)
+ENDIF()
