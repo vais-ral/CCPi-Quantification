@@ -2,7 +2,7 @@
 #define CCPIDEFINES_H
 
 #if defined(_WIN32) || defined(__WIN32__)
-  #if defined(CCPiCore_EXPORTS || CCPiNexusWidget_EXPORTS) // add by CMake 
+  #if defined(CCPiCore_EXPORTS) || defined(CCPiNexusWidget_EXPORTS) // add by CMake 
     #define  CCPI_EXPORT __declspec(dllexport)
   #else
     #define  CCPI_EXPORT __declspec(dllimport)
