@@ -43,3 +43,9 @@ module -name     "CCPI Simple Histogram Thresholding" \
        -category "CCPi" \
        -package  "CCPi" \
        -icon     "TVDefCompute"
+
+dataFile -name    "Nexus Format" \
+         -option  "nxs" \
+         -ext     "nxs" \
+         -load    "CCPiAvizoNexusReader" \
+         -package "CCPi"
