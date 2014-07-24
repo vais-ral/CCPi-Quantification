@@ -5,11 +5,12 @@
 #ifndef CCPINEXUSWIDGETDIALOG_H
 #define CCPINEXUSWIDGETDIALOG_H
 
+#include "CCPiDefines.h"
 #include "ui_CCPiNexusWidget.h"
 #include "CCPiNexusTreeModel.h"
 #include <vector>
 
-class CCPiNexusWidgetDialog: public QDialog
+class CCPI_EXPORT CCPiNexusWidgetDialog: public QDialog
 {
 	Q_OBJECT
 public:
