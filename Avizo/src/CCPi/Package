@@ -4,11 +4,7 @@ set LIBS {
     hxplot hxtime hxsurface hxcolor hxfield
     hxcore hxspreadsheet amiramesh mclib oiv tcl qt
     ITKCommon itksys itkv3p_netlib itkvcl itkvnl itkvnl_algo
-	ITKStatistics
-}
-
-set COPY {
-    ../../../Core/ src/CCPi
+	ITKStatistics CCPiCore CCPiNexusWidget
 }
 
 set SHARE {
@@ -30,7 +26,11 @@ set LIBS-Win {
 
 set INCLUDES-Unix {
     /usr/include/vtk-5.8
+	../../../Core
+	../../../Core/NexusWidget
 }
 set INCLUDES-Win {
     "../../../Dependencies/VTK5.8.0/include/vtk-5.8"
+	"../../../Core"
+	"../../../Core/NexusWidget"
 }

@@ -14,8 +14,8 @@
 #include <hxfield/HxRectilinearCoord3.h>
 #include "api.h"
 
-void CCPiRegisterUniformDataset(std::string name, void *data, int ndims, int *dims, NexusReader::DATATYPE dataType);
-void CCPiRegisterRegularDataset(std::string name, void *data, int ndims, int *dims, NexusReader::DATATYPE dataType, double* axisData);
+void CCPiRegisterUniformDataset(std::string name, void *data, int ndims, int *dims, CCPiNexusReader::DATATYPE dataType);
+void CCPiRegisterRegularDataset(std::string name, void *data, int ndims, int *dims, CCPiNexusReader::DATATYPE dataType, double* axisData);
 CCPI_API
 int CCPiAvizoNexusReader(const char* filename)
 {
@@ -30,7 +30,7 @@ int CCPiAvizoNexusReader(const char* filename)
 		CCPiNexusReader reader(filename);
 		int ndims;
 		int *dims;
-		NexusReader::DATATYPE dataType;
+		CCPiNexusReader::DATATYPE dataType;
 		void* data;
 		double* axisData=NULL;
 		reader.ReadCompleteData(*(itr), &data, &ndims, &dims, &dataType,&axisData);
@@ -94,44 +94,44 @@ void CCPiRegisterAvizoUniformDataset(std::string name, T *data, int ndims, int *
 	HxData::registerData(field, name.c_str());
 }
 
-void CCPiRegisterUniformDataset(std::string name, void *data, int ndims, int *dims, NexusReader::DATATYPE dataType)
+void CCPiRegisterUniformDataset(std::string name, void *data, int ndims, int *dims, CCPiNexusReader::DATATYPE dataType)
 {
 	switch(dataType)
 	{
-	case NexusReader::CHAR:
+	case CCPiNexusReader::CHAR:
 		CCPiRegisterAvizoUniformDataset(name, (char*) data,ndims,dims,McPrimType::mc_int8);
 		break;
-	case NexusReader::UCHAR:
+	case CCPiNexusReader::UCHAR:
 		CCPiRegisterAvizoUniformDataset(name, (unsigned char*) data,ndims,dims,McPrimType::mc_uint8);
 		break;
-	case NexusReader::SHORT:
+	case CCPiNexusReader::SHORT:
 		CCPiRegisterAvizoUniformDataset(name, (short*) data,ndims,dims,McPrimType::mc_int16);
 		break;
-	case NexusReader::USHORT:
+	case CCPiNexusReader::USHORT:
 		CCPiRegisterAvizoUniformDataset(name, (unsigned short*) data,ndims,dims,McPrimType::mc_uint16);
 		break;
-	case NexusReader::INT:
+	case CCPiNexusReader::INT:
 		CCPiRegisterAvizoUniformDataset(name, (int*) data,ndims,dims,McPrimType::mc_int32);
 		break;
-	case NexusReader::UINT:
+	case CCPiNexusReader::UINT:
 		CCPiRegisterAvizoUniformDataset(name, (unsigned int*) data,ndims,dims,McPrimType::mc_uint32);
 		break;
-	case NexusReader::LONG:
+	case CCPiNexusReader::LONG:
 		CCPiRegisterAvizoUniformDataset(name, (long*) data,ndims,dims,McPrimType::mc_int32);
 		break;
-	case NexusReader::ULONG:
+	case CCPiNexusReader::ULONG:
 		CCPiRegisterAvizoUniformDataset(name, (unsigned long*) data,ndims,dims,McPrimType::mc_uint32);
 		break;
-	case NexusReader::LLONG:
+	case CCPiNexusReader::LLONG:
 		CCPiRegisterAvizoUniformDataset(name, (long long*) data,ndims,dims,McPrimType::mc_int64);
 		break;
-	case NexusReader::ULLONG:
+	case CCPiNexusReader::ULLONG:
 		CCPiRegisterAvizoUniformDataset(name, (unsigned long long*) data,ndims,dims,McPrimType::mc_uint64);
 		break;
-	case NexusReader::FLOAT:
+	case CCPiNexusReader::FLOAT:
 		CCPiRegisterAvizoUniformDataset(name, (float*) data,ndims,dims,McPrimType::mc_float);
 		break;
-	case NexusReader::DOUBLE:
+	case CCPiNexusReader::DOUBLE:
 		CCPiRegisterAvizoUniformDataset(name, (double*) data,ndims,dims,McPrimType::mc_double);
 		break;
 	}
@@ -185,44 +185,44 @@ void CCPiRegisterAvizoRegularDataset(std::string name, T *data, int ndims, int *
 	HxData::registerData(field, name.c_str());
 }
 
-void CCPiRegisterRegularDataset(std::string name, void *data, int ndims, int *dims, NexusReader::DATATYPE dataType, double* axisData)
+void CCPiRegisterRegularDataset(std::string name, void *data, int ndims, int *dims, CCPiNexusReader::DATATYPE dataType, double* axisData)
 {
 	switch(dataType)
 	{
-	case NexusReader::CHAR:
+	case CCPiNexusReader::CHAR:
 		CCPiRegisterAvizoRegularDataset(name, (char*) data,ndims,dims,McPrimType::mc_int8, axisData);
 		break;
-	case NexusReader::UCHAR:
+	case CCPiNexusReader::UCHAR:
 		CCPiRegisterAvizoRegularDataset(name, (unsigned char*) data,ndims,dims,McPrimType::mc_uint8, axisData);
 		break;
-	case NexusReader::SHORT:
+	case CCPiNexusReader::SHORT:
 		CCPiRegisterAvizoRegularDataset(name, (short*) data,ndims,dims,McPrimType::mc_int16, axisData);
 		break;
-	case NexusReader::USHORT:
+	case CCPiNexusReader::USHORT:
 		CCPiRegisterAvizoRegularDataset(name, (unsigned short*) data,ndims,dims,McPrimType::mc_uint16, axisData);
 		break;
-	case NexusReader::INT:
+	case CCPiNexusReader::INT:
 		CCPiRegisterAvizoRegularDataset(name, (int*) data,ndims,dims,McPrimType::mc_int32, axisData);
 		break;
-	case NexusReader::UINT:
+	case CCPiNexusReader::UINT:
 		CCPiRegisterAvizoRegularDataset(name, (unsigned int*) data,ndims,dims,McPrimType::mc_uint32, axisData);
 		break;
-	case NexusReader::LONG:
+	case CCPiNexusReader::LONG:
 		CCPiRegisterAvizoRegularDataset(name, (long*) data,ndims,dims,McPrimType::mc_int32, axisData);
 		break;
-	case NexusReader::ULONG:
+	case CCPiNexusReader::ULONG:
 		CCPiRegisterAvizoRegularDataset(name, (unsigned long*) data,ndims,dims,McPrimType::mc_uint32, axisData);
 		break;
-	case NexusReader::LLONG:
+	case CCPiNexusReader::LLONG:
 		CCPiRegisterAvizoRegularDataset(name, (long long*) data,ndims,dims,McPrimType::mc_int64, axisData);
 		break;
-	case NexusReader::ULLONG:
+	case CCPiNexusReader::ULLONG:
 		CCPiRegisterAvizoRegularDataset(name, (unsigned long long*) data,ndims,dims,McPrimType::mc_uint64, axisData);
 		break;
-	case NexusReader::FLOAT:
+	case CCPiNexusReader::FLOAT:
 		CCPiRegisterAvizoRegularDataset(name, (float*) data,ndims,dims,McPrimType::mc_float, axisData);
 		break;
-	case NexusReader::DOUBLE:
+	case CCPiNexusReader::DOUBLE:
 		CCPiRegisterAvizoRegularDataset(name, (double*) data,ndims,dims,McPrimType::mc_double, axisData);
 		break;
 	}

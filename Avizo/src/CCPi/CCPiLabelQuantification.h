@@ -13,6 +13,7 @@
 #include <hxcore/HxPortFilename.h>
 #include <hxcore/HxPortFloatTextN.h>
 #include <hxcore/HxPortIntSlider.h>
+#include <hxspreadsheet/HxSpreadSheet.h>
 
 #include "api.h"
 
