@@ -7,8 +7,10 @@
 
 #include <hxcore/HxCompModule.h>
 #include <hxcore/HxPortDoIt.h>
+#include <hxfield/HxUniformScalarField3.h>
 
 #include "api.h"
+#include <vector>
 
 class CCPI_API CCPiSimpleHistogramThresholding : public HxCompModule
 {
