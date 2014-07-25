@@ -14,6 +14,7 @@
 #include <hxcore/HxPortFloatTextN.h>
 #include <hxcore/HxPortIntSlider.h>
 #include <hxspreadsheet/HxSpreadSheet.h>
+#include "CCPiLabelQuantificationResult.h"
 
 #include "api.h"
 
