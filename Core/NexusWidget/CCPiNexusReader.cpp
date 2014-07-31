@@ -55,6 +55,29 @@ void CCPiNexusReader::ReadCompleteData(std::string datasetPath, void** data,int 
 	delete[] maxdims;
 }
 
+void CCPiNexusReader::ReadCompleteDataNoAllocation(std::string datasetPath, void* data)
+{
+	hid_t dataset_id = H5Dopen(FileId,datasetPath.c_str(),H5P_DEFAULT);
+	hid_t dataspace = H5Dget_space(dataset_id);
+	int rank = H5Sget_simple_extent_ndims(dataspace);
+	hsize_t *dims_out = new hsize_t[rank];
+	hsize_t *maxdims =  new hsize_t[rank];
+	H5Sget_simple_extent_dims(dataspace,dims_out,maxdims);
+
+	hid_t datasetDataType = H5Dget_type(dataset_id);
+	hid_t nativeDataType = H5Tget_native_type(datasetDataType,H5T_DIR_DEFAULT);
+
+	int status = H5Dread(dataset_id, nativeDataType,H5S_ALL,H5S_ALL,H5P_DEFAULT,data);
+
+	if(status>0) std::cout<<"Successfully read the data"<<std::endl;
+
+	H5Tclose(nativeDataType);
+	H5Tclose(datasetDataType);
+	H5Dclose(dataset_id);
+	delete[] dims_out;
+	delete[] maxdims;
+}
+
 void* CCPiNexusReader::AllocateMemory(hid_t datatype, int ndims, hsize_t *dims)
 {
 	hsize_t totalsize = 1;
@@ -137,6 +160,40 @@ CCPiNexusReader::DATATYPE CCPiNexusReader::GetDataType(hid_t datatype)
 		return UNKNOWN;
 	}
 
+}
+
+int  CCPiNexusReader::GetDataNumberOfDimensions(std::string datasetPath)
+{
+	hid_t dataset_id = H5Dopen(FileId,datasetPath.c_str(),H5P_DEFAULT);
+	hid_t dataspace = H5Dget_space(dataset_id);
+	int rank = H5Sget_simple_extent_ndims(dataspace);
+	H5Dclose(dataset_id);
+	return rank;
+}
+
+void CCPiNexusReader::GetDataDimensions(std::string datasetPath, int *dims)
+{
+	hid_t dataset_id = H5Dopen(FileId,datasetPath.c_str(),H5P_DEFAULT);
+	hid_t dataspace = H5Dget_space(dataset_id);
+	int rank = H5Sget_simple_extent_ndims(dataspace);
+	hsize_t *dims_out = new hsize_t[rank];
+	hsize_t *maxdims =  new hsize_t[rank];
+	H5Sget_simple_extent_dims(dataspace,dims_out,maxdims);
+	for(int i=0;i<rank;i++)
+		dims[i]=dims_out[i];
+	H5Dclose(dataset_id);
+	delete[] dims_out;
+	delete[] maxdims;
+}
+
+CCPiNexusReader::DATATYPE CCPiNexusReader::GetDataType(std::string datasetPath)
+{
+	hid_t dataset_id = H5Dopen(FileId,datasetPath.c_str(),H5P_DEFAULT);
+	hid_t datasetDataType = H5Dget_type(dataset_id);
+	hid_t nativeDataType = H5Tget_native_type(datasetDataType,H5T_DIR_DEFAULT);
+	DATATYPE dataType = GetDataType(nativeDataType);
+	H5Dclose(dataset_id);
+	return dataType;
 }
 
 bool CCPiNexusReader::isSignalData(hid_t dataset)
@@ -349,6 +406,8 @@ bool CCPiNexusReader::CopyAndDeleteData(DATATYPE dataType,int num, void* data, d
 	return true;
 }
 
+
+
 template<class T>
 void CCPiNexusReader::CopyAndDeleteDataTemplate(int num, T* data, double *axisData)
 {
@@ -358,3 +417,4 @@ void CCPiNexusReader::CopyAndDeleteDataTemplate(int num, T* data, double *axisDa
 	}
 	delete[] ((T*)data);
 }
+

@@ -18,7 +18,7 @@ public:
 	~CCPiNexusWidgetDialog();
 	void SetModel(QAbstractItemModel *);
 	std::vector<std::string> GetSelectedDataSetList(){return SelectedDatasetList;}
-	int  GetSelectedDataSetCount(){return SelectedDatasetList.size();}
+	int  GetSelectedDataSetCount(){return (int)SelectedDatasetList.size();}
 	std::string GetSelectedDataSet(int index){return SelectedDatasetList.at(index);}
 private:
 	void accept();

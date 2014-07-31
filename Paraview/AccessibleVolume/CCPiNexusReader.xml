@@ -1,0 +1,44 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="sources">
+    <SourceProxy name="CCPiNexusReader" class="CCPiNexusReaderParaviewImpl" label="Nexus File Reader (CCPi)">
+      <Documentation
+         long_help="Reads nexus files for tomography beamlines at Diamond Light Source."
+         short_help="Reads Nexus files .nxs">
+      </Documentation>
+
+	  <StringVectorProperty name="FileName"
+							animateable="0"
+							command="SetFileName"
+							number_of_elements="1">
+					<FileListDomain name="files"/>
+					<Documentation>
+					This property specifies the file name for the Nexus Reader.
+					</Documentation>
+      </StringVectorProperty>
+	  <StringVectorProperty name="VariableName"
+							animateable="0"
+							command="SetVariableName"
+							number_of_elements="1">
+				<StringListDomain name="array_list">
+					<RequiredProperties>
+						<Property name="VariableNameList" function="ArrayList" />
+					</RequiredProperties>
+				</StringListDomain>
+				<Documentation>
+				This property selects the variable to be read from the Nexus Reader.
+				</Documentation>
+	  </StringVectorProperty>
+	  
+      <StringVectorProperty
+		name="VariableNameList"
+        information_only="1">
+       <ArraySelectionInformationHelper attribute_name="VariableName"/>
+      </StringVectorProperty>	  
+							
+	  <Hints>
+		<ReaderFactory extensions="nxs"
+						file_description="Nexus File Format"/>
+	  </Hints>     
+    </SourceProxy>
+  </ProxyGroup>
+</ServerManagerConfiguration>
