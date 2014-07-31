@@ -43,6 +43,8 @@ TARGET_LINK_LIBRARIES(CCPiLabelQuantification CCPiCore ITKCommon
 TARGET_LINK_LIBRARIES(CCPiSimpleHistogramThresholding CCPiCore ITKCommon 
 							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics)  
 
+TARGET_LINK_LIBRARIES(CCPiNexusReader CCPiCore CCPiNexusWidget)
+
 SET(CPACK_GENERATOR "RPM")
 SET(CPACK_RPM_PACKAGE_SUMMARY "CCPi Quantification Code Paraview Plugin")
 SET(CPACK_RPM_PACKAGE_NAME "CCPiParaviewPlugin")
