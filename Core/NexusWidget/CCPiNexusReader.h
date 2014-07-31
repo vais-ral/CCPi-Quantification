@@ -17,6 +17,10 @@ public:
 	CCPiNexusReader(std::string filename);
 	~CCPiNexusReader();
 	void ReadCompleteData(std::string datasetPath, void** data,int *ndims, int** dims, DATATYPE* dataType, double** axisData);
+	void ReadCompleteDataNoAllocation(std::string datasetPath, void* data);
+	int  GetDataNumberOfDimensions(std::string datasetPath);
+	void GetDataDimensions(std::string datasetPath, int *dims);
+	DATATYPE GetDataType(std::string datasetPath);
 private:
 	std::string Filename;
 	hid_t		FileId;

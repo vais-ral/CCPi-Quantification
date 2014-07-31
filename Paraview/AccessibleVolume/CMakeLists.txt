@@ -27,6 +27,10 @@ ADD_PARAVIEW_PLUGIN(CCPiLabelQuantification(CCPi) "1.0"
   SERVER_MANAGER_XML CCPiAccessibleVolume.xml
   SERVER_MANAGER_SOURCES CCPiLabelQuantificationParaviewImpl.cxx 
   SERVER_SOURCES CCPiParaviewUserInterface.cpp)
+ADD_PARAVIEW_PLUGIN(CCPiNexusReader "1.0"
+  SERVER_MANAGER_XML CCPiNexusReader.xml
+  SERVER_MANAGER_SOURCES CCPiNexusReaderParaviewImpl.cxx
+  REQUIRED_ON_SERVER)
 
 ADD_SUBDIRECTORY(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore")
  
