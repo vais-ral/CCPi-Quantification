@@ -8,6 +8,7 @@
 
 #include "hdf5.h"
 #include <string>
+#include <vector>
 
 #include "CCPiDefines.h"
 class CCPI_EXPORT CCPiNexusReader
@@ -20,6 +21,7 @@ public:
 	void ReadCompleteDataNoAllocation(std::string datasetPath, void* data);
 	int  GetDataNumberOfDimensions(std::string datasetPath);
 	void GetDataDimensions(std::string datasetPath, int *dims);
+	std::vector<std::string> GetVariableNames();
 	DATATYPE GetDataType(std::string datasetPath);
 private:
 	std::string Filename;

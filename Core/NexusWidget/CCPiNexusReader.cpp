@@ -1,7 +1,8 @@
 #include "CCPiNexusReader.h"
 #include <iostream>
 #include <map>
-#include "qmutex.h"
+#include "hdf5.h"
+#include <qmutex.h>
 
 CCPiNexusReader::CCPiNexusReader(std::string filename)
 {
@@ -184,6 +185,32 @@ void CCPiNexusReader::GetDataDimensions(std::string datasetPath, int *dims)
 	H5Dclose(dataset_id);
 	delete[] dims_out;
 	delete[] maxdims;
+}
+
+extern herr_t op_func(hid_t loc_id, const char *name, const H5O_info_t *info, void *operator_data);
+extern QMutex HDFDataMutex;
+extern std::map<std::string,std::string> HDFTreeDataMap;
+std::vector<std::string> CCPiNexusReader::GetVariableNames()
+{
+	hid_t file;
+	herr_t	status;
+	std::map<std::string,std::string> resultTreeMap;
+	std::vector<std::string> result;
+	file = H5Fopen(Filename.c_str(),H5F_ACC_RDONLY,H5P_DEFAULT);
+
+	HDFDataMutex.lock();
+	HDFTreeDataMap.clear();
+	status = H5Ovisit (file, H5_INDEX_NAME, H5_ITER_NATIVE, op_func , NULL);
+	for(std::map<std::string,std::string>::iterator itr=HDFTreeDataMap.begin();itr != HDFTreeDataMap.end();itr++)
+		resultTreeMap.insert(std::pair<std::string,std::string>(itr->first,itr->second));
+	HDFDataMutex.unlock();
+
+	for(std::map<std::string,std::string>::iterator itr=resultTreeMap.begin();itr!=resultTreeMap.end();itr++)
+	{
+
+		result.push_back(itr->first);
+	}
+	return result;
 }
 
 CCPiNexusReader::DATATYPE CCPiNexusReader::GetDataType(std::string datasetPath)

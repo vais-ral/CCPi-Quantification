@@ -40,11 +40,15 @@ void CCPiNexusReaderParaviewImpl::SetFileName(char *filename)
     {
     this->FileName = vtksys::SystemTools::DuplicateString(filename);
     }
-  CCPiNexusWidgetDialog nexusWidget(this->FileName);
-  nexusWidget.exec();
+//  CCPiNexusWidgetDialog nexusWidget(this->FileName);
+//  nexusWidget.exec();
   VariableNameList.clear();
-  for(int i=0;i<nexusWidget.GetSelectedDataSetCount();i++)
-	  VariableNameList.push_back(nexusWidget.GetSelectedDataSet(i));
+//  for(int i=0;i<nexusWidget.GetSelectedDataSetCount();i++)
+//	  VariableNameList.push_back(nexusWidget.GetSelectedDataSet(i));
+  CCPiNexusReader reader(this->FileName);
+  std::vector<std::string> vecVariableNames = reader.GetVariableNames();
+  for(int i=0; i<vecVariableNames.size(); i++)
+	  VariableNameList.push_back(vecVariableNames.at(i));
   if(VariableNameList.size()>0)
 	this->VariableName = vtksys::SystemTools::DuplicateString(VariableNameList.at(0).c_str());
   this->Modified();
