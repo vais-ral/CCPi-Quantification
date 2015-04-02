@@ -142,7 +142,7 @@ int CCPiNexusReaderParaviewImpl::RequestInformation(  vtkInformation *vtkNotUsed
 	reader.GetDataDimensions(std::string(this->VariableName), dims);
 	int extent[6];
 	extent[0]=extent[2]=extent[4]=0;
-	extent[1]=dims[2];extent[3]=dims[1];extent[5]=dims[0];
+	extent[1]=dims[2]-1;extent[3]=dims[1]-1;extent[5]=dims[0]-1;
   outInfo->Set(vtkStreamingDemandDrivenPipeline::WHOLE_EXTENT(), extent, 6);
   return 1;
 }
