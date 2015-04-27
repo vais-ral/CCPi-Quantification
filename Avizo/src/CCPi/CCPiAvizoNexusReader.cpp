@@ -84,7 +84,9 @@ void CCPiRegisterAvizoUniformDataset(std::string name, T *data, int ndims, int *
 		newDims[1]=dims[0];
 		newDims[2]=1;
 	} else {
-		return;
+		newDims[0]=dims[0];
+		newDims[1]=1;
+		newDims[2]=1;
 	}
 	HxUniformScalarField3 * field;
 
@@ -99,12 +101,12 @@ void CCPiRegisterAvizoUniformDataset(std::string name, T *data, int ndims, int *
 	float * bx;
 	bx=coords->bbox();
 	bx[0]=0;
-	if(newDims[0]!=1)
+	if(newDims[0]>1)
 		bx[1]=(float)newDims[0]-1;
 	else
 		bx[1]=1;
 	bx[2]=0;
-	if(newDims[1]!=1)
+	if(newDims[1]>1)
 		bx[3]=(float)newDims[1]-1;
 	else
 		bx[3]=1;
