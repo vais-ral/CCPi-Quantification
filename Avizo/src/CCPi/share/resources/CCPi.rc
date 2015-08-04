@@ -49,3 +49,9 @@ dataFile -name    "Nexus Format" \
          -ext     "nxs" \
          -load    "CCPiAvizoNexusReader" \
          -package "CCPi"
+
+dataFile -name    "Nexus Format (DLS Tomography)" \
+         -option  "nxs" \
+         -ext     "nxs" \
+         -load    "CCPiAvizoDLSReader" \
+         -package "CCPi"
