@@ -18,7 +18,11 @@ ADD_SUBDIRECTORY(../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore")
 FIND_PACKAGE(Java REQUIRED)
 INCLUDE(UseJava)
 
-FIND_JAR(ImageJ ii.jar)
+
+IF(NOT ImageJ)
+FIND_JAR(ImageJ ij.jar)
+ENDIF(NOT ImageJ)
+
 set(CMAKE_JAVA_INCLUDE_PATH ${ImageJ})
 
 ADD_JAR(CCPiImageJPlugin_Java 	AccessibleVolumePluginFilter_.java
@@ -38,6 +42,8 @@ ADD_JAR(CCPiImageJPlugin_Java 	AccessibleVolumePluginFilter_.java
 							CCPiLabelQuantificationResult.java
 							StringVector.java
 							IntList.java							
-		OUTPUT_NAME		CCPiImageJ_Plugin.jar) 						 
-							 
+		OUTPUT_NAME		CCPiImageJ_Plugin) 						 
+INSTALL_JAR(CCPiImageJPlugin_Java plugins/CCPi)
 TARGET_LINK_LIBRARIES(CCPiImageJPlugin_Cpp CCPiCore ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS})							
+INSTALL(TARGETS CCPiImageJPlugin_Cpp
+		DESTINATION .)
