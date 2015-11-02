@@ -32,6 +32,11 @@ ADD_LIBRARY(CCPiCore ${LIB_TYPE} QuanWorker.cpp
 							CCPiParticleTracker.cpp
 							CCPiTrack.cpp
 			)
+			
+IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+  SET_TARGET_PROPERTIES(CCPiCore PROPERTIES COMPILE_FLAGS "-fPIC")
+ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+			
 SET (CCPI_VTK_LIBS)
 IF (VTK_MAJOR_VERSION EQUAL 6)			
 SET (CCPI_VTK_LIBS vtkCommonCore vtkImagingCore vtkImagingHybrid vtkFiltersCore vtkCommonComputationalGeometry)
@@ -57,3 +62,21 @@ OPTION(BUILD_NEXUS_WIDGET "Build Nexus Widget" OFF)
 IF(BUILD_NEXUS_WIDGET)
 	SUBDIRS(NexusWidget)
 ENDIF()
+INSTALL(TARGETS CCPiCore
+        DESTINATION "lib"
+       )
+INSTALL(FILES CCPiAccessibleVolumeInputImages.h
+              CCPiConsoleUserInterface.h
+              CCPiImageData.h
+              CCPiLabelQuantificationResult.h
+              CCPiParticleTracker.h
+              CCPiTrack.h
+              CCPiAccessibleVolumeITKImpl.h
+              CCPiDefines.h
+              CCPiLabelQuantificationITKImpl.h
+              CCPiParticle.h
+              CCPiSimpleHistogramThresholdingITKImpl.h
+              CCPiUserApplicationInterface.h
+
+        DESTINATION "include"
+        )
