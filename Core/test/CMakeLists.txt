@@ -4,7 +4,7 @@ ENDIF(BUILD_TESTING)
 
 INCLUDE_DIRECTORIES (../)
 ADD_EXECUTABLE(AccessibleVolumeTest AccessibleVolumeTest.cpp) 
-TARGET_LINK_LIBRARIES(AccessibleVolumeTest CCPiCore ITKCommon ITKIO)
+TARGET_LINK_LIBRARIES(AccessibleVolumeTest CCPiCore ITKCommon ITKIO ${CCPI_VTK_LIBS})
 	
 ADD_TEST(NAME AccessibleVolumeTest 	COMMAND AccessibleVolumeTest "Data/Data128.tif" "Data/DataMask128.tif")	
 
