@@ -36,12 +36,14 @@ ADD_SUBDIRECTORY(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore")
  
 include_directories(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore/NexusWidget") 
  
-TARGET_LINK_LIBRARIES(CCPiAccessibleVolume CCPiCore ITKCommon 
-							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys)							
-TARGET_LINK_LIBRARIES(CCPiLabelQuantification CCPiCore ITKCommon 
-							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys)
-TARGET_LINK_LIBRARIES(CCPiSimpleHistogramThresholding CCPiCore ITKCommon 
-							itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics)  
+ if( "${ITK_VERSION_MAJOR}" LESS 4 )
+   SET(CCPI_ITK_LIBS ITKCommon itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics)
+ else
+   SET(CCPI_ITK_LIBS ${ITK_LIBRARIES})
+ endif("${ITK_VERSION_MAJOR}")
+TARGET_LINK_LIBRARIES(CCPiAccessibleVolume CCPiCore ${CCPI_ITK_LIBS})							
+TARGET_LINK_LIBRARIES(CCPiLabelQuantification CCPiCore ${CCPI_ITK_LIBS})
+TARGET_LINK_LIBRARIES(CCPiSimpleHistogramThresholding CCPiCore ${CCPI_ITK_LIBS})  
 
 TARGET_LINK_LIBRARIES(CCPiNexusReader CCPiCore CCPiNexusWidget vtksys)
 
