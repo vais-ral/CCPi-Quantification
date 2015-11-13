@@ -2,9 +2,15 @@ IF(BUILD_TESTING)
    ENABLE_TESTING()   
 ENDIF(BUILD_TESTING)
 
+ if( "${ITK_VERSION_MAJOR}" LESS 4 )
+   SET(CCPI_ITK_LIBS ITKCommon itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics)
+ else
+   SET(CCPI_ITK_LIBS ${ITK_LIBRARIES})
+ endif("${ITK_VERSION_MAJOR}")
+ 
 INCLUDE_DIRECTORIES (../)
 ADD_EXECUTABLE(AccessibleVolumeTest AccessibleVolumeTest.cpp) 
-TARGET_LINK_LIBRARIES(AccessibleVolumeTest CCPiCore ITKCommon ITKIO ${CCPI_VTK_LIBS})
+TARGET_LINK_LIBRARIES(AccessibleVolumeTest CCPiCore ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS})
 	
 ADD_TEST(NAME AccessibleVolumeTest 	COMMAND AccessibleVolumeTest "Data/Data128.tif" "Data/DataMask128.tif")	
 
