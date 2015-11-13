@@ -4,7 +4,7 @@ ENDIF(BUILD_TESTING)
 
  if( "${ITK_VERSION_MAJOR}" LESS 4 )
    SET(CCPI_ITK_LIBS ITKCommon itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics)
- else
+else( "${ITK_VERSION_MAJOR}" )
    SET(CCPI_ITK_LIBS ${ITK_LIBRARIES} )
  endif("${ITK_VERSION_MAJOR}" )
  

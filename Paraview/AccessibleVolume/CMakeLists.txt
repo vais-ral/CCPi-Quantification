@@ -38,9 +38,10 @@ include_directories(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore/NexusWidget
  
  if( "${ITK_VERSION_MAJOR}" LESS 4 )
    SET( CCPI_ITK_LIBS ITKCommon itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics )
- else
+ else( "${ITK_VERSION_MAJOR}" )
    SET( CCPI_ITK_LIBS ${ITK_LIBRARIES} )
  endif( "${ITK_VERSION_MAJOR}" )
+ 
 TARGET_LINK_LIBRARIES(CCPiAccessibleVolume CCPiCore ${CCPI_ITK_LIBS})							
 TARGET_LINK_LIBRARIES(CCPiLabelQuantification CCPiCore ${CCPI_ITK_LIBS})
 TARGET_LINK_LIBRARIES(CCPiSimpleHistogramThresholding CCPiCore ${CCPI_ITK_LIBS})  
