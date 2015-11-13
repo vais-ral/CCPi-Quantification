@@ -44,7 +44,11 @@ ELSE()
 SET (CCPI_VTK_LIBS vtkHybrid)
 ENDIF()
 
-SET(CCPI_ITK_LIBS ITKCommon ITKStatistics itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys)
+ if( "${ITK_VERSION_MAJOR}" LESS 4 )
+   SET(CCPI_ITK_LIBS ITKCommon itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics)
+ else
+   SET(CCPI_ITK_LIBS ${ITK_LIBRARIES})
+ endif("${ITK_VERSION_MAJOR}")
 
 
 TARGET_LINK_LIBRARIES(CCPiCore  ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS})							
