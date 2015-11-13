@@ -16,7 +16,6 @@
 #include "CCPiLabelQuantificationResult.h"
 #include <math.h>
 
-#include "omp.h"
 #include "CCPiLabelQuantificationITKImpl.h"
 
 vtkStandardNewMacro(CCPiLabelQuantificationParaviewImpl);
