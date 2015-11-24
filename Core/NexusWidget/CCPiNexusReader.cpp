@@ -16,7 +16,7 @@ CCPiNexusReader::~CCPiNexusReader()
 	H5Fclose(FileId);
 }
 
-void CCPiNexusReader::ReadCompleteData(std::string datasetPath, void** data,int *ndims, int** dims, DATATYPE* dataType, double** axisData)
+void CCPiNexusReader::ReadCompleteData(std::string datasetPath, void** data,int *ndims, int** dims, DATATYPE* dataType, double** axisData, bool isAxis)
 {
 	hid_t dataset_id = H5Dopen(FileId,datasetPath.c_str(),H5P_DEFAULT);
 	hid_t dataspace = H5Dget_space(dataset_id);
@@ -48,6 +48,21 @@ void CCPiNexusReader::ReadCompleteData(std::string datasetPath, void** data,int 
 			delete[] ((double*)*axisData);
 			*axisData=NULL;
 		}
+	}else{ //This is new version of nexus to define the signal data check the datasetPath to see whether signal is defined
+		std::string parentDataset = getParentDatasetName(datasetPath);
+		hid_t datagroup_id = H5Gopen(FileId, parentDataset.c_str(), H5P_DEFAULT);
+		if(isSignalData(datagroup_id) && !isAxis) // The data contains axis information
+		{
+			std::cout<<"It's a Signal Data v2"<<std::endl;
+			bool status = ReadAxisDataNxsV2(parentDataset, *ndims, dims_out, (void**)axisData);
+			if(!status)
+			{
+				delete[] ((double*)*axisData);
+				*axisData=NULL;
+			}
+
+		}
+		H5Gclose(datagroup_id);
 	}
 	H5Tclose(nativeDataType);
 	H5Tclose(datasetDataType);
@@ -362,13 +377,97 @@ bool CCPiNexusReader::ReadAxisData(std::string datasetPath, int ndims, hsize_t *
 	return success;
 }
 
+bool CCPiNexusReader::ReadAxisDataNxsV2(std::string datagroupPath, int ndims, hsize_t *dims,void** axisData)
+{
+	//This is slightly newer version of nexus files looking for axis data
+
+	hid_t group_id = H5Gopen(FileId,datagroupPath.c_str(),H5P_DEFAULT);
+	std::map<int,std::string> axisList;
+	char **axesnames;
+	hsize_t sdim[64];
+
+	hid_t axes_id = H5Aopen_name(group_id,"axes"); //axes should have the names of axis
+	//TODO:: check if the axis exist
+    hid_t atype  = H5Aget_type(axes_id);
+    hid_t aspace = H5Aget_space(axes_id);
+    int rank = H5Sget_simple_extent_ndims(aspace);
+    herr_t status = H5Sget_simple_extent_dims(aspace, sdim, NULL);
+	size_t  strsize = H5Tget_size (atype);
+	hid_t type = H5Tget_native_type(atype, H5T_DIR_ASCEND);
+
+	axesnames = (char **) malloc (sdim[0] * sizeof (char *));
+	axesnames[0] = (char *) malloc (dims[0] * strsize * sizeof (char));
+    /*
+     * Set the rest of the pointers to rows to the correct addresses.
+     */
+    for (int i=1; i<sdim[0]; i++)
+        axesnames[i] = axesnames[0] + i * strsize;
+
+	if(status==-1) 
+		return false;
+
+	status = H5Aread(axes_id, type, axesnames[0]);
+	H5Sclose(aspace);
+	H5Tclose(atype);
+	H5Tclose(type);
+	H5Aclose(axes_id);
+	
+	//look for axesname_indices for the indice value
+	for(int i=0;i<sdim[0];i++)
+	{
+		std::string axesind_name(axesnames[i]);
+		axesind_name += "_indices";
+		hid_t axesind_id = H5Aopen_name(group_id,axesind_name.c_str()); //axes should have the names of axis
+		//read index value
+		int index_val;
+		hid_t axesind_type = H5Aget_type(axesind_id);
+		status = H5Aread(axesind_id, axesind_type, &index_val);
+		if(status==-1)
+			std::cout<<"Error getting the index value"<<std::endl;
+		H5Tclose(axesind_type);
+		H5Aclose(axesind_id);
+		axisList.insert(std::pair<int,std::string>(index_val,std::string(axesnames[i])));
+	}
+	H5Gclose(group_id);
+	bool success = true;
+	if(axisList.size()<ndims)
+		success=false;
+	//Now we have axis information lets read the data.
+	//AllocateMemory for the axis data
+	hsize_t totalSize = 0;
+	for(int id =0; id<ndims;id++) totalSize += dims[id];
+	*axisData = AllocateMemory(H5T_NATIVE_DOUBLE, totalSize);
+	for(std::map<int,std::string>::iterator itr=axisList.begin(); itr != axisList.end();itr++)
+	{
+		std::cout<<"Axis Id:"<<itr->first<<" Axis Name:"<<itr->second<<std::endl;
+		bool status = ReadOneAxisDataAndSetInOutput(itr->first,datagroupPath+"/"+itr->second, ndims, dims, (double*)*axisData); //Axis index start from 1
+		if(!status)
+		{
+			success=false;
+			break;
+		}
+	}
+	return success;
+}
+
+
+std::string CCPiNexusReader::getParentDatasetName(std::string datasetPath)
+{
+	//strip the first level to go one level up in the tree
+	size_t pos = datasetPath.find_last_of("/");
+	if(pos==std::string::npos)
+		return ""; //Did find the correct dataset
+	std::string datasetParent = datasetPath.substr(0,pos);
+	return datasetParent;
+}
+
 bool CCPiNexusReader::ReadOneAxisDataAndSetInOutput(int axisId, std::string datasetPath, int axisNDims, hsize_t *axisDims, double* axisData)
 {
 	void* data;
 	int ndims;
 	int *dims;
 	DATATYPE dataType;
-	ReadCompleteData(datasetPath, &data, &ndims, &dims, &dataType,NULL);
+	ReadCompleteData(datasetPath, &data, &ndims, &dims, &dataType,NULL,true);
 	if(axisDims[axisId]!=dims[0]||ndims!=1){
 		std::cout<<"Might be a problem with the dimension"<<std::endl;
 		delete[] dims;
