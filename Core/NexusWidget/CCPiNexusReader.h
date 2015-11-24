@@ -31,7 +31,7 @@ private:
 	void* AllocateMemory(hid_t datatype, hsize_t totalsize);
 	DATATYPE GetDataType(hid_t datatype);
 	bool isSignalData(hid_t dataset);
-	std::string CCPiNexusReader::getParentDatasetName(std::string datasetPath);
+	std::string getParentDatasetName(std::string datasetPath);
 	bool ReadAxisData(std::string datasetPath, int ndims, hsize_t *dims, void** axisData);
 	bool ReadOneAxisDataAndSetInOutput(int axisId,std::string datasetPath, int axisNDims, hsize_t *axisDims,  double* axisData);
 	bool ReadAxisDataNxsV2(std::string datasetPath, int ndims, hsize_t *dims,void** axisData);
