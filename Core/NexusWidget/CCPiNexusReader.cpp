@@ -3,6 +3,7 @@
 #include <map>
 #include "hdf5.h"
 #include <qmutex.h>
+#include <stdlib.h>
 
 CCPiNexusReader::CCPiNexusReader(std::string filename)
 {
