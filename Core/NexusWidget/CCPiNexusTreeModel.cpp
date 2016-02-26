@@ -120,7 +120,7 @@ int CCPiNexusTreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-herr_t op_func(hid_t loc_id, const char *name, const H5O_info_t *info, void *operator_data)
+herr_t op_func_o(hid_t loc_id, const char *name, const H5O_info_t *info, void *operator_data)
 {
     if (name[0] == '.')         /* Root group, do not print '.' */
         printf ("  (Group)\n");
@@ -158,6 +158,15 @@ herr_t op_func(hid_t loc_id, const char *name, const H5O_info_t *info, void *ope
         }
 	return 0;
 }
+
+herr_t op_func_l(hid_t loc_id, const char *name, const H5L_info_t *info, void *operator_data)
+{
+	herr_t status;
+	H5O_info_t infobuf;
+	status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
+	return op_func_o(loc_id, name, &infobuf, operator_data);
+}
+
 
 void CCPiNexusTreeModel::setupModelData(std::string filename, CCPiNexusTreeItem *parent)
 {
