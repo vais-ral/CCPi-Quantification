@@ -1,3 +1,6 @@
+#ifdef UINT
+#undef UINT
+#endif
 #include "CCPiNexusReader.h"
 #include <iostream>
 #include <map>
