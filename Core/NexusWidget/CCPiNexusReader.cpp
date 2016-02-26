@@ -203,7 +203,7 @@ void CCPiNexusReader::GetDataDimensions(std::string datasetPath, int *dims)
 }
 
 extern herr_t op_func_o(hid_t loc_id, const char *name, const H5O_info_t *info, void *operator_data);
-extern herr_t op_func_l(hid_t loc_id, const char *name, const H5O_info_t *info, void *operator_data);
+extern herr_t op_func_l(hid_t loc_id, const char *name, const H5L_info_t *info, void *operator_data);
 extern QMutex HDFDataMutex;
 extern std::map<std::string,std::string> HDFTreeDataMap;
 std::vector<std::string> CCPiNexusReader::GetVariableNames()
@@ -216,9 +216,9 @@ std::vector<std::string> CCPiNexusReader::GetVariableNames()
 
 	HDFDataMutex.lock();
 	HDFTreeDataMap.clear();
-	status = H5Ovisit (file, H5_INDEX_NAME, H5_ITER_NATIVE, op_func_o , NULL);
-	for(std::map<std::string,std::string>::iterator itr=HDFTreeDataMap.begin();itr != HDFTreeDataMap.end();itr++)
-		resultTreeMap.insert(std::pair<std::string,std::string>(itr->first,itr->second));
+//	status = H5Ovisit(file, H5_INDEX_NAME, H5_ITER_NATIVE, op_func_o , NULL);
+//	for(std::map<std::string,std::string>::iterator itr=HDFTreeDataMap.begin();itr != HDFTreeDataMap.end();itr++)
+//		resultTreeMap.insert(std::pair<std::string,std::string>(itr->first,itr->second));
 	//Iterate through the links
 	HDFTreeDataMap.clear();
 	status = H5Lvisit(file, H5_INDEX_NAME, H5_ITER_NATIVE, op_func_l, NULL);

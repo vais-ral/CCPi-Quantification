@@ -131,6 +131,7 @@ herr_t op_func_o(hid_t loc_id, const char *name, const H5O_info_t *info, void *o
                 printf ("%s  (Group)\n", name);
                 break;
             case H5O_TYPE_DATASET:
+				printf("%s (Dataset)\n", name);
 				{
 				hid_t dataset_id = H5Dopen(loc_id,name,H5P_DEFAULT);
 				hid_t dataspace = H5Dget_space(dataset_id);
@@ -163,6 +164,45 @@ herr_t op_func_l(hid_t loc_id, const char *name, const H5L_info_t *info, void *o
 {
 	herr_t status;
 	H5O_info_t infobuf;
+	switch(info->type){
+	case H5L_TYPE_HARD:
+		printf("Hard link");
+		break;
+	case H5L_TYPE_SOFT:
+		printf("Soft link");
+		break;
+	case H5L_TYPE_EXTERNAL:
+		printf("External link");
+		{
+#define HDF5_MAXSTRLEN 1024
+			char namebuf[HDF5_MAXSTRLEN];
+			std::string fullname;
+			// Open group by name group_name
+			hid_t group_id = H5Gopen2(loc_id, name, H5P_DEFAULT);
+
+			// Count how many datasets in the group
+			hsize_t num_datasets;
+			status = H5Gget_num_objs(group_id, &num_datasets);
+
+			// Iterate through group collecting all dataset names
+			for(hsize_t i = 0; i < num_datasets; i++)
+			{
+				H5Gget_objname_by_idx(group_id, i, namebuf, HDF5_MAXSTRLEN);
+				fullname = name;
+				fullname +="/";
+				fullname +=namebuf;
+				status = H5Oget_info_by_name(loc_id, fullname.c_str(), &infobuf, H5P_DEFAULT);
+				op_func_o(loc_id, fullname.c_str(), &infobuf, operator_data);
+			}
+
+			// Close group
+			status = H5Gclose(group_id);
+		}
+		return 0;
+	case H5L_TYPE_ERROR:
+		printf("Error");
+		break;
+	}
 	status = H5Oget_info_by_name(loc_id, name, &infobuf, H5P_DEFAULT);
 	return op_func_o(loc_id, name, &infobuf, operator_data);
 }
@@ -179,7 +219,13 @@ void CCPiNexusTreeModel::setupModelData(std::string filename, CCPiNexusTreeItem 
 
 	HDFDataMutex.lock();
 	HDFTreeDataMap.clear();
-	status = H5Ovisit (file, H5_INDEX_NAME, H5_ITER_NATIVE, op_func , NULL);
+//	status = H5Ovisit (file, H5_INDEX_NAME, H5_ITER_NATIVE, op_func_o , NULL);
+//	for(std::map<std::string,std::string>::iterator itr=HDFTreeDataMap.begin();itr != HDFTreeDataMap.end();itr++)
+//		resultTreeMap.insert(std::pair<std::string,std::string>(itr->first,itr->second));
+//	HDFTreeDataMap.clear();
+	hid_t lapl_id = H5Pcreate(H5P_LINK_ACCESS); 
+	status = H5Pset_elink_prefix( lapl_id, ".");
+	status = H5Lvisit_by_name (file, ".", H5_INDEX_NAME, H5_ITER_NATIVE, op_func_l , NULL, lapl_id);
 	for(std::map<std::string,std::string>::iterator itr=HDFTreeDataMap.begin();itr != HDFTreeDataMap.end();itr++)
 		resultTreeMap.insert(std::pair<std::string,std::string>(itr->first,itr->second));
 	HDFDataMutex.unlock();
