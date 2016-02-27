@@ -149,7 +149,7 @@ void CCPiRegisterDLSDataset(std::string name, TomoData* data, TomoData* angles, 
 	case CCPiNexusReader::INT:
 		field = CCPiRegisterDLSAvizoDataset(name, (int*) data->data,data->ndims,data->dims,McPrimType::mc_int32,data->axisData);
 		break;
-	case CCPiNexusReader::UINT:
+	case CCPiNexusReader::USINT:
 		field = CCPiRegisterDLSAvizoDataset(name, (unsigned int*) data->data,data->ndims,data->dims,McPrimType::mc_uint32,data->axisData);
 		break;
 	case CCPiNexusReader::LONG:

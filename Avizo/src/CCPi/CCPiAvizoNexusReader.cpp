@@ -137,7 +137,7 @@ void CCPiRegisterUniformDataset(std::string name, void *data, int ndims, int *di
 	case CCPiNexusReader::INT:
 		CCPiRegisterAvizoUniformDataset(name, (int*) data,ndims,dims,McPrimType::mc_int32);
 		break;
-	case CCPiNexusReader::UINT:
+	case CCPiNexusReader::USINT:
 		CCPiRegisterAvizoUniformDataset(name, (unsigned int*) data,ndims,dims,McPrimType::mc_uint32);
 		break;
 	case CCPiNexusReader::LONG:
@@ -228,7 +228,7 @@ void CCPiRegisterRegularDataset(std::string name, void *data, int ndims, int *di
 	case CCPiNexusReader::INT:
 		CCPiRegisterAvizoRegularDataset(name, (int*) data,ndims,dims,McPrimType::mc_int32, axisData);
 		break;
-	case CCPiNexusReader::UINT:
+	case CCPiNexusReader::USINT:
 		CCPiRegisterAvizoRegularDataset(name, (unsigned int*) data,ndims,dims,McPrimType::mc_uint32, axisData);
 		break;
 	case CCPiNexusReader::LONG:
