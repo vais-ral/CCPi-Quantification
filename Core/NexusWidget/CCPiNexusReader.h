@@ -14,7 +14,7 @@
 class CCPI_EXPORT CCPiNexusReader
 {
 public:
-	enum DATATYPE { UCHAR, CHAR, SHORT, USHORT, INT, UINT, LONG, ULONG, LLONG, ULLONG, FLOAT, DOUBLE, LDOUBLE, UNKNOWN } ;
+	enum DATATYPE { UCHAR, CHAR, SHORT, USHORT, INT, USINT, LONG, ULONG, LLONG, ULLONG, FLOAT, DOUBLE, LDOUBLE, UNKNOWN } ;
 	CCPiNexusReader(std::string filename);
 	~CCPiNexusReader();
 	void ReadCompleteData(std::string datasetPath, void** data,int *ndims, int** dims, DATATYPE* dataType, double** axisData,bool isAxis=false);

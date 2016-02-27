@@ -1,6 +1,3 @@
-#ifdef UINT
-#undef UINT
-#endif
 #include "CCPiNexusReader.h"
 #include <iostream>
 #include <map>
@@ -161,7 +158,7 @@ CCPiNexusReader::DATATYPE CCPiNexusReader::GetDataType(hid_t datatype)
 	} else if(H5Tget_class(datatype) == H5T_INTEGER && H5Tget_size(datatype) ==  H5Tget_size(H5T_NATIVE_INT) && H5Tget_sign(datatype) == H5T_SGN_2 ) {
 		return INT;
 	} else if(H5Tget_class(datatype) == H5T_INTEGER && H5Tget_size(datatype) ==  H5Tget_size(H5T_NATIVE_INT) && H5Tget_sign(datatype) == H5T_SGN_NONE ) {
-		return UINT;
+		return USINT;
 	} else if(H5Tget_class(datatype) == H5T_INTEGER && H5Tget_size(datatype) ==  H5Tget_size(H5T_NATIVE_LONG) && H5Tget_sign(datatype) == H5T_SGN_2 ) {
 		return LONG;
 	} else if(H5Tget_class(datatype) == H5T_INTEGER && H5Tget_size(datatype) ==  H5Tget_size(H5T_NATIVE_LONG) && H5Tget_sign(datatype) == H5T_SGN_NONE ) {
@@ -512,7 +509,7 @@ bool CCPiNexusReader::CopyAndDeleteData(DATATYPE dataType,int num, void* data, d
 	case INT:
 		CopyAndDeleteDataTemplate(num,(int*) data,axisData);
 		break;
-	case UINT:
+	case USINT:
 		CopyAndDeleteDataTemplate(num,(unsigned int*) data,axisData);
 		break;
 	case LONG:
