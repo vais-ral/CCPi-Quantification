@@ -409,7 +409,7 @@ bool CCPiNexusReader::ReadAxisDataNxsV2(std::string datagroupPath, int ndims, hs
      */
     for (int i=1; i<sdim[0]; i++)
         axesnames[i] = axesnames[0] + i * strsize;
-
+	
 	if(status==-1) 
 		return false;
 
@@ -418,11 +418,12 @@ bool CCPiNexusReader::ReadAxisDataNxsV2(std::string datagroupPath, int ndims, hs
 	H5Tclose(atype);
 	H5Tclose(type);
 	H5Aclose(axes_id);
-	
+
 	//look for axesname_indices for the indice value
 	for(int i=0;i<sdim[0];i++)
-	{
-		std::string axesind_name(axesnames[i]);
+	{		
+		std::string axesind_name;
+		axesind_name.assign(axesnames[i],strsize);
 		axesind_name += "_indices";
 		hid_t axesind_id = H5Aopen_name(group_id,axesind_name.c_str()); //axes should have the names of axis
 		//read index value
@@ -433,7 +434,8 @@ bool CCPiNexusReader::ReadAxisDataNxsV2(std::string datagroupPath, int ndims, hs
 			std::cout<<"Error getting the index value"<<std::endl;
 		H5Tclose(axesind_type);
 		H5Aclose(axesind_id);
-		axisList.insert(std::pair<int,std::string>(index_val,std::string(axesnames[i])));
+		axesind_name.assign(axesnames[i],strsize);
+		axisList.insert(std::pair<int,std::string>(index_val,std::string(axesind_name)));
 	}
 	H5Gclose(group_id);
 	bool success = true;
