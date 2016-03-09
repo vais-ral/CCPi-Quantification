@@ -6,7 +6,7 @@ ENDIF(BUILD_TESTING)
    SET(CCPI_ITK_LIBS ITKCommon itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics)
 else( "${ITK_VERSION_MAJOR}" )
    SET(CCPI_ITK_LIBS ${ITK_LIBRARIES} )
- endif("${ITK_VERSION_MAJOR}" )
+ endif()
  
 INCLUDE_DIRECTORIES (../)
 ADD_EXECUTABLE(AccessibleVolumeTest AccessibleVolumeTest.cpp) 
