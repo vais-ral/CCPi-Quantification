@@ -127,6 +127,7 @@ void CCPiNexusReader::ReadPartialData(std::string datasetPath, int ndims, hsize_
 	*dataType = GetDataType(nativeDataType);
 
 	void* allocatedData = AllocateMemory(datasetDataType, ndims, count); //allocate memory
+	std::cout<<"Allocated memory in read partial data"<<std::endl;
 	hid_t memspace = H5Screate_simple(ndims,count,NULL);
 	int status = H5Sselect_hyperslab(dataspace, H5S_SELECT_SET, start, stride, count, NULL/*block size of 1*/ );
 	status = H5Dread(dataset_id, nativeDataType,memspace,dataspace,H5P_DEFAULT,allocatedData);

@@ -13,7 +13,9 @@ CCPiNexusSubsetWidget::CCPiNexusSubsetWidget(QWidget *parent, std::vector<std::s
 		for(int i=0;i<rangeValues.size();i++)
 		{
 			QString dimname = QString("dim")+QString::number(i);
-			dimensionNames.push_back(dimname.toStdString());
+			QByteArray ba = dimname.toUtf8();
+			std::string strdimname(ba.data());
+			dimensionNames.push_back(strdimname);
 		}
 	}
 	//Initalize startWidgets
