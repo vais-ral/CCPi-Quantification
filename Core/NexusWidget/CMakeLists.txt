@@ -17,8 +17,8 @@ FIND_PACKAGE(HDF5 REQUIRED)
 # FIND_PACKAGE(HDF5 REQUIRED)
 #ENDIF()
 
-SET(CCPiNexusWidget_SOURCES CCPiNexusTreeModel.cpp CCPiNexusTreeItem.cpp CCPiNexusWidgetDialog.cpp CCPiNexusReader.cpp)
-SET(CCPiNexusWidget_HEADERS CCPiNexusTreeModel.h CCPiNexusWidgetDialog.h)
+SET(CCPiNexusWidget_SOURCES CCPiNexusTreeModel.cpp CCPiNexusTreeItem.cpp CCPiNexusWidgetDialog.cpp CCPiNexusReader.cpp CCPiNexusSubsetWidget.cpp)
+SET(CCPiNexusWidget_HEADERS CCPiNexusTreeModel.h CCPiNexusWidgetDialog.h CCPiNexusSubsetWidget.h)
 SET(CCPiNexusWidget_FORMS CCPiNexusWidget.ui)
 
 QT4_WRAP_CPP(CCPiNexusWidget_HEADERS_MOC ${CCPiNexusWidget_HEADERS})
