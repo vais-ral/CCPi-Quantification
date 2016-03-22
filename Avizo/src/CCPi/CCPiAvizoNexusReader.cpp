@@ -6,6 +6,7 @@
 #include <hxcore/HxMessage.h>
 
 #include "CCPiNexusReader.h"
+#include "CCPiNexusSubsetWidget.h"
 #include "CCPiNexusWidgetDialog.h"
 
 #include <hxfield/HxUniformScalarField3.h>
@@ -31,19 +32,35 @@ int CCPiAvizoNexusReader(const char* filename)
 	{
 		std::string datasetname(nexusDlg->GetSelectedDataSet(index));
 		CCPiNexusReader reader(filename);
-		int ndims;
-		int *dims;
+		int ndims = reader.GetDataNumberOfDimensions(datasetname);
+		int *dims = new int[ndims];
+		reader.GetDataDimensions(datasetname, dims); //get the dimensions
+
+		//create a vector of long dimensions
+		std::vector<long> dimVector;
+		for(int i=0;i<ndims;i++)
+			dimVector.push_back(dims[i]);
+
+		//create a selection widget
+		CCPiNexusSubsetWidget *subsetWidget = new CCPiNexusSubsetWidget(0, std::vector<std::string>(), dimVector);
+		subsetWidget->exec();
+
 		CCPiNexusReader::DATATYPE dataType;
 		void* data;
 		double* axisData=NULL;
-		reader.ReadCompleteData(datasetname, &data, &ndims, &dims, &dataType,&axisData);
-		std::cout<<"Number of Dimensions"<<ndims<<std::endl;
+	    reader.ReadPartialData(datasetname, subsetWidget->getSelectedStartValues(), subsetWidget->getSelectedCountValues(), subsetWidget->getSelectedStrideValues(),
+			                    &data, &dataType, &axisData, false); 
+		for(int i=0;i<ndims;i++)
+			dims[i]=subsetWidget->getSelectedCountValues()[i];
+
 		if(axisData==NULL)
 		{
 			CCPiRegisterUniformDataset(datasetname, data, ndims, dims, dataType);
 		}else{
 			CCPiRegisterRegularDataset(datasetname, data, ndims, dims, dataType,axisData);
 		}
+		delete subsetWidget;
+		delete dims;
 	}
 	delete nexusDlg;
 	//std::vector<std::string> output = nexusDlg->GetSelectedDataSetList();
