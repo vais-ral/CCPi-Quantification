@@ -123,7 +123,7 @@ void CCPiNexusReader::ReadPartialData(std::string datasetPath, int ndims, hsize_
 
 	hid_t datasetDataType = H5Dget_type(dataset_id);
 	hid_t nativeDataType = H5Tget_native_type(datasetDataType,H5T_DIR_DEFAULT);
-
+	
 	*dataType = GetDataType(nativeDataType);
 
 	void* allocatedData = AllocateMemory(datasetDataType, ndims, count); //allocate memory
@@ -153,7 +153,8 @@ void CCPiNexusReader::ReadPartialData(std::string datasetPath, int ndims, hsize_
 			bool status = ReadPartialAxisDataNxsV2(parentDataset, ndims, start, count, stride, (void**)axisData);
 			if(!status)
 			{
-				delete[] ((double*)*axisData);
+				if(axisData!=NULL)
+					delete[] ((double*)*axisData);
 				*axisData=NULL;
 			}
 
@@ -203,7 +204,6 @@ void* CCPiNexusReader::AllocateMemory(hid_t datatype, int ndims, hsize_t *dims)
 {
 	hsize_t totalsize = 1;
 	for(int idx =0; idx < ndims;idx++) totalsize *=dims[idx];
-	std::cout<<"Allocating memory of "<<totalsize<<std::endl;
 	return AllocateMemory(datatype,totalsize);
 }
 
@@ -507,7 +507,7 @@ bool CCPiNexusReader::ReadAxisDataNxsV2(std::string datagroupPath, int ndims, hs
 	hid_t type = H5Tget_native_type(atype, H5T_DIR_ASCEND);
 
 	axesnames = (char **) malloc (sdim[0] * sizeof (char *));
-	axesnames[0] = (char *) malloc (dims[0] * strsize * sizeof (char));
+	axesnames[0] = (char *) malloc (sdim[0] * strsize * sizeof (char));
     /*
      * Set the rest of the pointers to rows to the correct addresses.
      */
@@ -623,16 +623,18 @@ bool CCPiNexusReader::ReadPartialAxisDataNxsV2(std::string datagroupPath, int nd
 	hid_t type = H5Tget_native_type(atype, H5T_DIR_ASCEND);
 
 	axesnames = (char **) malloc (sdim[0] * sizeof (char *));
-	axesnames[0] = (char *) malloc (sdim[0] * strsize * sizeof (char));
+	axesnames[0] = (char *) malloc (sdim[0] * (strsize) * sizeof (char));
     /*
      * Set the rest of the pointers to rows to the correct addresses.
      */
     for (int i=1; i<sdim[0]; i++)
-        axesnames[i] = axesnames[0] + i * strsize;
+	{
+        axesnames[i] = axesnames[0] + i * (strsize);
+	}
 	
 	if(status==-1) 
 		return false;
-
+	
 	status = H5Aread(axes_id, type, axesnames[0]);
 	H5Sclose(aspace);
 	H5Tclose(atype);
@@ -649,12 +651,10 @@ bool CCPiNexusReader::ReadPartialAxisDataNxsV2(std::string datagroupPath, int nd
 		hid_t axesind_id = H5Aopen_name(group_id,axesind_name.c_str()); //axes should have the names of axis
 		//read index value
 		int index_val;
-		hid_t axesind_type = H5Aget_type(axesind_id);
-		status = H5Aread(axesind_id, axesind_type, &index_val);
+		status = H5Aread(axesind_id, H5T_NATIVE_INT, &index_val);
 		std::cout<<"Index vlaue:"<<index_val<<" "<<axesind_name<<" size "<<strsize<<std::endl;
 		if(status==-1)
 			std::cout<<"Error getting the index value"<<std::endl;
-		H5Tclose(axesind_type);
 		H5Aclose(axesind_id);
 		axesind_name.assign(axesnames[i],strsize);
 		axisList.insert(std::pair<int,std::string>(index_val,std::string(axesind_name)));
@@ -668,6 +668,7 @@ bool CCPiNexusReader::ReadPartialAxisDataNxsV2(std::string datagroupPath, int nd
 	hsize_t totalSize = 0;
 	for(int id =0; id<ndims;id++) totalSize += count[id];
 	*axisData = AllocateMemory(H5T_NATIVE_DOUBLE, totalSize);
+
 	for(std::map<int,std::string>::iterator itr=axisList.begin(); itr != axisList.end();itr++)
 	{
 		std::cout<<"Axis Id:"<<itr->first<<" Axis Name:"<<itr->second<<std::endl;
@@ -792,7 +793,7 @@ void CCPiNexusReader::trim(std::string& str)
 {
   std::string::size_type pos = str.find_last_not_of(' ');
   if(pos != std::string::npos) {
-    str.erase(pos);
+	str.erase(pos+1);
     pos = str.find_first_not_of(' ');
     if(pos != std::string::npos) str.erase(0, pos);
   }
