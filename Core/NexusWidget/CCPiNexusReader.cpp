@@ -4,6 +4,7 @@
 #include "hdf5.h"
 #include <qmutex.h>
 #include <stdlib.h>
+#include <stdexcept> 
 
 CCPiNexusReader::CCPiNexusReader(std::string filename)
 {
@@ -796,7 +797,8 @@ void CCPiNexusReader::trim(std::string& str)
 	std::cout<<"Position "<<pos<<std::endl;
 	try{
 		str.erase(pos+1);
-	} catch (const std::out_of_range& oor) {
+	} 
+	catch (const std::out_of_range& oor) {
 	}
     pos = str.find_first_not_of(' ');
     if(pos != std::string::npos) str.erase(0, pos);
