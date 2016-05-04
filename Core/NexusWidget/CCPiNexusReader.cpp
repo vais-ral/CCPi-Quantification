@@ -791,9 +791,13 @@ void CCPiNexusReader::CopyAndDeleteDataTemplate(int num, T* data, double *axisDa
 //Its a utility should be in seperate file
 void CCPiNexusReader::trim(std::string& str)
 {
-  std::string::size_type pos = str.find_last_not_of(' ');
+	std::string::size_type pos = str.find_last_not_of(' \0');
   if(pos != std::string::npos) {
-	str.erase(pos+1);
+	std::cout<<"Position "<<pos<<std::endl;
+	try{
+		str.erase(pos+1);
+	} catch (const std::out_of_range& oor) {
+	}
     pos = str.find_first_not_of(' ');
     if(pos != std::string::npos) str.erase(0, pos);
   }
