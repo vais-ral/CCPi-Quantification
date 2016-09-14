@@ -115,7 +115,7 @@ void CCPiParticleTracking::compute()
     
     // Access the input data object. The member portData, which is of type
     // HxConnection, is inherited from HxModule.
-    HxUniformScalarField3 *field = (HxUniformScalarField3*) portData.source();
+    HxUniformScalarField3 *field = (HxUniformScalarField3*) portData.getSource();
     
     // Clear the tracker of any previous particles and tracks
     m_tracker.clear();
@@ -126,7 +126,7 @@ void CCPiParticleTracking::compute()
     // Assume fields are labelled for now so we need to add particles from each frame
     // to the tracker
     for (int i = 0; i < m_frames.size(); i++) {
-        field = (HxUniformScalarField3*) m_frames[i]->source();
+        field = (HxUniformScalarField3*) m_frames[i]->getSource();
         if (field) addParticles(field, i+1);
     }
     
@@ -172,7 +172,7 @@ void CCPiParticleTracking::addParticles(HxUniformScalarField3 *field, size_t fra
     }
     
     // Size of data volume
-    const int *dims = field->lattice.dims();
+	McDim3l dims = field->lattice().getDims();
     
     // Loop over field to find voxels for each label and add coordinate
     for (int k = 0; k < dims[2]; k++) {
