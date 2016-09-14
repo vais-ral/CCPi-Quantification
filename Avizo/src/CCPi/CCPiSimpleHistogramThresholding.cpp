@@ -11,7 +11,7 @@
 #include "itkScalarImageToHistogramGenerator.h"
 
 #include <hxcore/HxMessage.h>
-#include <hxcore/HxWorkArea.h>              // Busy-cursor and progress bar
+#include <hxcore/internal/HxWorkArea.h>              // Busy-cursor and progress bar
 #include <hxfield/HxUniformScalarField3.h>
 
 #include "CCPiSimpleHistogramThresholding.h"
@@ -37,13 +37,13 @@ void CCPiSimpleHistogramThresholding::compute()
 
     // Access the input data object. The member portData, which is of type
     // HxConnection, is inherited from HxModule.
-    HxUniformScalarField3 *field = (HxUniformScalarField3*) portData.source();
+    HxUniformScalarField3 *field = (HxUniformScalarField3*) portData.getSource();
     
     // Get the origin of the data (lower left position of bounding box)
     float origin[3];
-    origin[0] = field->bbox()[0];
-    origin[1] = field->bbox()[2];
-    origin[2] = field->bbox()[4];
+    origin[0] = field->getBoundingBox()[0];
+	origin[1] = field->getBoundingBox()[2];
+	origin[2] = field->getBoundingBox()[4];
 
 	// Get the min and max intensity values in image
 	float min = 0.0, max = 0.0;
@@ -54,56 +54,59 @@ void CCPiSimpleHistogramThresholding::compute()
     HxUniformScalarField3 *output = createOutput(field);
     
     // Output shall have same bounding box as input
-    output->coords()->setBoundingBox(field->bbox());
+	output->coords()->setBoundingBox(field->getBoundingBox());
     
     // Turn application into busy state but don't activiate the Stop button
     theWorkArea->startWorkingNoStop(
         QApplication::translate("CCPiSimpleHistogramThresholding", "Computing simple histogram threshold"));
 
     std::vector<float> peaks;
+	int dims[3];
+	McDim3l mdims = field->lattice().getDims();
+	dims[0] = mdims[0]; dims[1] = mdims[1]; dims[2] = mdims[2];
     switch (field->primType()) {
     
-      case McPrimType::mc_uint8:
-        peaks = runThresholding((unsigned char*)field->lattice.dataPtr(),
-                                         field->lattice.dims(),
+      case McPrimType::MC_UINT8:
+        peaks = runThresholding((unsigned char*)field->lattice().dataPtr(),
+                                        dims,
                                          field->getVoxelSize().getValue(), origin, 
 										 min, max,
-                                         (unsigned char*)output->lattice.dataPtr());
+                                         (unsigned char*)output->lattice().dataPtr());
         break;
-      case McPrimType::mc_int16:
-         peaks = runThresholding((short*)field->lattice.dataPtr(),
-                                         field->lattice.dims(),
+      case McPrimType::MC_INT16:
+         peaks = runThresholding((short*)field->lattice().dataPtr(),
+                                         dims,
                                          field->getVoxelSize().getValue(), origin, 
 										 min, max, 
-                                         (unsigned char*)output->lattice.dataPtr());
+                                         (unsigned char*)output->lattice().dataPtr());
         break;
-      case McPrimType::mc_uint16:
-        peaks = runThresholding((unsigned short*)field->lattice.dataPtr(),
-                                         field->lattice.dims(),
+      case McPrimType::MC_UINT16:
+        peaks = runThresholding((unsigned short*)field->lattice().dataPtr(),
+                                         dims,
                                          field->getVoxelSize().getValue(), origin, 
 										 min, max, 
-                                         (unsigned char*)output->lattice.dataPtr());
+                                         (unsigned char*)output->lattice().dataPtr());
         break;
-      case McPrimType::mc_int32:
-        peaks = runThresholding((int*)field->lattice.dataPtr(),
-                                         field->lattice.dims(),
+      case McPrimType::MC_INT32:
+        peaks = runThresholding((int*)field->lattice().dataPtr(),
+                                         dims,
                                          field->getVoxelSize().getValue(), origin, 
 										 min, max, 
-                                         (unsigned char*)output->lattice.dataPtr());
+                                         (unsigned char*)output->lattice().dataPtr());
         break;
-      case McPrimType::mc_float:
-        peaks = runThresholding((float*)field->lattice.dataPtr(),
-                                         field->lattice.dims(),
+      case McPrimType::MC_FLOAT:
+        peaks = runThresholding((float*)field->lattice().dataPtr(),
+                                         dims,
                                          field->getVoxelSize().getValue(), origin, 
 										 min, max, 
-                                         (unsigned char*)output->lattice.dataPtr());
+                                         (unsigned char*)output->lattice().dataPtr());
         break;
-      case McPrimType::mc_double:
-        peaks = runThresholding((double*)field->lattice.dataPtr(),
-                                         field->lattice.dims(),
+      case McPrimType::MC_DOUBLE:
+        peaks = runThresholding((double*)field->lattice().dataPtr(),
+                                         dims,
                                          field->getVoxelSize().getValue(), origin, 
 										 min, max, 
-                                         (unsigned char*)output->lattice.dataPtr());
+                                         (unsigned char*)output->lattice().dataPtr());
          break;
       default:
         theMsg->stream() << "The input data has a datatype that this module" <<
@@ -170,18 +173,18 @@ HxUniformScalarField3* CCPiSimpleHistogramThresholding::createOutput(HxUniformSc
         output = NULL;
     
     // Check if size and primitive type still match current input
-    const int *dims = field->lattice.dims();
+	McDim3l dims = field->lattice().getDims();
     if (output) {
-        const int *outdims = output->lattice.dims();
+		McDim3l outdims = output->lattice().getDims();
         if ( dims[0] != outdims[0] || dims[1] != outdims[1] ||
-            dims[2] != outdims[2] || output->primType() != McPrimType::mc_uint8 )
+            dims[2] != outdims[2] || output->primType() != McPrimType::MC_UINT8 )
             
             output = NULL;
     }
     
     // If necessary create a new result data set
     if (!output) {
-        output = new HxUniformScalarField3(dims, McPrimType::mc_uint8);
+        output = new HxUniformScalarField3(dims, McPrimType::MC_UINT8);
         output->composeLabel(field->getName(), "thresholded");
     }
     

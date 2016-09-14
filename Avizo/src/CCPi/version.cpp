@@ -11,4 +11,4 @@
 #define V_PRODUCT       "Custom Package"
 #define V_COMMENT       "CCPi"
 
-#include <taglib/version-impl.h>
+//#include <taglib/internal/version-impl.h>

@@ -11,7 +11,7 @@
 #include <hxfield/HxUniformScalarField3.h>
 #include <hxfield/HxUniformCoord3.h>
 #include <hxfield/HxRegScalarField3.h>
-#include <hxfield/HxRectilinearCoord3.h>
+#include <hxfield/internal/HxRectilinearCoord3.h>
 #include "api.h"
 
 typedef struct{
@@ -75,18 +75,18 @@ HxRegScalarField3* CCPiRegisterDLSAvizoDataset(std::string name, T *data, int nd
 	HxRegScalarField3 * field;
 
 	if(axisData!=NULL) {
-		field = new HxRegScalarField3((newDims), dataType,c_rectilinear);  
+		field = new HxRegScalarField3((newDims), dataType, HxCoordType::C_RECTILINEAR);
 	}else{
 		field = new HxUniformScalarField3((newDims), dataType);
 	}
-	T *rawout=(T *)field->lattice.dataPtr();
+	T *rawout=(T *)field->lattice().dataPtr();
 	hsize_t totalsize = 1;
 	for(int idx =0; idx < ndims;idx++) totalsize *=dims[idx];
 	for(long idx=0;idx<totalsize;idx++)
 		rawout[idx]=((T*)data)[idx];
 
 	if(axisData!=NULL) {
-		HxRectilinearCoord3 * coords =(HxRectilinearCoord3 *) field->lattice.coords();
+		HxRectilinearCoord3 * coords =(HxRectilinearCoord3 *) field->lattice().coords();
 
 		float *coordValues = coords->coordX();
 		for(int i=0;i<newDims[0];i++)
@@ -106,9 +106,8 @@ HxRegScalarField3* CCPiRegisterDLSAvizoDataset(std::string name, T *data, int nd
 			*(coordValues+i) = *(axisData+i);
 		}
 	}else{
-		HxUniformCoord3 * coords =(HxUniformCoord3 *) field->lattice.coords();
-		float * bx;
-		bx=coords->bbox();
+		HxUniformCoord3 * coords =(HxUniformCoord3 *) field->lattice().coords();
+		McBox3f bx=coords->getBoundingBox();
 		bx[0]=0;
 		if(newDims[0]>1)
 			bx[1]=(float)newDims[0]-1;
@@ -135,40 +134,40 @@ void CCPiRegisterDLSDataset(std::string name, TomoData* data, TomoData* angles, 
 	switch(data->dataType)
 	{
 	case CCPiNexusReader::CHAR:
-		field = CCPiRegisterDLSAvizoDataset(name, (char*) data->data,data->ndims,data->dims,McPrimType::mc_int8,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (char*) data->data,data->ndims,data->dims,McPrimType::MC_INT8,data->axisData);
 		break;
 	case CCPiNexusReader::UCHAR:
-		field = CCPiRegisterDLSAvizoDataset(name, (unsigned char*) data->data,data->ndims,data->dims,McPrimType::mc_uint8,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (unsigned char*) data->data,data->ndims,data->dims,McPrimType::MC_UINT8,data->axisData);
 		break;
 	case CCPiNexusReader::SHORT:
-		field = CCPiRegisterDLSAvizoDataset(name, (short*) data->data,data->ndims,data->dims,McPrimType::mc_int16,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (short*) data->data,data->ndims,data->dims,McPrimType::MC_INT16,data->axisData);
 		break;
 	case CCPiNexusReader::USHORT:
-		field = CCPiRegisterDLSAvizoDataset(name, (unsigned short*) data->data,data->ndims,data->dims,McPrimType::mc_uint16,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (unsigned short*) data->data,data->ndims,data->dims,McPrimType::MC_UINT16,data->axisData);
 		break;
 	case CCPiNexusReader::INT:
-		field = CCPiRegisterDLSAvizoDataset(name, (int*) data->data,data->ndims,data->dims,McPrimType::mc_int32,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (int*) data->data,data->ndims,data->dims,McPrimType::MC_INT32,data->axisData);
 		break;
 	case CCPiNexusReader::USINT:
-		field = CCPiRegisterDLSAvizoDataset(name, (unsigned int*) data->data,data->ndims,data->dims,McPrimType::mc_uint32,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (unsigned int*) data->data,data->ndims,data->dims,McPrimType::MC_UINT32,data->axisData);
 		break;
 	case CCPiNexusReader::LONG:
-		field = CCPiRegisterDLSAvizoDataset(name, (long*) data->data,data->ndims,data->dims,McPrimType::mc_int32,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (long*) data->data,data->ndims,data->dims,McPrimType::MC_INT32,data->axisData);
 		break;
 	case CCPiNexusReader::ULONG:
-		field = CCPiRegisterDLSAvizoDataset(name, (unsigned long*) data->data,data->ndims,data->dims,McPrimType::mc_uint32,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (unsigned long*) data->data,data->ndims,data->dims,McPrimType::MC_UINT32,data->axisData);
 		break;
 	case CCPiNexusReader::LLONG:
-		field = CCPiRegisterDLSAvizoDataset(name, (long long*) data->data,data->ndims,data->dims,McPrimType::mc_int64,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (long long*) data->data,data->ndims,data->dims,McPrimType::MC_INT64,data->axisData);
 		break;
 	case CCPiNexusReader::ULLONG:
-		field = CCPiRegisterDLSAvizoDataset(name, (unsigned long long*) data->data,data->ndims,data->dims,McPrimType::mc_uint64,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (unsigned long long*) data->data,data->ndims,data->dims,McPrimType::MC_UINT64,data->axisData);
 		break;
 	case CCPiNexusReader::FLOAT:
-		field = CCPiRegisterDLSAvizoDataset(name, (float*) data->data,data->ndims,data->dims,McPrimType::mc_float,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (float*) data->data,data->ndims,data->dims,McPrimType::MC_FLOAT,data->axisData);
 		break;
 	case CCPiNexusReader::DOUBLE:
-		field = CCPiRegisterDLSAvizoDataset(name, (double*) data->data,data->ndims,data->dims,McPrimType::mc_double,data->axisData);
+		field = CCPiRegisterDLSAvizoDataset(name, (double*) data->data,data->ndims,data->dims,McPrimType::MC_DOUBLE,data->axisData);
 		break;
 	}
 	/* Set angles, image key and pixel size as parameters*/

@@ -13,7 +13,7 @@
 #include "QuanWorker.hpp"   // Worker class to does calculation for one label
 
 #include <hxcore/HxMessage.h>
-#include <hxcore/HxWorkArea.h>
+#include <hxcore/internal/HxWorkArea.h>
 #include <hxfield/HxUniformScalarField3.h>
 
 #include "CCPiImageData.h"
@@ -60,7 +60,7 @@ void CCPiLabelQuantification::compute()
 
     // Access the input data object. The member portData, which is of type
     // HxConnection, is inherited from HxModule.
-    m_field = (HxUniformScalarField3*) portData.source();
+    m_field = (HxUniformScalarField3*) portData.getSource();
     
     // Turn application into busy state but don't activiate the Stop button
     theWorkArea->startWorkingNoStop(
@@ -69,17 +69,17 @@ void CCPiLabelQuantification::compute()
     // Call the tempalted function to do calculation for integer types
     switch (m_field->primType()) {
     
-      case McPrimType::mc_uint8:
-        runQuantification((unsigned char*)m_field->lattice.dataPtr(), 3);
+      case McPrimType::MC_UINT8:
+        runQuantification((unsigned char*)m_field->lattice().dataPtr(), 3);
         break;
-      case McPrimType::mc_int16:
-        runQuantification((short*)m_field->lattice.dataPtr(), 4);
+      case McPrimType::MC_INT16:
+        runQuantification((short*)m_field->lattice().dataPtr(), 4);
         break;
-      case McPrimType::mc_uint16:
-        runQuantification((unsigned short*)m_field->lattice.dataPtr(), 5);
+      case McPrimType::MC_UINT16:
+        runQuantification((unsigned short*)m_field->lattice().dataPtr(), 5);
         break;
-      case McPrimType::mc_int32:
-        runQuantification((int*)m_field->lattice.dataPtr(), 6);
+      case McPrimType::MC_INT32:
+        runQuantification((int*)m_field->lattice().dataPtr(), 6);
         break;
       default:
         theMsg->stream() << "The input data has a datatype that this module" <<
@@ -109,9 +109,9 @@ void CCPiLabelQuantification::runQuantification(IT *data, int vtkDataType)
 
     // Get the origin of the data (lower left position of bounding box)
     float origin[3];
-    origin[0] = m_field->bbox()[0];
-    origin[1] = m_field->bbox()[2];
-    origin[2] = m_field->bbox()[4];
+    origin[0] = m_field->getBoundingBox()[0];
+	origin[1] = m_field->getBoundingBox()[2];
+	origin[2] = m_field->getBoundingBox()[4];
     float voxelSize[3];
 	voxelSize[0] = m_field->getVoxelSize().getValue()[0];
 	voxelSize[1] = m_field->getVoxelSize().getValue()[1];
@@ -121,9 +121,9 @@ void CCPiLabelQuantification::runQuantification(IT *data, int vtkDataType)
     m_field->getRange(min, max);
     
 	long dims[3];
-	dims[0]= m_field->lattice.dimsLong()[0];
-	dims[1]= m_field->lattice.dimsLong()[1];
-	dims[2]= m_field->lattice.dimsLong()[2];
+	dims[0]= m_field->lattice().getDims()[0];
+	dims[1]= m_field->lattice().getDims()[1];
+	dims[2]= m_field->lattice().getDims()[2];
 	CCPiImageData<IT>* image = new CCPiImageData<IT>(data, dims, false);
 	CCPiAvizoUserInterface *ui = new CCPiAvizoUserInterface();
 	CCPiLabelQuantificationITKImpl<IT> quantification(image, (CCPiUserApplicationInterface*)ui, origin, dims, voxelSize,  min, max, portMinSize.getValue(), vtkDataType);

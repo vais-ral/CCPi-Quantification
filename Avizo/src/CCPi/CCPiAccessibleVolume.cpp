@@ -23,10 +23,10 @@
 #include "itkRelabelComponentImageFilter.h"
 
 #include <hxcore/HxMessage.h>
-#include <hxcore/HxWorkArea.h>
+#include <hxcore/internal/HxWorkArea.h>
 #include <hxfield/HxUniformScalarField3.h>
-#include <hxspreadsheet/HxSpreadSheet.h>
-#include <hxrawio/readRawData.h>
+#include <hxspreadsheet/internal/HxSpreadSheet.h>
+#include <hxrawio/internal/readRawData.h>
 
 #include "CCPiAccessibleVolume.h"
 
@@ -77,10 +77,10 @@ void CCPiAccessibleVolume::compute()
 
     // Access the input data object. The member portData, which is of type
     // HxConnection, is inherited from HxModule.
-    HxUniformScalarField3 *field = (HxUniformScalarField3*) portData.source();
+    HxUniformScalarField3 *field = (HxUniformScalarField3*) portData.getSource();
     
     // Check input data
-    if (field->primType() != McPrimType::mc_uint8) {
+    if (field->primType() != McPrimType::MC_UINT8) {
         theMsg->stream() << "This module only works on a binary image" <<
             " and this input has incorrect data type. Data type must be " <<
             " unsigned char" << std::endl;
@@ -88,7 +88,7 @@ void CCPiAccessibleVolume::compute()
     }
     
     // Get mask data
-    HxUniformScalarField3 *maskField = (HxUniformScalarField3*) maskConnection.source();
+    HxUniformScalarField3 *maskField = (HxUniformScalarField3*) maskConnection.getSource();
     if (!maskField) {
         theMsg->stream() << "This module requires a second image for masking" <<
             " the input. Please read in masking data and connect to this module" <<
@@ -97,7 +97,7 @@ void CCPiAccessibleVolume::compute()
     }
     
      // Check mask data
-    if (maskField->primType() != McPrimType::mc_uint8) {
+    if (maskField->primType() != McPrimType::MC_UINT8) {
         theMsg->stream() << "This module expects a binary mask image" <<
             " and this input has incorrect data type. Data type must be " <<
             " unsigned char" << std::endl;
@@ -106,16 +106,16 @@ void CCPiAccessibleVolume::compute()
     
     // Get the origin of the data (lower left position of bounding box)
     float origin[3];
-    origin[0] = field->bbox()[0];
-    origin[1] = field->bbox()[2];
-    origin[2] = field->bbox()[4];
+    origin[0] = field->getBoundingBox()[0];
+	origin[1] = field->getBoundingBox()[2];
+	origin[2] = field->getBoundingBox()[4];
     
     // Create an output with same size as input. Data type will be unsigned char
     // as we produce a labelled image.
     HxUniformScalarField3 *output = createOutput(field);
     
     // Output shall have same bounding box as input
-    output->coords()->setBoundingBox(field->bbox());
+    output->coords()->setBoundingBox(field->getBoundingBox());
     
     // Turn application into busy state but don't activiate the Stop button
     theWorkArea->startWorking(
@@ -124,11 +124,13 @@ void CCPiAccessibleVolume::compute()
 	//map for volume fraction
 	std::map<double,double> outputVolumeFraction;
 
+	int dims[3]; 
+	dims[0] = field->lattice().getDims()[0]; dims[1] = field->lattice().getDims()[1]; dims[2] = field->lattice().getDims()[2];
     // Run the main calculation
-    run((unsigned char*)field->lattice.dataPtr(),
-        field->lattice.dims(), field->getVoxelSize().getValue(), origin,
-        (unsigned char*)maskField->lattice.dataPtr(), 
-        (unsigned char*)output->lattice.dataPtr(),&outputVolumeFraction);
+    run((unsigned char*)field->lattice().dataPtr(),
+        dims, field->getVoxelSize().getValue(), origin,
+        (unsigned char*)maskField->lattice().dataPtr(), 
+        (unsigned char*)output->lattice().dataPtr(),&outputVolumeFraction);
   
     // Register result - adds data object to project view if not already present.
     // Also connects object's master port to compute module
@@ -179,7 +181,7 @@ void CCPiAccessibleVolume::run(unsigned char *data, const int *dims,
 
 	 //createSpreadsheetOutput(algImpl.GetAccessibleVolume());
 
-	writeAccessibleVolumePathFractionToFile(algImpl.GetAccessibleVolume(), portOutputFilename.getFilename());
+	writeAccessibleVolumePathFractionToFile(algImpl.GetAccessibleVolume(), portOutputFilename.getFilename().toUtf8().constData());
 	//Copy ouput volume fraction 
 	std::map<double,double> resultVF = algImpl.GetAccessibleVolume();
 	for (std::map<double,double>::iterator resultIterator=resultVF.begin(); resultIterator!=resultVF.end(); ++resultIterator)
@@ -211,18 +213,18 @@ HxUniformScalarField3* CCPiAccessibleVolume::createOutput(HxUniformScalarField3 
         output = NULL;
     
     // Check if size and primitive type still match current input
-    const int *dims = field->lattice.dims();
+    McDim3l dims = field->lattice().getDims();
     if (output) {
-        const int *outdims = output->lattice.dims();
+        McDim3l outdims = output->lattice().getDims();
         if ( dims[0] != outdims[0] || dims[1] != outdims[1] ||
-            dims[2] != outdims[2] || output->primType() != McPrimType::mc_uint8 )
+            dims[2] != outdims[2] || output->primType() != McPrimType::MC_UINT8 )
             
             output = NULL;
     }
     
     // If necessary create a new result data set
     if (!output) {
-        output = new HxUniformScalarField3(dims, McPrimType::mc_uint8);
+        output = new HxUniformScalarField3(dims, McPrimType::MC_UINT8);
         output->composeLabel(field->getName(), "result");
     }
     
