@@ -55,3 +55,9 @@ dataFile -name    "Nexus Format (DLS Tomography)" \
          -ext     "nxs" \
          -load    "CCPiAvizoDLSReader" \
          -package "CCPi"
+
+dataClass -name  "Nexus Loader" \
+          -class "CCPiAvizoNexusCmdReader" \
+		  -category "CCPi" \
+		  -package "CCPi" \
+		  -icon     "TVDefData"
