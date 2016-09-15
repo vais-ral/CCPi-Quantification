@@ -27,7 +27,6 @@ int CCPiAvizoNexusReader(const char* filename)
 
 	theMsg->stream() <<"Started Reading the Datasets"<<std::endl;
 
-	//std::vector<std::string> output = nexusDlg->GetSelectedDataSetList();
 	for(int index=0; index < nexusDlg->GetSelectedDataSetCount();index++)
 	{
 		std::string datasetname(nexusDlg->GetSelectedDataSet(index));
@@ -63,25 +62,6 @@ int CCPiAvizoNexusReader(const char* filename)
 		delete dims;
 	}
 	delete nexusDlg;
-	//std::vector<std::string> output = nexusDlg->GetSelectedDataSetList();
-	//for(std::vector<std::string>::iterator itr = output.begin(); itr!=output.end();itr++)
-	//{
-	//	CCPiNexusReader reader(filename);
-	//	int ndims;
-	//	int *dims;
-	//	CCPiNexusReader::DATATYPE dataType;
-	//	void* data;
-	//	double* axisData=NULL;
-	//	reader.ReadCompleteData(*(itr), &data, &ndims, &dims, &dataType,&axisData);
-	//	std::cout<<"Number of Dimensions"<<ndims<<std::endl;
-	//	if(axisData==NULL)
-	//	{
-	//		CCPiRegisterUniformDataset(*(itr), data, ndims, dims, dataType);
-	//	}else{
-	//		CCPiRegisterRegularDataset(*(itr), data, ndims, dims, dataType,axisData);
-	//	}
-	//}
-
     return 1;
 }
 
