@@ -75,7 +75,7 @@ HxRegScalarField3* CCPiRegisterDLSAvizoDataset(std::string name, T *data, int nd
 	HxRegScalarField3 * field;
 
 	if(axisData!=NULL) {
-		field = new HxRegScalarField3((newDims), dataType, HxCoordType::C_RECTILINEAR);
+		field = new HxRegScalarField3((newDims), dataType, C_RECTILINEAR);
 	}else{
 		field = new HxUniformScalarField3((newDims), dataType);
 	}
