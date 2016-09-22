@@ -240,7 +240,8 @@ void* CCPiNexusReader::AllocateMemory(hid_t datatype, hsize_t totalsize)
 		std::cout<<"It's a Double type"<<std::endl;
 		double *data = new double[totalsize];
 		return data;
-	} else if(H5Tget_class(datatype) == H5T_FLOAT) {
+	}
+	else if (H5Tget_class(datatype) == H5T_FLOAT && H5Tget_size(datatype) == H5Tget_size(H5T_NATIVE_LDOUBLE)) {
 		long double *data = new long double[totalsize];
 		return data;
 	} else {

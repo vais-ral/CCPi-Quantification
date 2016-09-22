@@ -162,7 +162,7 @@ void CCPiRegisterUniformDataset(std::string name, void *data, int ndims, int *di
 template <class T>
 void CCPiRegisterAvizoRegularDataset(std::string name, T *data, int ndims, int *dims, McPrimType::Type dataType,double *axisData)
 {
-	int newDims[3];
+	McDim3l newDims;
 	if(ndims==3){ //Row major , column major
 		newDims[0]=dims[2];
 		newDims[1]=dims[1];
@@ -176,16 +176,19 @@ void CCPiRegisterAvizoRegularDataset(std::string name, T *data, int ndims, int *
 	}
 	HxRegScalarField3 * field;
 
-	field = new HxRegScalarField3((newDims), dataType,HxCoordType::C_CURVILINEAR);  
+	field = new HxRegScalarField3(newDims, dataType,C_RECTILINEAR);  
 	T *rawout=(T *)field->lattice().dataPtr();
 	hsize_t totalsize = 1;
 	for(int idx =0; idx < ndims;idx++) totalsize *=dims[idx];
 	for(long idx=0;idx<totalsize;idx++)
 		rawout[idx]=((T*)data)[idx];
 
-	HxRectilinearCoord3 * coords =(HxRectilinearCoord3 *) field->lattice().coords();
-
+	McDim3l coordDims;
+	coordDims[0] = newDims[0]; coordDims[1] = newDims[1]; coordDims[2] = newDims[2];
+	HxRectilinearCoord3*  coords = (HxRectilinearCoord3* )field->lattice().coords();
+	
 	float *coordValues = coords->coordX();
+	
 	for(int i=0;i<newDims[0];i++)
 	{
 		*(coordValues+i) = *(axisData+newDims[2]+newDims[1]+i);
@@ -196,12 +199,13 @@ void CCPiRegisterAvizoRegularDataset(std::string name, T *data, int ndims, int *
 	{
 		*(coordValues+i) = *(axisData+newDims[2]+i);
 	}
-
+	
 	coordValues = coords->coordZ();
 	for(int i=0;i<newDims[2];i++)
 	{
 		*(coordValues+i) = *(axisData+i);
-	}
+	} 
+	
 	HxData::registerData(field, name.c_str());
 }
 
