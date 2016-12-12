@@ -616,7 +616,11 @@ bool CCPiNexusReader::ReadPartialAxisDataNxsV2(std::string datagroupPath, int nd
 	hsize_t sdim[64];
 
 	hid_t axes_id = H5Aopen_name(group_id,"axes"); //axes should have the names of axis
-	//TODO:: check if the axis exist
+	if (axes_id < 0)
+	{
+		*axisData = NULL;
+		return false;
+	}
     hid_t atype  = H5Aget_type(axes_id);
     hid_t aspace = H5Aget_space(axes_id);
     int rank = H5Sget_simple_extent_ndims(aspace);
