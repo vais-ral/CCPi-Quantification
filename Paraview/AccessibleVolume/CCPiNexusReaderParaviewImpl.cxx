@@ -166,7 +166,7 @@ int CCPiNexusReaderParaviewImpl::GetVTKType(CCPiNexusReader::DATATYPE type)
 		return VTK_UNSIGNED_SHORT;
 	case CCPiNexusReader::INT:
 		return VTK_INT;
-	case CCPiNexusReader::UINT:
+	case CCPiNexusReader::USINT:
 		return VTK_UNSIGNED_INT;
 	case CCPiNexusReader::LONG:
 		return VTK_LONG;
