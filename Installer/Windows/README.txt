@@ -1,0 +1,1 @@
+Windows installer is built with Inno Setup build.

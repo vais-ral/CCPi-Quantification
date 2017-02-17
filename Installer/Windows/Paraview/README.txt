@@ -1,0 +1,1 @@
+All the compiled DLL's should in bin directory (including dependencies such as ITK).

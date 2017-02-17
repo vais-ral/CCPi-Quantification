@@ -1,0 +1,1 @@
+All the DLL should be placed in this directory and plugin jar file in "plugins" directory. 
