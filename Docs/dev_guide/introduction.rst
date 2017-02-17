@@ -5,5 +5,10 @@ The aim of the project is to make these scientific algorithms/code easily access
 
 * accessibility: is achieved through making the algorithms available as plugins in popular user applications. 
 * efficiency: this is achieved through reengineering the code to run in parallel and using faster mathematical library.
-* maintainability: the code is available in git repository and the code includes doxygen comments.
+* maintainability: the code is available in git repository, includes doxygen comments and integrated with continious integration for testing.
    
+This project currently supports plugin for three popular applications.
+
+* Avizo    (Versions: 7.1.1, 8.x, 9.0, 9.1.1, 9.2)
+* Paraview (Versions: 5.2)
+* ImageJ   (Versions: 150)
