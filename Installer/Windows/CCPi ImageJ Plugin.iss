@@ -67,12 +67,12 @@ begin
   if CurPageID = ImageJInstallationDirPage.ID then begin
     if ImageJInstallationDirPage.Values[0] = '' then
       begin
-        MsgBox('You must a valid ImageJ Root Directory.', mbError, MB_OK);
+        MsgBox('Please select a valid ImageJ Root Directory(eg: C:\ImageJ).', mbError, MB_OK);
         Result := False;
       end
     else if not FileExists( ImageJInstallationDirPage.Values[0]+'\ImageJ.exe') then
       begin
-        MsgBox('You must a valid ImageJ Root Directory.', mbError, MB_OK);
+        MsgBox('Please select a valid ImageJ Root Directory(eg: C:\ImageJ).', mbError, MB_OK);
         Result := False;
       end
     else

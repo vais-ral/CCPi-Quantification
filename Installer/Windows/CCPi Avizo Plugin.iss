@@ -99,7 +99,7 @@ begin
   if CurPageID = AvizoInstallationDirPage.ID then begin
     if AvizoInstallationDirPage.Values[0] = '' then
       begin
-        MsgBox('You must a valid Avizo Root Directory.', mbError, MB_OK);
+        MsgBox('Please select a valid Avizo Root Directory (eg. C:\Program Files\Avizo-9.1.1).', mbError, MB_OK);
         Result := False;
       end
     else if not FileExists( AvizoInstallationDirPage.Values[0]+'\bin\arch-Win64VC9-Optimize\Avizomain.exe') and not FileExists( AvizoInstallationDirPage.Values[0]+'\bin\arch-Win64VC10-Optimize\Avizomain.exe') and not FileExists( AvizoInstallationDirPage.Values[0]+'\bin\arch-Win64VC12-Optimize\Avizo.exe') then

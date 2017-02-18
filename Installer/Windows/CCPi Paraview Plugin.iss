@@ -89,12 +89,12 @@ begin
   if CurPageID = ParaviewInstallationDirPage.ID then begin
     if ParaviewInstallationDirPage.Values[0] = '' then
       begin
-        MsgBox('You must a valid Paraview Root Directory.', mbError, MB_OK);
+        MsgBox('Please select a valid Paraview Root Directory(eg: C:\Program Files\Paraview-5.2).', mbError, MB_OK);
         Result := False;
       end
     else if not FileExists( ParaviewInstallationDirPage.Values[0]+'\bin\paraview.exe') then
       begin
-        MsgBox('You must a valid Paraview Root Directory.', mbError, MB_OK);
+        MsgBox('Please select a valid Paraview Root Directory(eg: C:\Program Files\Paraview-5.2).', mbError, MB_OK);
         Result := False;
       end
     else
