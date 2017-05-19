@@ -18,7 +18,7 @@
 #endif
 
 CCPiAccessibleVolumeITKImpl::CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInputImages *inputImages, CCPiUserApplicationInterface *userInterface,CCPiImageDataUnsignedChar* outputImage, float logMin, float logMax, int numberOfSpheres, float imageResolution)
-{
+{	
 	InputData = inputImages;
 	UserAppInterface = userInterface;
 	OutputImage		 = outputImage;
@@ -26,13 +26,14 @@ CCPiAccessibleVolumeITKImpl::CCPiAccessibleVolumeITKImpl(CCPiAccessibleVolumeInp
 	SphereDiameterRangeMax = logMax;
 	NumberOfSpheres        = numberOfSpheres;
 	ImageResolution		   = imageResolution;
-	if(outputImage!=NULL)	isOutputMemoryOwner = false;
+	
+	isOutputMemoryOwner = false;
 }
 
 CCPiAccessibleVolumeITKImpl::~CCPiAccessibleVolumeITKImpl()
 {
 	if(isOutputMemoryOwner && OutputImage!= NULL)
-		delete[] OutputImage;
+		delete OutputImage;
 }
 
 std::map<double,double> CCPiAccessibleVolumeITKImpl::GetAccessibleVolume()
@@ -249,7 +250,6 @@ void  CCPiAccessibleVolumeITKImpl::Compute()
 		double pathVolumeFraction = volumePath/InputData->getScafoldVolume();
 		AccessibleVolume.insert(std::pair<double,double>(selectedDiameter, pathVolumeFraction));		
 	}
-
 }
 
 void CCPiAccessibleVolumeITKImpl::CopyImage(ImageType::Pointer inputImage, unsigned char* outputImage)
