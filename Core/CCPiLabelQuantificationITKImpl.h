@@ -24,6 +24,7 @@ class CCPiLabelQuantificationITKImpl
 {
 public:
 	CCPiLabelQuantificationITKImpl(CCPiImageData<T>* data, CCPiUserApplicationInterface *userAppInterface, float origin[3], long volumeDims[3], float voxelSize[3], float min,float max,float minFeatureSize, int vtkDataType);
+	CCPiLabelQuantificationITKImpl(const CCPiLabelQuantificationITKImpl<T> &);
 	~CCPiLabelQuantificationITKImpl();
 	void Compute();
 	CCPiLabelQuantificationResult* GetOutput();
@@ -54,6 +55,20 @@ CCPiLabelQuantificationITKImpl<T>::CCPiLabelQuantificationITKImpl(CCPiImageData<
 	MinFeatureSize = minFeatureSize;
 	VtkDataType = vtkDataType;
 	UserAppInterface = userAppInterface;
+}
+
+template <class T>
+CCPiLabelQuantificationITKImpl<T>::CCPiLabelQuantificationITKImpl(const CCPiLabelQuantificationITKImpl<T> &input)
+{
+	this->ImageData = input.ImageData;
+	this->VolumeDims[0] = input.VolumeDims[0];  this->VolumeDims[1]=input.VolumeDims[1];  this->VolumeDims[2] = input.VolumeDims[2];
+	this->VoxelSize[0]  = input.VoxelSize[0]; this->VoxelSize[1] = input.VoxelSize[1]; this->VoxelSize[2] = input.VoxelSize[2];
+	this->Origin[0] = input.Origin[0];    this->Origin[1]   = input.Origin[1]; this->Origin[2] = input.Origin[2];
+	this->MinDataValue = input.MinDataValue;
+	this->MaxDataValue = input.MaxDataValue;
+	this->MinFeatureSize = input.MinFeatureSize;
+	this->VtkDataType = input.VtkDataType;
+	this->UserAppInterface = input.UserAppInterface;	
 }
 
 template <class T>
