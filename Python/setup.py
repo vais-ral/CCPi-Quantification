@@ -6,20 +6,32 @@ from distutils.extension import Extension
 from Cython.Distutils import build_ext
 
 import os
+import sys
 import numpy
 import platform	
+import vtk
 
-extra_include_dirs = [numpy.get_include()]
+itk_version="4.11"
+vtk_version="%d.%d"%(vtk.vtkVersion.GetVTKMajorVersion(), vtk.vtkVersion.GetVTKMinorVersion())
+library_path = ""
+try:
+    library_path = os.environ['LIBRARY_INC']
+except:
+    pass
+extra_include_dirs = [numpy.get_include(), library_path]
 extra_library_dirs = []
 extra_compile_args = ['-fopenmp','-O2', '-funsigned-char', '-Wall', '-Werror']
-extra_libraries = ['ITKCommon-4.11','itkvcl-4.11','itkvnl-4.11', 'itkvnl_algo-4.11', 'itkv3p_netlib-4.11', 'itksys-4.11', 'ITKStatistics-4.11', 'vtkCommonCore-7.1',  'vtkImagingCore-7.1', 'vtkImagingHybrid-7.1', 'vtkFiltersCore-7.1', 'vtkCommonComputationalGeometry-7.1','vtkCommonDataModel-7.1','vtkIOImage-7.1','vtkCommonExecutionModel-7.1']
+extra_libraries = ['ITKCommon-'+itk_version,'itkvcl-'+itk_version,'itkvnl-'+itk_version, 'itkvnl_algo-'+itk_version, 'itkv3p_netlib-'+itk_version, 'itksys-'+itk_version, 'ITKStatistics-'+itk_version, 'vtkCommonCore-'+vtk_version,  'vtkImagingCore-'+vtk_version, 'vtkImagingHybrid-'+vtk_version, 'vtkFiltersCore-'+vtk_version, 'vtkCommonComputationalGeometry-'+vtk_version,'vtkCommonDataModel-'+vtk_version,'vtkIOImage-'+vtk_version,'vtkCommonExecutionModel-'+vtk_version]
 if platform.system() == 'Windows':
-   extra_compile_args[0:] = ['/DWIN32','/EHsc','/DCCPiCore_EXPORTS','/Ob2','/O2']
-   extra_include_dirs += ['C:\\Apps\\libs-vs2015\\boost\\1.64\\include\\boost-1_65',"..\\Core\\", ".", "C:\\Apps\\Anaconda3\\envs\\python3.5\\Library\\include\\ITK-4.11","C:\\Apps\\Anaconda3\\envs\\Python3.5\\Library\\include\\vtk-7.1"]
-   extra_library_dirs += ['C:\\Apps\\libs-vs2015\\boost\\1.64\\lib',"C:\\Apps\\Anaconda3\\envs\\python3.5\\Library\\lib"]   
+    extra_compile_args[0:] = ['/DWIN32','/EHsc','/DCCPiCore_EXPORTS','/Ob2','/O2','/DBOOST_ALL_NO_LIB']
+    extra_include_dirs += ["..\\Core\\", ".", library_path+"\\ITK-"+itk_version, library_path+"\\vtk-"+vtk_version]
+    if sys.version_info.major == 3 :   
+        extra_libraries += ['boost_python3-vc140-mt-1_64', 'boost_numpy3-vc140-mt-1_64']
+    else:
+        extra_libraries += ['boost_python-vc140-mt-1_64', 'boost_numpy-vc140-mt-1_64']
 setup(
     name='ccpi',
-	description='This is a CCPi package for Quantification codes',
+	description='This is a CCPi Core Imaging Library package for Quantification codes',
 	version='0.1',
     cmdclass = {'build_ext': build_ext},
     ext_modules = [Extension("ccpi.quantification",
