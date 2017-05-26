@@ -2,8 +2,10 @@
 //#include <boost/python.hpp>
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 
+#ifdef WIN32
 #include <iostream>
 #include <boost/shared_ptr.hpp>
+#endif
 #include <boost/python.hpp>
 #include <boost/python/numpy.hpp>
 
