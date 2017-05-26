@@ -38,7 +38,7 @@ IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
 ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
 			
 SET (CCPI_VTK_LIBS)
-IF (VTK_MAJOR_VERSION EQUAL 6)			
+IF (NOT(VTK_MAJOR_VERSION LESS 6))			
 SET (CCPI_VTK_LIBS vtkCommonCore vtkImagingCore vtkImagingHybrid vtkFiltersCore vtkCommonComputationalGeometry)
 ELSE()
 SET (CCPI_VTK_LIBS vtkHybrid)
