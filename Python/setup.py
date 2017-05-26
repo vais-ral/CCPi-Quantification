@@ -29,6 +29,9 @@ if platform.system() == 'Windows':
         extra_libraries += ['boost_python3-vc140-mt-1_64', 'boost_numpy3-vc140-mt-1_64']
     else:
         extra_libraries += ['boost_python-vc140-mt-1_64', 'boost_numpy-vc140-mt-1_64']
+else:
+    extra_include_dirs += ["../Core/", ".", library_path+"/ITK-"+itk_version, library_path+"/vtk-"+vtk_version]
+        
 setup(
     name='ccpi',
 	description='This is a CCPi Core Imaging Library package for Quantification codes',
