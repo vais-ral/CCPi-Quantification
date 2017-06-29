@@ -22,14 +22,14 @@ except:
 extra_include_dirs = [numpy.get_include(), library_include_path]
 extra_library_dirs = []
 extra_compile_args = ['-fopenmp','-O2', '-funsigned-char', '-Wall']
-extra_libraries = ['ITKCommon-'+itk_version,'itkvcl-'+itk_version,'itkvnl-'+itk_version, 'itkvnl_algo-'+itk_version, 'itkv3p_netlib-'+itk_version, 'itksys-'+itk_version, 'ITKStatistics-'+itk_version, 'vtkCommonCore-'+vtk_version,  'vtkImagingCore-'+vtk_version, 'vtkImagingHybrid-'+vtk_version, 'vtkFiltersCore-'+vtk_version, 'vtkCommonComputationalGeometry-'+vtk_version,'vtkCommonDataModel-'+vtk_version,'vtkIOImage-'+vtk_version,'vtkCommonExecutionModel-'+vtk_version]
+extra_libraries = ['ITKCommon-'+itk_version,'itkvcl-'+itk_version,'itkvnl-'+itk_version, 'itkvnl_algo-'+itk_version, 'itkv3p_netlib-'+itk_version, 'itksys-'+itk_version, 'ITKStatistics-'+itk_version, 'vtkCommonCore-'+vtk_version,  'vtkImagingCore-'+vtk_version, 'vtkImagingHybrid-'+vtk_version, 'vtkFiltersCore-'+vtk_version, 'vtkCommonComputationalGeometry-'+vtk_version,'vtkCommonDataModel-'+vtk_version,'vtkIOImage-'+vtk_version,'vtkCommonExecutionModel-'+vtk_version, 'vtkCommonMisc-'+vtk_version]
 if platform.system() == 'Windows':
     extra_compile_args[0:] = ['/DWIN32','/EHsc','/DCCPiCore_EXPORTS','/Ob2','/O2','/DBOOST_ALL_NO_LIB']
     extra_include_dirs += ["..\\Core\\", ".", library_include_path+"\\ITK-"+itk_version, library_include_path+"\\vtk-"+vtk_version]
     if sys.version_info.major == 3 :   
         extra_libraries += ['boost_python3-vc140-mt-1_64', 'boost_numpy3-vc140-mt-1_64']
     else:
-        extra_libraries += ['boost_python-vc140-mt-1_64', 'boost_numpy-vc140-mt-1_64']
+        extra_libraries += ['boost_python-vc90-mt-1_64', 'boost_numpy-vc90-mt-1_64']
 else:
     extra_include_dirs += ["../Core/", ".", library_include_path+"/ITK-"+itk_version, library_include_path+"/vtk-"+vtk_version]
         
