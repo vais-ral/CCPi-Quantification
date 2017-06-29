@@ -36,7 +36,7 @@ else:
 setup(
     name='ccpi',
 	description='This is a CCPi Core Imaging Library package for Quantification codes',
-	version='0.1',
+	version='0.9',
     cmdclass = {'build_ext': build_ext},
     ext_modules = [Extension("ccpi.quantification",
                              sources=["src/ccpi_quantification.cpp",  

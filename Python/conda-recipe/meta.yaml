@@ -1,10 +1,10 @@
 package:
   name: ccpi-quantification
-  version: "0.1"
+  version: "0.9"
 
 
 build:
-  preserve_egg_dir: yes
+  preserve_egg_dir: False
 #  number: 0
   
 requirements:
