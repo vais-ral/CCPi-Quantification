@@ -22,7 +22,8 @@ requirements:
     - python
     - numpy
     - boost ==1.64
-
+    - itk ==4.11.1
+    - vtk >=7.1
 	
 about:
   home: http://www.ccpi.ac.uk
