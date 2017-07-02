@@ -50,5 +50,6 @@ setup(
                                         "../Core/CCPiParticleTracker.cpp",
                                         "../Core/CCPiTrack.cpp"],
                              include_dirs=extra_include_dirs, library_dirs=extra_library_dirs, libraries=extra_libraries, extra_compile_args=extra_compile_args),],
+    zip_safe = False,    
     packages = {'ccpi'}
 )
