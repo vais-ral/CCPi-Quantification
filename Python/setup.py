@@ -32,6 +32,11 @@ if platform.system() == 'Windows':
         extra_libraries += ['boost_python-vc90-mt-1_64', 'boost_numpy-vc90-mt-1_64']
 else:
     extra_include_dirs += ["../Core/", ".", library_include_path+"/ITK-"+itk_version, library_include_path+"/vtk-"+vtk_version]
+    extra_include_dirs += [library_include_path]
+    if sys.version_info.major == 3 :
+        extra_libraries += ['boost_python3', 'boost_numpy3','gomp']
+    else:
+        extra_libraries += ['boost_python', 'boost_numpy','gomp']
         
 setup(
     name='ccpi',
