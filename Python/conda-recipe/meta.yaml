@@ -1,6 +1,6 @@
 package:
   name: ccpi-quantification
-  version: "0.9"
+  version: {{ environ['CCPI_VERSION'] }}
 
 
 build:
