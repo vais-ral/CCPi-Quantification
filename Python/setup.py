@@ -11,6 +11,11 @@ import numpy
 import platform	
 import vtk
 
+cil_version=os.environ['CIL_VERSION']
+if  cil_version == '':
+    print("Please set the environmental variable CIL_VERSION")
+    sys.exit(1)
+
 itk_version="4.11"
 vtk_version="%d.%d"%(vtk.vtkVersion.GetVTKMajorVersion(), vtk.vtkVersion.GetVTKMinorVersion())
 library_include_path = ""
