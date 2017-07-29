@@ -5,6 +5,8 @@ package:
 
 build:
   preserve_egg_dir: False
+  script_env:
+    - CIL_VERSION  
 #  number: 0
   
 requirements:
@@ -17,8 +19,7 @@ requirements:
     - cython
     - itk ==4.11.1
     - vtk >=7.1
-    script_env:
-      - CIL_VERSION
+
   run:
     - python
     - numpy
