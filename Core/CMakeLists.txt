@@ -5,7 +5,7 @@ FIND_PACKAGE(ITK REQUIRED)
 INCLUDE(${ITK_USE_FILE})
 
 IF(ParaView_DIR)
-FIND_PACKAGE(VTK COMPONENTS vtkIOImage vtkCommonCore vtkImagingCore vtkImagingHybrid vtkFiltersCore vtkCommonComputationalGeometry NO_MODULE)
+FIND_PACKAGE(VTK COMPONENTS vtkIOImage vtkIOImport vtkCommonCore vtkImagingCore vtkImagingHybrid vtkFiltersCore vtkCommonComputationalGeometry NO_MODULE)
 INCLUDE(${VTK_USE_FILE})
 ELSE()
 FIND_PACKAGE(VTK REQUIRED)
