@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
 PROJECT(CCPiNexusWidget)
 
 IF(NOT JNI_FOUND)
-FIND_PACKAGE(Qt4 REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Concurrent REQUIRED)
 
 # back up any user-defined HDF5_DIR setting
 set(_SAVED_HDF5_DIR ${HDF5_DIR})
@@ -21,10 +21,11 @@ SET(CCPiNexusWidget_SOURCES CCPiNexusTreeModel.cpp CCPiNexusTreeItem.cpp CCPiNex
 SET(CCPiNexusWidget_HEADERS CCPiNexusTreeModel.h CCPiNexusWidgetDialog.h CCPiNexusSubsetWidget.h)
 SET(CCPiNexusWidget_FORMS CCPiNexusWidget.ui)
 
-QT4_WRAP_CPP(CCPiNexusWidget_HEADERS_MOC ${CCPiNexusWidget_HEADERS})
-QT4_WRAP_UI(CCPiNexusWidget_FORMS_HEADERS ${CCPiNexusWidget_FORMS})
+QT5_WRAP_CPP(CCPiNexusWidget_HEADERS_MOC ${CCPiNexusWidget_HEADERS})
+QT5_WRAP_UI(CCPiNexusWidget_FORMS_HEADERS ${CCPiNexusWidget_FORMS})
 
-INCLUDE(${QT_USE_FILE})
+include_directories(${Qt5Widgets_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS} ${Qt5Concurrent} )
+SET(QT_LIBRARIES Qt5::Widgets Qt5::Core Qt5::Concurrent)
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
 FIND_PACKAGE(HDF5 REQUIRED)
