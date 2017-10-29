@@ -147,7 +147,7 @@ void CCPiLabelQuantification::runQuantification(IT *data, int vtkDataType)
 HxSpreadSheet* CCPiLabelQuantification::createSpreadsheetOutput(std::string prefix,CCPiLabelQuantificationResult* quantResult)
 {
 
-	HxSpreadSheet *output = new HxSpreadSheet();
+/*	HxSpreadSheet *output = new HxSpreadSheet();
 //	output->addTable(("Accessible Volume("+prefix+")").c_str());
 	output->setLabel(("LabelQuantification("+prefix+")").c_str());
 	int tableId = 0;
@@ -174,4 +174,6 @@ HxSpreadSheet* CCPiLabelQuantification::createSpreadsheetOutput(std::string pref
 		}
 	}
     return output;
+*/
+    return NULL;
 }

@@ -30,8 +30,8 @@ class CCPI_API CCPiAccessibleVolume : public HxCompModule
 
   public:
 
-    CCPiAccessibleVolume();
-    ~CCPiAccessibleVolume();
+//    CCPiAccessibleVolume();
+//    ~CCPiAccessibleVolume();
 
     /** Port providing a button to click to run the module */
     HxPortDoIt portAction;

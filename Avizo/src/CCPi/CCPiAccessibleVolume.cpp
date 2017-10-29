@@ -240,7 +240,7 @@ HxUniformScalarField3* CCPiAccessibleVolume::createOutput(HxUniformScalarField3 
 HxSpreadSheet* CCPiAccessibleVolume::createSpreadsheetOutput(std::string prefix, std::map<double,double> volpathMap)
 {
 
-	HxSpreadSheet *output = new HxSpreadSheet();
+/*	HxSpreadSheet *output = new HxSpreadSheet();
 //	output->addTable(("Accessible Volume("+prefix+")").c_str());
 	output->setLabel(("Accessible Volume("+prefix+")").c_str());
 	int tableId = 0;//output->findTable(("Accessible Volume("+prefix+")").c_str());
@@ -259,6 +259,8 @@ HxSpreadSheet* CCPiAccessibleVolume::createSpreadsheetOutput(std::string prefix,
 		volumeFractionColumn->setValue(rowIndex, resultIterator->second);
 	}    
     return output;
+*/
+   return NULL;
 }
 
 

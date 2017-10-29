@@ -19,8 +19,8 @@ class CCPI_API CCPiAvizoNexusCmdReader : public HxData
 	HX_HEADER(CCPiAvizoNexusCmdReader);
 
 public:
-	CCPiAvizoNexusCmdReader();
-	~CCPiAvizoNexusCmdReader();
+//	CCPiAvizoNexusCmdReader();
+//	~CCPiAvizoNexusCmdReader();
 
 	/** Port providing a button to click to run the module */
 	HxPortDoIt portAction;
