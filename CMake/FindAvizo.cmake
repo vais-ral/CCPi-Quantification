@@ -119,6 +119,45 @@ ENDIF()
 include(FindPackageHandleStandardArgs)
 
 find_package_handle_standard_args(Avizo DEFAULT_MSG Avizo_LIBRARY Avizo_INCLUDE_DIR)
+mark_as_advanced(	Avizo_LIBRARY_QT_Core
+		  	Avizo_LIBRARY_QT_DesignerComponents
+		  	Avizo_LIBRARY_QT_Designer
+		  	Avizo_LIBRARY_QT_Gui
+		  	Avizo_LIBRARY_QT_Network
+		  	Avizo_LIBRARY_QT_OpenGL
+		  	Avizo_LIBRARY_QT_Script
+		  	Avizo_LIBRARY_QT_Sql
+		  	Avizo_LIBRARY_QT_Svg
+		  	Avizo_LIBRARY_QT_Test
+		  	Avizo_LIBRARY_QT_Xml
+		  	Avizo_LIBRARY_QT_Declarative
+		  	Avizo_LIBRARY_QT_XmlPatterns
+		  	Avizo_LIBRARY_QT_WebKit
+
+			Avizo_LIBRARY_HX_Plot
+			Avizo_LIBRARY_HX_Time
+			Avizo_LIBRARY_HX_Surface
+			Avizo_LIBRARY_HX_Color
+			Avizo_LIBRARY_HX_Field
+			Avizo_LIBRARY_HX_Spreadsheet
+			Avizo_LIBRARY_HX_AmiraMesh
+			Avizo_LIBRARY_HX_Mclib
+			Avizo_LIBRARY_HX_InventorBase
+			Avizo_LIBRARY_HX_InventorGL
+			Avizo_LIBRARY_HX_Inventor
+			Avizo_LIBRARY_HX_InventorQt4
+			Avizo_LIBRARY_HX_HardCopy
+			Avizo_LIBRARY_HX_MeshViz
+			Avizo_LIBRARY_HX_MeshVizExtractor
+			Avizo_LIBRARY_HX_MeshVizImpl
+			Avizo_LIBRARY_HX_MeshVizDataMapping
+			Avizo_LIBRARY_HX_VolumeViz
+			Avizo_LIBRARY_HX_LDM
+			Avizo_LIBRARY_HX_X11
+			Avizo_LIBRARY_HX_Tcl
+Avizo_INCLUDE_Boost_DIR Avizo_INCLUDE_OIV_DIR Avizo_INCLUDE_Qt_DIR Avizo_INCLUDE_Qt_Qt_DIR Avizo_INCLUDE_Qt_QtCore_DIR Avizo_INCLUDE_Qt_QtDBus_DIR Avizo_INCLUDE_Qt_QtDesigner_DIR Avizo_INCLUDE_Qt_QtGui_DIR  Avizo_INCLUDE_Qt_QtNetwork_DIR Avizo_INCLUDE_Qt_QtOpenGL_DIR Avizo_INCLUDE_Qt_QtScript_DIR Avizo_INCLUDE_Qt_QtSql_DIR Avizo_INCLUDE_Qt_QtSvg_DIR Avizo_INCLUDE_Qt_QtTest_DIR Avizo_INCLUDE_Qt_QtUiTools_DIR Avizo_INCLUDE_Qt_QtXml_DIR Avizo_INCLUDE_Qt_QtXmlPatterns_DIR Avizo_INCLUDE_Qt_QtDeclarative_DIR Avizo_INCLUDE_Qt_QtWebKit_DIR
+)
+
 
 set(Avizo_INCLUDE_DIRS ${Avizo_INCLUDE_DIR} ${Avizo_INCLUDE_Boost_DIR} ${Avizo_INCLUDE_OIV_DIR} ${Avizo_INCLUDE_Qt_DIR} ${Avizo_INCLUDE_Qt_QtCore_DIR} ${Avizo_INCLUDE_Qt_QtDBus_DIR} ${Avizo_INCLUDE_Qt_QtDesigner_DIR} ${Avizo_INCLUDE_Qt_QtGui_DIR}  ${Avizo_INCLUDE_Qt_QtNetwork_DIR} ${Avizo_INCLUDE_Qt_QtOpenGL_DIR} ${Avizo_INCLUDE_Qt_QtScript_DIR} ${Avizo_INCLUDE_Qt_QtSql_DIR} ${Avizo_INCLUDE_Qt_QtSvg_DIR} ${Avizo_INCLUDE_Qt_QtTest_DIR} ${Avizo_INCLUDE_Qt_QtUiTools_DIR} ${Avizo_INCLUDE_Qt_QtXml_DIR} ${Avizo_INCLUDE_Qt_QtXmlPatterns_DIR} ${Avizo_INCLUDE_Qt_QtDeclarative_DIR} ${Avizo_INCLUDE_Qt_QtWebKit_DIR} )#${Avizo_INCLUDE_qt_commercial_charts_DIR} )
 set(Avizo_LIBRARIES    	${Avizo_LIBRARY}
