@@ -56,9 +56,6 @@ IF (Avizo_FOUND)
   add_definitions(${Avizo_DEFINITIONS})
 ENDIF (Avizo_FOUND)
 
-MESSAGE( "Avizo Found: " ${AVIZO_FOUND})
-MESSAGE( "Avizo Include Dirs: " ${Avizo_INCLUDE_DIRS})
-MESSAGE( "Avizo Libraries: " ${Avizo_LIBRARIES})
 #Custom definitions
 add_definitions(-DPACKAGEID=amirapackage_CCPiQuantificationAvizo)
 set(CMAKE_CXX_FLAGS "-shared -fPIC -fopenmp -Wall -Wno-unknown-pragmas -mmmx -msse -msse2 -mfpmath=sse -fmessage-length=0 -fexceptions -frounding-math")
@@ -78,7 +75,6 @@ set(_SAVED_HDF5_DIR ${HDF5_DIR})
 FIND_PACKAGE(HDF5 COMPONENTS C NO_MODULE)
 include_directories(${HDF5_INCLUDE_DIR})
 include_directories(${CCPiCore_INCLUDE_DIRS})
-MESSAGE("CCPiNexusWidget ${CCPiNexusWidget_INCLUDE_DIRS}")
 include_directories(${CCPiNexusWidget_INCLUDE_DIRS})
 target_link_libraries (CCPiQuantificationAvizo CCPiCore CCPiNexusWidget ${ITK_LIBRARIES} ${CCPI_VTK_LIBS} ${HDF5_LIBRARIES})
 

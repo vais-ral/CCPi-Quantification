@@ -7,10 +7,9 @@
 # Avizo_DEFINITIONS - definition for Avizio
 	# Root Avizo Dir
 set(Avizo_DIR CACHE PATH "Avizo Installed Root directory")
-IF((NOT DEFINED Avizo_DIR_old OR NOT (Avizo_DIR STREQUAL Avizo_DIR_old)) AND NOT ("Avizo_DIR" STREQUAL ""))
+IF((NOT DEFINED Avizo_DIR_old OR NOT (Avizo_DIR STREQUAL Avizo_DIR_old)) AND EXISTS ${Avizo_DIR})
 	# Include dir
 	find_path(Avizo_INCLUDE_DIR NAMES hxcore/HxBase.h PATHS ${Avizo_DIR} PATH_SUFFIXES include)
-	MESSAGE("Avizo Include Dir  : ${Avizo_INCLUDE_DIR}")
 	# Find Qt header in Avizo
 	find_path(Avizo_INCLUDE_Qt_DIR NAMES QtGui/QtGui PATHS ${Avizo_INCLUDE_DIR} PATH_SUFFIXES arch-LinuxAMD64/qt NO_DEFAULT_PATH)	
 #	find_path(Avizo_INCLUDE_qt_commercial_charts_DIR NAMES qt-commercial-charts PATHS ${Avizo_INCLUDE_DIR}/arch-LinuxAMD64 PATH_SUFFIXES qt-commercial-charts)
@@ -51,26 +50,7 @@ IF((NOT DEFINED Avizo_DIR_old OR NOT (Avizo_DIR STREQUAL Avizo_DIR_old)) AND NOT
 		set(Avizo_INCLUDE_Qt_QtDeclarative_DIR ${Avizo_INCLUDE_Qt_DIR}/QtDeclarative CACHE PATH "QtDeclarative include path")
 		set(Avizo_INCLUDE_Qt_QtWebKit_DIR ${Avizo_INCLUDE_Qt_DIR}/QtWebKit CACHE PATH "QtWebKit include path")
 	
-		#find_path(Avizo_INCLUDE_Qt_Qt_DIR NAMES QtGui PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES Qt NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtDBus_DIR NAMES QtDBus PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtDBus NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtGui_DIR NAMES QApplication PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtGui NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtCore_DIR NAMES QMap PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtCore NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtDesigner_DIR NAMES QtDesigner PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtDesigner NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtNetwork_DIR NAMES QtNetwork PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtNetwork NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtOpenGL_DIR NAMES QtOpenGL PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtOpenGL NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtScript_DIR NAMES QtScript PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtScript NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtSql_DIR NAMES QtSql PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtSql NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtSvg_DIR NAMES QtSvg PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtSvg NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtTest_DIR NAMES QtTest PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtTest NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtUiTools_DIR NAMES QtUiTools PATHS ${Avizo_INCLUDE_Qt_DIR}  PATH_SUFFIXES QtUiTools NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtXml_DIR NAMES QtXml PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtXml NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtXmlPatterns_DIR NAMES QtXmlPatterns PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtXmlPatterns NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtDeclarative_DIR NAMES QtDeclarative PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtDeclarative NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_QtWebKit_DIR NAMES QtWebKit PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES QtWebKit NO_DEFAULT_PATH)
-		#find_path(Avizo_INCLUDE_Qt_qt-commercial-charts_DIR NAMES qt-commercial-charts PATHS ${Avizo_INCLUDE_Qt_DIR} PATH_SUFFIXES qt-commercial-charts NO_DEFAULT_PATH)
 	ENDIF()
-	MESSAGE("Avizo Include Qt Dir old ${Avizo_INCLUDE_Qt_DIR_old}")
-	MESSAGE("Avizo Include Qt Dir new ${Avizo_INCLUDE_Qt_DIR}")
 	set(Avizo_INCLUDE_Qt_DIR_old ${Avizo_INCLUDE_Qt_DIR} CACHE INTERNAL "Copy of Qt Dir")
 
 	# Find OpenInventor in Avizo
@@ -78,20 +58,22 @@ IF((NOT DEFINED Avizo_DIR_old OR NOT (Avizo_DIR STREQUAL Avizo_DIR_old)) AND NOT
 	# Find Boost header in Avizo
 	find_path(Avizo_INCLUDE_Boost_DIR NAMES boost/type.hpp PATHS ${Avizo_INCLUDE_DIR}  PATH_SUFFIXES arch-LinuxAMD64)
 
+	unset(Avizo_LIBRARY_HX_X11)
+	unset(Avizo_LIBRARY_HX_Tcl)
 	unset(Avizo_LIBRARY_QT_Core)
-	unset({Avizo_LIBRARY_QT_DesignerComponents)
-  	unset({Avizo_LIBRARY_QT_Designer)
-	unset({Avizo_LIBRARY_QT_Gui)
-	unset({Avizo_LIBRARY_QT_Network)
-	unset({Avizo_LIBRARY_QT_OpenGL)
-	unset({Avizo_LIBRARY_QT_Script)
-	unset({Avizo_LIBRARY_QT_Sql)
-	unset({Avizo_LIBRARY_QT_Svg)
-	unset({Avizo_LIBRARY_QT_Test)
-	unset({Avizo_LIBRARY_QT_Xml)
-	unset({Avizo_LIBRARY_QT_Declarative)
-	unset({Avizo_LIBRARY_QT_XmlPatterns)
-	unset({Avizo_LIBRARY_QT_WebKit)
+	unset(Avizo_LIBRARY_QT_DesignerComponents)
+  	unset(Avizo_LIBRARY_QT_Designer)
+	unset(Avizo_LIBRARY_QT_Gui)
+	unset(Avizo_LIBRARY_QT_Network)
+	unset(Avizo_LIBRARY_QT_OpenGL)
+	unset(Avizo_LIBRARY_QT_Script)
+	unset(Avizo_LIBRARY_QT_Sql)
+	unset(Avizo_LIBRARY_QT_Svg)
+	unset(Avizo_LIBRARY_QT_Test)
+	unset(Avizo_LIBRARY_QT_Xml)
+	unset(Avizo_LIBRARY_QT_Declarative)
+	unset(Avizo_LIBRARY_QT_XmlPatterns)
+	unset(Avizo_LIBRARY_QT_WebKit)
 
 	# Finally Avizo libraries
 	find_library(Avizo_LIBRARY NAMES hxcore PATHS ${Avizo_DIR}/lib/arch-LinuxAMD64-Optimize)
@@ -115,7 +97,7 @@ IF((NOT DEFINED Avizo_DIR_old OR NOT (Avizo_DIR STREQUAL Avizo_DIR_old)) AND NOT
 	find_library(Avizo_LIBRARY_HX_VolumeViz NAMES VolumeViz PATHS ${Avizo_DIR}/lib/arch-LinuxAMD64-Optimize)
 	find_library(Avizo_LIBRARY_HX_LDM NAMES LDM PATHS ${Avizo_DIR}/lib/arch-LinuxAMD64-Optimize)
 	find_library(Avizo_LIBRARY_HX_X11 NAMES X11 PATHS ${Avizo_DIR}/lib/arch-LinuxAMD64-Optimize)
-	find_library(Avizo_LIBRARY_HX_Tcl NAMES tcl8.5 PATHS ${Avizo_DIR}/lib/arch-LinuxAMD64-Optimize)
+	find_library(Avizo_LIBRARY_HX_Tcl NAMES tcl8.5 PATHS ${Avizo_DIR}/lib/arch-LinuxAMD64-Optimize NO_DEFAULT_PATH)
 
 	find_library(Avizo_LIBRARY_QT_Core NAMES QtCore PATHS ${Avizo_DIR}/lib/arch-LinuxAMD64-Optimize NO_DEFAULT_PATH) 
 	find_library(Avizo_LIBRARY_QT_DesignerComponents NAMES QtDesignerComponents PATHS ${Avizo_DIR}/lib/arch-LinuxAMD64-Optimize NO_DEFAULT_PATH)

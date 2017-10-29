@@ -9,7 +9,7 @@ module -name     "Particle Tracking (CCPi)" \
        -primary  "HxUniformScalarField3" \
        -class    "CCPiParticleTracking" \
        -category "CCPi" \
-       -package  "CCPi" \
+       -package  "CCPiQuantificationAvizo" \
        -icon     "TVDefCompute"
 
 
@@ -17,7 +17,7 @@ module -name     "Accessible Volume (CCPi)" \
        -primary  "HxUniformScalarField3" \
        -class    "CCPiAccessibleVolume" \
        -category "CCPi" \
-       -package  "CCPi" \
+       -package  "CCPiQuantificationAvizo" \
        -icon     "TVDefCompute"
 
 
@@ -25,7 +25,7 @@ module -name     "K-means Filter (ITK)" \
        -primary  "HxUniformScalarField3" \
        -class    "CCPiKMeansFilterITK" \
        -category "CCPi" \
-       -package  "CCPi" \
+       -package  "CCPiQuantificationAvizo" \
        -icon     "TVDefCompute"
 
 
@@ -33,7 +33,7 @@ module -name     "3D Quantification (CCPi)" \
        -primary  "HxUniformScalarField3" \
        -class    "CCPiLabelQuantification" \
        -category "CCPi" \
-       -package  "CCPi" \
+       -package  "CCPiQuantificationAvizo" \
        -icon     "TVDefCompute"
 
 
@@ -41,23 +41,23 @@ module -name     "CCPI Simple Histogram Thresholding" \
        -primary  "HxUniformScalarField3" \
        -class    "CCPiSimpleHistogramThresholding" \
        -category "CCPi" \
-       -package  "CCPi" \
+       -package  "CCPiQuantificationAvizo" \
        -icon     "TVDefCompute"
 
 dataFile -name    "Nexus Format" \
          -option  "nxs" \
          -ext     "nxs" \
          -load    "CCPiAvizoNexusReader" \
-         -package "CCPi"
+         -package "CCPiQuantificationAvizo"
 
 dataFile -name    "Nexus Format (DLS Tomography)" \
          -option  "nxs" \
          -ext     "nxs" \
          -load    "CCPiAvizoDLSReader" \
-         -package "CCPi"
+         -package "CCPiQuantificationAvizo"
 
 dataClass -name  "Nexus Loader" \
           -class "CCPiAvizoNexusCmdReader" \
 		  -category "CCPi" \
-		  -package "CCPi" \
+		  -package "CCPiQuantificationAvizo" \
 		  -icon     "TVDefData"
