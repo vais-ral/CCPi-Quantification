@@ -47,8 +47,8 @@ class CCPI_API CCPiLabelQuantification : public HxCompModule
 
   public:
 
-    CCPiLabelQuantification();
-    ~CCPiLabelQuantification();
+//    CCPiLabelQuantification();
+//    ~CCPiLabelQuantification();
 
     HxPortDoIt portAction;
     

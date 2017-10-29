@@ -52,35 +52,27 @@ ENDIF()
 
 
 TARGET_LINK_LIBRARIES(CCPiCore  ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS})							
-							
+SET_TARGET_PROPERTIES(CCPiCore  PROPERTIES PUBLIC_HEADER "CCPiAccessibleVolumeInputImages.h;CCPiConsoleUserInterface.h;CCPiImageData.h;CCPiLabelQuantificationResult.h;CCPiParticleTracker.h;CCPiTrack.h;CCPiAccessibleVolumeITKImpl.h;CCPiDefines.h;CCPiLabelQuantificationITKImpl.h;CCPiParticle.h;CCPiSimpleHistogramThresholdingITKImpl.h;CCPiUserApplicationInterface.h;")							
 
 OPTION(BUILD_TESTING "Build the testing tree." ON)
 IF(BUILD_TESTING)
    ENABLE_TESTING()   
 ENDIF(BUILD_TESTING)
 
-SUBDIRS(test)					
+add_subdirectory(test)					
 
-#Allow the developer to select Nexus Widget to be built with the core
-OPTION(BUILD_NEXUS_WIDGET "Build Nexus Widget" OFF)
-IF(BUILD_NEXUS_WIDGET)
-	SUBDIRS(NexusWidget)
-ENDIF()
-INSTALL(TARGETS CCPiCore
-        DESTINATION "lib"
+
+INSTALL(TARGETS CCPiCore EXPORT CCPiQuantificationTargets
+        LIBRARY  DESTINATION "${INSTALL_LIB_DIR}" COMPONENT shlib
+	PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}" COMPONENT dev
+	RUNTIME  DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin
+	ARCHIVE  DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib
        )
-INSTALL(FILES CCPiAccessibleVolumeInputImages.h
-              CCPiConsoleUserInterface.h
-              CCPiImageData.h
-              CCPiLabelQuantificationResult.h
-              CCPiParticleTracker.h
-              CCPiTrack.h
-              CCPiAccessibleVolumeITKImpl.h
-              CCPiDefines.h
-              CCPiLabelQuantificationITKImpl.h
-              CCPiParticle.h
-              CCPiSimpleHistogramThresholdingITKImpl.h
-              CCPiUserApplicationInterface.h
 
-        DESTINATION "include"
-        )
+
+############Expose include files
+set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}
+                                 ${C_INCLUDE_DIRS}
+    CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
+
+

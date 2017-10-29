@@ -18,8 +18,8 @@ class CCPI_API CCPiSimpleHistogramThresholding : public HxCompModule
 
   public:
 
-    CCPiSimpleHistogramThresholding();
-    ~CCPiSimpleHistogramThresholding();
+//    CCPiSimpleHistogramThresholding();
+//    ~CCPiSimpleHistogramThresholding();
 
     HxPortDoIt portAction;
 

@@ -27,8 +27,8 @@ class CCPI_API CCPiKMeansFilterITK : public HxCompModule
     
   public:
 
-    CCPiKMeansFilterITK();
-    ~CCPiKMeansFilterITK();
+//    CCPiKMeansFilterITK();
+ //   ~CCPiKMeansFilterITK();
 
     /** Port providing a button to click to run the module */
     HxPortDoIt portAction;

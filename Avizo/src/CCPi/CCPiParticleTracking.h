@@ -49,8 +49,8 @@ class CCPI_API CCPiParticleTracking : public HxCompModule
 /** 
  * Default constructor. Creates ports and sets default values
  */
-    CCPiParticleTracking();
-    ~CCPiParticleTracking();
+//    CCPiParticleTracking();
+//    ~CCPiParticleTracking();
 
     HxPortDoIt portAction;
 

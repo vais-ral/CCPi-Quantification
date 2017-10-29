@@ -3,44 +3,78 @@ cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
 PROJECT(CCPiNexusWidget)
 
 IF(NOT JNI_FOUND)
-find_package(Qt5 COMPONENTS Core Widgets Concurrent REQUIRED)
+	SET(QT_VERSION "5" CACHE STRING "Qt version to use 4 or 5")
+	SET_PROPERTY(CACHE QT_VERSION PROPERTY STRINGS 4 5)
 
-# back up any user-defined HDF5_DIR setting
-set(_SAVED_HDF5_DIR ${HDF5_DIR})
-FIND_PACKAGE(HDF5  COMPONENTS C NO_MODULE)
+	SET(CCPiNexusWidget_SOURCES CCPiNexusTreeModel.cpp CCPiNexusTreeItem.cpp CCPiNexusWidgetDialog.cpp CCPiNexusReader.cpp CCPiNexusSubsetWidget.cpp)
+	SET(CCPiNexusWidget_HEADERS CCPiNexusTreeModel.h CCPiNexusWidgetDialog.h CCPiNexusSubsetWidget.h)
+	SET(CCPiNexusWidget_FORMS CCPiNexusWidget.ui)
 
-IF(NOT HDF5_FOUND)
-	IF(ParaView_DIR)
-		FIND_PACKAGE(VTK COMPONENTS vtkhdf5 NO_MODULE)
-		INCLUDE(${VTK_USE_FILE})
-	ELSE()
-		FIND_PACKAGE(VTK REQUIRED)
-		INCLUDE(${VTK_USE_FILE})
+	set(_SAVED_HDF5_DIR ${HDF5_DIR})
+	FIND_PACKAGE(HDF5  COMPONENTS C NO_MODULE)
+
+	IF(NOT HDF5_FOUND)
+		IF(ParaView_DIR)
+			FIND_PACKAGE(VTK COMPONENTS vtkhdf5 NO_MODULE)
+			INCLUDE(${VTK_USE_FILE})
+		ELSE()
+			FIND_PACKAGE(VTK REQUIRED)
+			INCLUDE(${VTK_USE_FILE})
+		ENDIF()
+		SET(HDF5_LIBRARIES  "vtkhdf5;vtkhdf5_hl")	
 	ENDIF()
-    SET(HDF5_LIBRARIES  "vtkhdf5;vtkhdf5_hl")	
-ENDIF()
+	
+	IF (QT_VERSION  STREQUAL "5")
+		find_package(Qt5 COMPONENTS Core Widgets Concurrent REQUIRED)
 
-SET(CCPiNexusWidget_SOURCES CCPiNexusTreeModel.cpp CCPiNexusTreeItem.cpp CCPiNexusWidgetDialog.cpp CCPiNexusReader.cpp CCPiNexusSubsetWidget.cpp)
-SET(CCPiNexusWidget_HEADERS CCPiNexusTreeModel.h CCPiNexusWidgetDialog.h CCPiNexusSubsetWidget.h)
-SET(CCPiNexusWidget_FORMS CCPiNexusWidget.ui)
+		QT5_WRAP_CPP(CCPiNexusWidget_HEADERS_MOC ${CCPiNexusWidget_HEADERS})
+		QT5_WRAP_UI(CCPiNexusWidget_FORMS_HEADERS ${CCPiNexusWidget_FORMS})
 
-QT5_WRAP_CPP(CCPiNexusWidget_HEADERS_MOC ${CCPiNexusWidget_HEADERS})
-QT5_WRAP_UI(CCPiNexusWidget_FORMS_HEADERS ${CCPiNexusWidget_FORMS})
+		include_directories(${Qt5Widgets_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS} ${Qt5Concurrent} )
+		SET(QT_LIBRARIES Qt5::Widgets Qt5::Core Qt5::Concurrent)
+		ADD_DEFINITIONS(${QT_DEFINITIONS})
 
-include_directories(${Qt5Widgets_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS} ${Qt5Concurrent} )
-SET(QT_LIBRARIES Qt5::Widgets Qt5::Core Qt5::Concurrent)
-ADD_DEFINITIONS(${QT_DEFINITIONS})
+	ELSE()
+		UNSET(Qt5Concurrent_DIR CACHE)
+		UNSET(Qt5Core_DIR CACHE)
+		UNSET(Qt5Gui_DIR CACHE)
+		UNSET(Qt5Widgets_DIR CACHE)
+		UNSET(Qt5_DIR CACHE)
+		FIND_PACKAGE(Qt4 REQUIRED)
+		QT4_WRAP_CPP(CCPiNexusWidget_HEADERS_MOC ${CCPiNexusWidget_HEADERS})
+		QT4_WRAP_UI(CCPiNexusWidget_FORMS_HEADERS ${CCPiNexusWidget_FORMS})
 
-INCLUDE_DIRECTORIES(../ ${HDF5_INCLUDE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+		INCLUDE(${QT_USE_FILE})
+		ADD_DEFINITIONS(${QT_DEFINITIONS})
+	ENDIF(QT_VERSION STREQUAL "5") 
 
-ADD_LIBRARY(CCPiNexusWidget ${CCPiNexusWidget_SOURCES} 
-				${CCPiNexusWidget_FORMS_HEADERS} 
-				${CCPiNexusWidget_HEADERS_MOC})
-TARGET_LINK_LIBRARIES(CCPiNexusWidget ${QT_LIBRARIES}  ${HDF5_LIBRARIES})
-SUBDIRS(test)
+	INCLUDE_DIRECTORIES(../ ${HDF5_INCLUDE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+	ADD_LIBRARY(CCPiNexusWidget ${CCPiNexusWidget_SOURCES} 
+			${CCPiNexusWidget_FORMS_HEADERS} 
+			${CCPiNexusWidget_HEADERS_MOC})
+	TARGET_LINK_LIBRARIES(CCPiNexusWidget ${QT_LIBRARIES}  ${HDF5_LIBRARIES})
+	add_subdirectory(test)
+	set(CCPiNexusWidgetHeaders ${CCPiNexusWidget_FORMS_HEADERS} ${CCPiNexusWidget_HEADERS}) 
+	SET_TARGET_PROPERTIES(CCPiNexusWidget  PROPERTIES PUBLIC_HEADER
+				"CCPiNexusTreeModel.h;CCPiNexusWidgetDialog.h;CCPiNexusSubsetWidget.h;${CCPiNexusWidget_FORMS_HEADERS}")	
+
+
 ELSE()
 #FIND_PACKAGE(HDF5 REQUIRED)
 #INCLUDE_DIRECTORIES(../ ${HDF5_INCLUDE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 #ADD_LIBRARY(CCPiNexusWidget CCPiNexusReader.cpp)
 #TARGET_LINK_LIBRARIES(CCPiNexusWidget ${HDF5_LIBRARIES})
 ENDIF()
+
+
+INSTALL(TARGETS CCPiNexusWidget EXPORT CCPiQuantificationTargets
+        LIBRARY  DESTINATION "${INSTALL_LIB_DIR}" COMPONENT shlib
+	PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}" COMPONENT dev
+	RUNTIME  DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin
+	ARCHIVE  DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib
+       )
+#######Expose Include directory
+unset(${PROJECT_NAME}_INCLUDE_DIRS CACHE)
+set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}
+                                 ${PROJECT_BINARY_DIR}
+    CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)

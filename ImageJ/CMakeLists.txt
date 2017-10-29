@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
-PROJECT (CCPiImageJPlugin)
+PROJECT (CCPiQuantificationImageJPlugin)
 
 FIND_PACKAGE(JNI REQUIRED)
 
@@ -12,8 +12,7 @@ INCLUDE(${VTK_USE_FILE})
 INCLUDE_DIRECTORIES(../Core)
 INCLUDE_DIRECTORIES(${JNI_INCLUDE_DIRS})
 
-ADD_LIBRARY(CCPiImageJPlugin_Cpp SHARED CCPiAccessibleVolume_wrap.cxx)
-ADD_SUBDIRECTORY(../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore")
+ADD_LIBRARY(CCPiQuantificationImageJPlugin_Cpp SHARED CCPiAccessibleVolume_wrap.cxx)
 
 FIND_PACKAGE(Java REQUIRED)
 INCLUDE(UseJava)
@@ -25,7 +24,7 @@ ENDIF(NOT ImageJ)
 
 set(CMAKE_JAVA_INCLUDE_PATH ${ImageJ})
 
-ADD_JAR(CCPiImageJPlugin_Java 	AccessibleVolumePluginFilter_.java
+ADD_JAR(CCPiQuantificationImageJPlugin_Java 	AccessibleVolumePluginFilter_.java
 							CCPiAccessibleVolume.java
 							CCPiAccessibleVolumeInputImages.java
 							CCPiAccessibleVolumeITKImpl.java
@@ -42,8 +41,9 @@ ADD_JAR(CCPiImageJPlugin_Java 	AccessibleVolumePluginFilter_.java
 							CCPiLabelQuantificationResult.java
 							StringVector.java
 							IntList.java							
-		OUTPUT_NAME		CCPiImageJ_Plugin) 						 
-INSTALL_JAR(CCPiImageJPlugin_Java plugins/CCPi)
-TARGET_LINK_LIBRARIES(CCPiImageJPlugin_Cpp CCPiCore ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS})							
-INSTALL(TARGETS CCPiImageJPlugin_Cpp
+		OUTPUT_NAME		CCPiQuantificationImageJ_Plugin) 						 
+INSTALL_JAR(CCPiQuantificationImageJPlugin_Java plugins/CCPi)
+include_directories(${CCPiCore_INCLUDE_DIRS})
+TARGET_LINK_LIBRARIES(CCPiQuantificationImageJPlugin_Cpp CCPiCore ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS})							
+INSTALL(TARGETS CCPiQuantificationImageJPlugin_Cpp
 		DESTINATION .)
