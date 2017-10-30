@@ -4,7 +4,7 @@ IF(BUILD_TESTING)
 
 INCLUDE_DIRECTORIES (../)
 ADD_EXECUTABLE(CCPiNexusWidgetTest CCPiNexusWidgetTest.cpp) 
-TARGET_LINK_LIBRARIES(CCPiNexusWidgetTest CCPiCore CCPiNexusWidget ${HDF5_LIBRARIES} zlib)
+TARGET_LINK_LIBRARIES(CCPiNexusWidgetTest CCPiCore CCPiNexusWidget ${HDF5_LIBRARIES} )
 	
 ADD_TEST(NAME CCPiNexusWidgetTest 	COMMAND CCPiNexusWidgetTest "Data/test-nexus.nxs")	
 
