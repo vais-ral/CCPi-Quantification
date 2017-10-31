@@ -3,7 +3,7 @@ project(CCPiQuantificationAvizo)
 
 # Create the source files
 configure_file(${CMAKE_SOURCE_DIR}/CMake/version.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/version.h)
-configure_file(${CMAKE_SOURCE_DIR}/CMake/api.h.in ${CMAKE_CURRENT_SOURCE_DIR}/api.h)
+configure_file(${CMAKE_SOURCE_DIR}/CMake/api.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/CCPi/api.h)
 	#List of function to wrap in Avizo
 	set(Avizo_Function_List CCPiAccessibleVolume
 				CCPiAvizoNexusCmdReader

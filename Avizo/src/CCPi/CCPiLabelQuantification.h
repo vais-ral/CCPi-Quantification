@@ -8,15 +8,19 @@
 #ifndef CCPILABELQUANTIFICATION_H
 #define CCPILABELQUANTIFICATION_H
 
+#include "api.h"
 #include <hxcore/HxCompModule.h>
 #include <hxcore/HxPortDoIt.h>
 #include <hxcore/HxPortFilename.h>
 #include <hxcore/HxPortFloatTextN.h>
 #include <hxcore/HxPortIntSlider.h>
+#if AVIZO_UNSUPPORTED_HXSPREADSHEET
 #include <hxspreadsheet/internal/HxSpreadSheet.h>
+#else
+#include <hxspreadsheet/HxSpreadSheet.h>
+#endif
 #include "CCPiLabelQuantificationResult.h"
 
-#include "api.h"
 
 class HxUniformScalarField3; // Forward declaration
 

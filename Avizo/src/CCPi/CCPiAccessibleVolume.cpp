@@ -3,7 +3,7 @@
  * @author David Worth, Scientifc Computing Department, STFC
  * @date April 2013
  */
-
+#include "api.h"
 #include <fstream>
 #include <set>
 
@@ -23,13 +23,22 @@
 #include "itkRelabelComponentImageFilter.h"
 
 #include <hxcore/HxMessage.h>
+#if   AVIZO_UNSUPPORTED_INTERNAL == 1
 #include <hxcore/internal/HxWorkArea.h>
-#include <hxfield/HxUniformScalarField3.h>
-#include <hxspreadsheet/internal/HxSpreadSheet.h>
 #include <hxrawio/internal/readRawData.h>
+#else
+#include <hxcore/HxWorkArea.h>
+#include <hxrawio/internal/readRawData.h>
+#endif
+
+#include <hxfield/HxUniformScalarField3.h>
+#if AVIZO_UNSUPPORTED_HXSPREADSHEET == 1
+#include <hxspreadsheet/internal/HxSpreadSheet.h>
+#else
+#include <hxspreadsheet/HxSpreadSheet.h>
+#endif
 
 #include "CCPiAccessibleVolume.h"
-
 #include "CCPiAccessibleVolumeITKImpl.h"
 #include "CCPiAvizoUserInterface.h"
 
@@ -179,7 +188,7 @@ void CCPiAccessibleVolume::run(unsigned char *data, const int *dims,
 	CCPiAccessibleVolumeITKImpl algImpl(imgInput, userInterface, imgOutput,  logMin, logMax, numSpheres, imageResolution);
 	algImpl.Compute();
 
-	 //createSpreadsheetOutput(algImpl.GetAccessibleVolume());
+	//createSpreadsheetOutput(algImpl.GetAccessibleVolume());
 
 	writeAccessibleVolumePathFractionToFile(algImpl.GetAccessibleVolume(), portOutputFilename.getFilename().toUtf8().constData());
 	//Copy ouput volume fraction 
@@ -240,8 +249,12 @@ HxUniformScalarField3* CCPiAccessibleVolume::createOutput(HxUniformScalarField3 
 HxSpreadSheet* CCPiAccessibleVolume::createSpreadsheetOutput(std::string prefix, std::map<double,double> volpathMap)
 {
 
-/*	HxSpreadSheet *output = new HxSpreadSheet();
-//	output->addTable(("Accessible Volume("+prefix+")").c_str());
+#if AVIZO_UNSUPPORTED_HXSPREADSHEET == 1
+	HxSpreadSheet *output = HxSpreadSheet::createInstance();
+#else 
+	HxSpreadSheet *output = new HxSpreadSheet();
+#endif
+	output->addTable(("Accessible Volume("+prefix+")").c_str());
 	output->setLabel(("Accessible Volume("+prefix+")").c_str());
 	int tableId = 0;//output->findTable(("Accessible Volume("+prefix+")").c_str());
 	output->addColumn("Sphere diameter (um)",HxSpreadSheet::Column::FLOAT,tableId);
@@ -259,8 +272,6 @@ HxSpreadSheet* CCPiAccessibleVolume::createSpreadsheetOutput(std::string prefix,
 		volumeFractionColumn->setValue(rowIndex, resultIterator->second);
 	}    
     return output;
-*/
-   return NULL;
 }
 
 

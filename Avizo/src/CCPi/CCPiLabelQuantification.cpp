@@ -4,7 +4,7 @@
  * @author David Worth, Scientifc Computing Department, STFC
  * @date April 2013
  */
-
+#include "api.h"
 #include <QApplication>
 
 #include "omp.h"
@@ -13,7 +13,11 @@
 #include "QuanWorker.hpp"   // Worker class to does calculation for one label
 
 #include <hxcore/HxMessage.h>
+#if  AVIZO_UNSUPPORTED_INTERNAL == 1
 #include <hxcore/internal/HxWorkArea.h>
+#else
+#include <hxcore/HxWorkArea.h>
+#endif
 #include <hxfield/HxUniformScalarField3.h>
 
 #include "CCPiImageData.h"
@@ -147,7 +151,11 @@ void CCPiLabelQuantification::runQuantification(IT *data, int vtkDataType)
 HxSpreadSheet* CCPiLabelQuantification::createSpreadsheetOutput(std::string prefix,CCPiLabelQuantificationResult* quantResult)
 {
 
-/*	HxSpreadSheet *output = new HxSpreadSheet();
+#if AVIZO_UNSUPPORTED_HXSPREADSHEET
+	HxSpreadSheet *output = HxSpreadSheet::createInstance();
+#else
+	HxSpreadSheet *output = new HxSpreadSheet();
+#endif
 //	output->addTable(("Accessible Volume("+prefix+")").c_str());
 	output->setLabel(("LabelQuantification("+prefix+")").c_str());
 	int tableId = 0;
@@ -174,6 +182,4 @@ HxSpreadSheet* CCPiLabelQuantification::createSpreadsheetOutput(std::string pref
 		}
 	}
     return output;
-*/
-    return NULL;
 }

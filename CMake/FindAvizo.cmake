@@ -7,6 +7,8 @@
 # Avizo_DEFINITIONS - definition for Avizio
 	# Root Avizo Dir
 set(Avizo_DIR CACHE PATH "Avizo Installed Root directory")
+set(AVIZO_MAJOR_VERSION CACHE STRING "Avizo Major Version Number")
+set(AVIZO_MINOR_VERSION CACHE STRING "Avizo Minor Version Number")
 IF((NOT DEFINED Avizo_DIR_old OR NOT (Avizo_DIR STREQUAL Avizo_DIR_old)) AND EXISTS ${Avizo_DIR})
 	# Include dir
 	find_path(Avizo_INCLUDE_DIR NAMES hxcore/HxBase.h PATHS ${Avizo_DIR} PATH_SUFFIXES include)
