@@ -55,7 +55,7 @@ if platform.system() == 'Windows':
     extra_library_dirs += library_lib_path    
 else:
     extra_include_dirs += ["../../Core/", ".", lip+"/ITK-"+itk_version, lip+"/vtk-"+vtk_version]
-    extra_include_dirs += [library_include_path]
+    extra_include_dirs += library_include_path
     if sys.version_info.major == 3 :
         extra_libraries += ['boost_python3', 'boost_numpy3','gomp']
     else:
