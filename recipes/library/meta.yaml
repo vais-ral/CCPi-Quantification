@@ -17,6 +17,7 @@ requirements:
     - vtk >=7.1
     - itk >=4.10
     - libitk >=4.13 # [win and py35]
+    - libitk >=4.13 # [linux]
     - vc 14 # [win and py35] 
     - vc 9  # [win and py27]
     - libtiff    
@@ -31,6 +32,7 @@ requirements:
     - vtk >=7.1
     - itk >=4.10
     - libitk >=4.13 # [win and py35]
+    - libitk >=4.13 # [linux]
     - numpy
 	
 about:
