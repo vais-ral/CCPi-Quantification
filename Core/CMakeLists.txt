@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
-PROJECT (CCPiCore)
+PROJECT (cilquant)
 
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE(${ITK_USE_FILE})
@@ -22,7 +22,7 @@ IF (BUILD_SHARED_LIBS)
   SET (LIB_TYPE SHARED)
 ENDIF (BUILD_SHARED_LIBS)
 
-ADD_LIBRARY(CCPiCore ${LIB_TYPE} QuanWorker.cpp
+ADD_LIBRARY(cilquant ${LIB_TYPE} QuanWorker.cpp
 							Quan3D.cpp
 							CCPiAccessibleVolumeInputImages.cpp
 							CCPiAccessibleVolumeITKImpl.cpp
@@ -34,7 +34,7 @@ ADD_LIBRARY(CCPiCore ${LIB_TYPE} QuanWorker.cpp
 			)
 			
 IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
-  SET_TARGET_PROPERTIES(CCPiCore PROPERTIES COMPILE_FLAGS "-fPIC")
+  SET_TARGET_PROPERTIES(cilquant PROPERTIES COMPILE_FLAGS "-fPIC")
 ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
 			
 SET (CCPI_VTK_LIBS)
@@ -51,8 +51,8 @@ ENDIF()
  endif()
 
 
-TARGET_LINK_LIBRARIES(CCPiCore  ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS})							
-SET_TARGET_PROPERTIES(CCPiCore  PROPERTIES PUBLIC_HEADER "CCPiAccessibleVolumeInputImages.h;CCPiConsoleUserInterface.h;CCPiImageData.h;CCPiLabelQuantificationResult.h;CCPiParticleTracker.h;CCPiTrack.h;CCPiAccessibleVolumeITKImpl.h;CCPiDefines.h;CCPiLabelQuantificationITKImpl.h;CCPiParticle.h;CCPiSimpleHistogramThresholdingITKImpl.h;CCPiUserApplicationInterface.h;")							
+TARGET_LINK_LIBRARIES(cilquant  ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS})							
+SET_TARGET_PROPERTIES(cilquant  PROPERTIES PUBLIC_HEADER "CCPiAccessibleVolumeInputImages.h;CCPiConsoleUserInterface.h;CCPiImageData.h;CCPiLabelQuantificationResult.h;CCPiParticleTracker.h;CCPiTrack.h;CCPiAccessibleVolumeITKImpl.h;CCPiDefines.h;CCPiLabelQuantificationITKImpl.h;CCPiParticle.h;CCPiSimpleHistogramThresholdingITKImpl.h;CCPiUserApplicationInterface.h;")							
 
 OPTION(BUILD_TESTING "Build the testing tree." ON)
 IF(BUILD_TESTING)
@@ -62,8 +62,8 @@ ENDIF(BUILD_TESTING)
 add_subdirectory(test)					
 
 
-INSTALL(TARGETS CCPiCore EXPORT CCPiQuantificationTargets
-        LIBRARY  DESTINATION "${INSTALL_LIB_DIR}" COMPONENT shlib
+INSTALL(TARGETS cilquant EXPORT CCPiQuantificationTargets
+        LIBRARY  DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib
 	PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}" COMPONENT dev
 	RUNTIME  DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin
 	ARCHIVE  DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib

@@ -10,7 +10,7 @@ else( "${ITK_VERSION_MAJOR}" )
  
 INCLUDE_DIRECTORIES (../)
 ADD_EXECUTABLE(AccessibleVolumeTest AccessibleVolumeTest.cpp) 
-TARGET_LINK_LIBRARIES(AccessibleVolumeTest CCPiCore ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS} )
+TARGET_LINK_LIBRARIES(AccessibleVolumeTest cilquant ${CCPI_ITK_LIBS} ${CCPI_VTK_LIBS} )
 	
 ADD_TEST(NAME AccessibleVolumeTest 	COMMAND AccessibleVolumeTest "Data/Data128.tif" "Data/DataMask128.tif")	
 

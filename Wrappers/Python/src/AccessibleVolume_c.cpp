@@ -18,10 +18,6 @@ Accessible Volume algorithm
 Author: Mr. Srikanth Nagella 
 */
 
-#ifdef WIN32
-#include <iostream>
-#include <boost/shared_ptr.hpp>
-#endif
 
 #include "CCPiAccessibleVolumeInputImages.h"
 #include "CCPiAccessibleVolumeITKImpl.h"

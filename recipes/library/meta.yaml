@@ -1,0 +1,39 @@
+package:
+  name: cil_quantification
+  version: {{ environ['CIL_VERSION'] }}
+
+
+build:
+  preserve_egg_dir: False
+  script_env:
+    - CIL_VERSION   
+#  number: 0
+    
+requirements:
+  build:
+    - python 3.5 # [py35]
+    - python 2.7 # [py27]
+    - cmake >=3.1
+    - vtk >=7.1
+    - itk >=4.10
+    - libitk >=4.13 # [win and py35]
+    - vc 14 # [win and py35] 
+    - vc 9  # [win and py27]
+    - libtiff    
+    - numpy
+
+  run:
+    - libtiff
+    - vc 14 # [win and py35]
+    - vc 9  # [win and py27]
+    - python 3.5 # [py35]
+    - python 2.7 # [py27]
+    - vtk >=7.1
+    - itk >=4.10
+    - libitk >=4.13 # [win and py35]
+    - numpy
+	
+about:
+  home: http://www.ccpi.ac.uk
+  license:  BSD license
+  summary: 'CCPi Toolbox'
