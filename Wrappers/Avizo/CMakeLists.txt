@@ -76,5 +76,5 @@ FIND_PACKAGE(HDF5 COMPONENTS C NO_MODULE)
 include_directories(${HDF5_INCLUDE_DIR})
 include_directories(${CCPiCore_INCLUDE_DIRS})
 include_directories(${CCPiNexusWidget_INCLUDE_DIRS})
-target_link_libraries (CCPiQuantificationAvizo CCPiCore CCPiNexusWidget ${ITK_LIBRARIES} ${CCPI_VTK_LIBS} ${HDF5_LIBRARIES})
+target_link_libraries (CCPiQuantificationAvizo cilquant CCPiNexusWidget ${ITK_LIBRARIES} ${CCPI_VTK_LIBS} ${HDF5_LIBRARIES})
 

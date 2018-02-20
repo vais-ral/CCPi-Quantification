@@ -32,7 +32,7 @@ ADD_PARAVIEW_PLUGIN(CCPiNexusReader "1.0"
   SERVER_MANAGER_SOURCES CCPiNexusReaderParaviewImpl.cxx
   REQUIRED_ON_SERVER)
 
-ADD_SUBDIRECTORY(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore")
+#ADD_SUBDIRECTORY(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore")
  
 include_directories(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore/NexusWidget") 
  
@@ -42,11 +42,11 @@ include_directories(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore/NexusWidget
    SET( CCPI_ITK_LIBS ${ITK_LIBRARIES} )
  endif( "${ITK_VERSION_MAJOR}" )
  
-TARGET_LINK_LIBRARIES(CCPiAccessibleVolume CCPiCore ${CCPI_ITK_LIBS})							
-TARGET_LINK_LIBRARIES(CCPiLabelQuantification CCPiCore ${CCPI_ITK_LIBS})
-TARGET_LINK_LIBRARIES(CCPiSimpleHistogramThresholding CCPiCore ${CCPI_ITK_LIBS})  
+TARGET_LINK_LIBRARIES(CCPiAccessibleVolume cilquant ${CCPI_ITK_LIBS})							
+TARGET_LINK_LIBRARIES(CCPiLabelQuantification cilquant ${CCPI_ITK_LIBS})
+TARGET_LINK_LIBRARIES(CCPiSimpleHistogramThresholding cilquant ${CCPI_ITK_LIBS})  
 
-TARGET_LINK_LIBRARIES(CCPiNexusReader CCPiCore CCPiNexusWidget vtksys)
+TARGET_LINK_LIBRARIES(CCPiNexusReader cilquant CCPiNexusWidget vtksys)
 
 SET(CPACK_GENERATOR "RPM")
 SET(CPACK_RPM_PACKAGE_SUMMARY "CCPi Quantification Code Paraview Plugin")
