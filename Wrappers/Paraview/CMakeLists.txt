@@ -34,7 +34,7 @@ ADD_PARAVIEW_PLUGIN(CCPiNexusReader "1.0"
 
 #ADD_SUBDIRECTORY(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore")
  
-include_directories(../../Core "${CMAKE_CURRENT_BINARY_DIR}/CCPiCore/NexusWidget") 
+include_directories(../../Core "${CMAKE_CURRENT_BINARY_DIR}/Core/NexusWidget") 
  
  if( "${ITK_VERSION_MAJOR}" LESS 4 )
    SET( CCPI_ITK_LIBS ITKCommon itkvnl itkvnl_algo itkvnl_inst itkv3p_netlib itksys ITKStatistics )
