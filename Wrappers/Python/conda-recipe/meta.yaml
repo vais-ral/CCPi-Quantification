@@ -15,12 +15,12 @@ requirements:
     - numpy x.x
     - setuptools
     - cython
-    - cil_quantification
+    - cil_quantification =={{ environ['CIL_VERSION'] }}
 
   run:
     - python
     - numpy x.x
-    - cil_quantification
+    - cil_quantification =={{ environ['CIL_VERSION'] }}
 about:
   home: http://www.ccpi.ac.uk
   license:  BSD license
